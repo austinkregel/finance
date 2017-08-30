@@ -37,7 +37,6 @@ s.trackTicker();
 
 app.post('/:ticket', (req, res) => {
     s.concat(req.params.ticket.split(','));
-    console.log(req.params.ticket.split(','))
     res.send({
         message: 'Tickers registered'
     })
