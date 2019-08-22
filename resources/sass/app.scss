@@ -1,0 +1,49 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+html, body, #app {
+    @apply h-full bg-gray-100;
+}
+.router-link-table {
+    @apply overflow-hidden;
+
+    a {
+        @apply text-gray-600 px-4 py-2 block;
+        &:hover, & svg:hover {
+            @apply text-blue-500 underline;
+        }
+    }
+
+    a.router-link-exact-active.router-link-active {
+        @apply text-blue-500 no-underline;
+    }
+}
+
+.my-calendar-thing > .fc-toolbar.fc-header-toolbar {
+    padding: 1em;
+    padding-bottom: 0;
+}
+.fc-content, .fc-day-number {
+    font-size: .75em;
+}
+
+.rotate{
+    -webkit-animation: rotation .75s infinite ease-in-out;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
