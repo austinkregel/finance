@@ -1,7 +1,7 @@
 <nav class="bg-blue-800 shadow mb-2 py-6">
     <div class="container mx-auto px-6 md:px-0">
         <div class="flex items-center justify-between w-full">
-            <div class="mr-6">
+            <div class="mr-6 ml-4">
                 <a href="{{ url('/') }}" class="text-lg font-semibold text-white no-underline">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -10,6 +10,7 @@
             @auth
             <div class="flex-1 text-left text-white">
                 <a class="nav-link underline mr-4" href="/calendar">Calendar</a>
+                <a class="nav-link underline mr-4" href="/accounts">Accounts</a>
             </div>
             @endauth
             <!-- Authentication Links -->
@@ -24,7 +25,7 @@
             @else
                 <div class="flex-1 text-right">
                     <a class="nav-link text-white underline ml-4" href="/settings">Settings</a>
-                    <a class="text-white py-2 px-4 rounded"
+                    <a class="text-white py-2 pl-4 pr-6 rounded"
                        href="{{ route('logout') }}"
                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
