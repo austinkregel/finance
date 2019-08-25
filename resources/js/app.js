@@ -11,6 +11,20 @@ import Zondicon from 'vue-zondicons';
 
 window.buildUrl = buildUrl
 
+window.request = async (type, url, options) => {
+    if (type.toLowerCase() === 'get') {
+        var { data } = await axios.get(buildUrl(url, options))
+    } else {
+        var { data } = await axios[type](url, options)
+    }
+
+    if (data.hasOwnProperty('data')) {
+        return data.data;
+    }
+
+    return data;
+}
+
 Vue.component('zondicon', Zondicon);
 
 /**
