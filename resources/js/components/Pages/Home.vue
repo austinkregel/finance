@@ -2,7 +2,7 @@
     <div class="container mx-auto">
         <div class="w-full flex flex-wrap">
             <kpi-url
-                class="w-full md:w-1/2 lg:w-1/4"
+                class="w-full md:w-1/2 lg:w-1/3"
                 :url="billsThisMonth"
                 :previous-url="billsLastMonth"
                 description="Bill payments to date"
@@ -12,7 +12,7 @@
             ></kpi-url>
 
             <kpi-url
-                class="w-full md:w-1/2 lg:w-1/4"
+                class="w-full md:w-1/2 lg:w-1/3"
                 :url="subscriptionsThisMonth"
                 :previous-url="subscriptionsLastMonth"
                 description="Sub payments to date"
@@ -22,7 +22,7 @@
             ></kpi-url>
 
             <kpi-url
-                class="w-full md:w-1/2 lg:w-1/4"
+                class="w-full md:w-1/2 lg:w-1/3"
                 :url="moneySpentToDate"
                 :previous-url="moneySpentLastMonth"
                 description="Money spent month to date"
@@ -32,14 +32,14 @@
             ></kpi-url>
 
             <kpi-url
-                class="w-full md:w-1/2 lg:w-1/4"
+                class="w-full md:w-1/2 lg:w-1/3"
                 :url="accountBalance"
                 :previous-url="accountBalanceLastMonth"
                 description="Total account balance"
                 label="$"
                 inverse
             ></kpi-url>
-            <card-loading-animation class="w-full md:w-1/2 lg:w-1/4 flex flex-col" :loading="spendsToDate.loading">
+            <card-loading-animation class="w-full md:w-1/2 lg:w-1/3 flex flex-col" :loading="spendsToDate.loading">
                 <kpi
                     :decrease-description="'$' + spendsToDate.previousValue + ' ' + spendsToDate.header"
                     :value="'$'+spendsToDate.value"
@@ -47,7 +47,7 @@
                     :color="spendsToDate.value > spendsToDate.previousValue ? 'red' : 'green'"
                 ></kpi>
             </card-loading-animation>
-            <card-loading-animation class="w-full md:w-1/2 lg:w-1/4 flex flex-col" :loading="spendsToDate.loading">
+            <card-loading-animation class="w-full md:w-1/2 lg:w-1/3 flex flex-col" :loading="spendsToDate.loading">
                 <kpi
                     :decrease-description="'$' + feesToDate.previousValue + ' ' + feesToDate.header"
                     :value="'$'+feesToDate.value"
