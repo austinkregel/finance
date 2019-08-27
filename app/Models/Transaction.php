@@ -169,10 +169,10 @@ class Transaction extends Model implements AbstractEloquentModel
 
     public function scopeWithoutFeesOrTransfers($query)
     {
-        return $query->where('name', 'not like', '%transfer%')
-            ->where('name','not like', '%interest%')
-            ->where('name','not like', '%atm surcharge%')
-            ->where('name' ,'not like', '%FEE%');
+        return $query->where(\DB::raw('LOWER(name)'), 'not like', '%transfer%')
+            ->where(\DB::raw('LOWER(name)'),'not like', '%interest%')
+            ->where(\DB::raw('LOWER(name)'),'not like', '%atm surcharge%')
+            ->where(\DB::raw('LOWER(name)') ,'not like', '%FEE%');
     }
 
     public function scopeWithFeesAndTransfers($query)
