@@ -24,7 +24,7 @@ Route::get('/', static function () {
 });
 
 Route::group(['namespace' => 'App\\Http\\Controllers'], static function () {
-    Auth::routes();
+    Auth::routes(['register' => false]);
 });
 
 Route::group(['middleware' => 'auth'], static function () {
