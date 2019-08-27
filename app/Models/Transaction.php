@@ -177,10 +177,10 @@ class Transaction extends Model implements AbstractEloquentModel
 
     public function scopeWithFeesAndTransfers($query)
     {
-        return $query->where('name', 'like', '%transfer%')
-            ->where('name','like', '%interest%')
-            ->where('name','like', '%atm surcharge%')
-            ->where('name' ,'like', '%fee%');
+        return $query->where(\DB::raw('LOWER(name)'), 'like', '%transfer%')
+            ->where(\DB::raw('LOWER(name)'), 'like', '%interest%')
+            ->where(\DB::raw('LOWER(name)'), 'like', '%atm surcharge%')
+            ->where(\DB::raw('LOWER(name)'), 'like', '%fee%');
     }
 
     public function scopeNoIncome(Builder $query, $amount)
