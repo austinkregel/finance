@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sync:plaid 1')->hourly();
-        $schedule->command('sync:commands')->dailyAt('00:00');
+        $schedule->command('generate:account-kpis')->dailyAt('23:55');
     }
 
     /**
