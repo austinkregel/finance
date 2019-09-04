@@ -19,11 +19,4 @@ class TransactionObserver
             'is_subscription' => $transaction->is_subscription,
         ]);
     }
-
-    public function created(Transaction $transaction) {
-        Transaction::where('name', $transaction->name)->update([
-            'is_possible_subscription' => $transaction->is_possible_subscription,
-            'is_subscription' => $transaction->is_subscription,
-        ]);
-    }
 }
