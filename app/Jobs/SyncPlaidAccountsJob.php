@@ -45,7 +45,7 @@ class SyncPlaidAccountsJob implements ShouldQueue
             /** @var Account $accountEloquent */
             $accountEloquent = Account::where('account_id', $account->account_id)->first();
 
-            if (empty($account)) {
+            if (empty($accountEloquent)) {
                 Account::create([
                     'account_id' => $account->account_id,
                     'mask' => $account->mask,
@@ -55,7 +55,7 @@ class SyncPlaidAccountsJob implements ShouldQueue
                     'available' => $account->balances->available ?? 0,
                     'subtype' => $account->subtype,
                     'type' => $account->type,
-                    'access_token_id' => $this->token->id
+                    'access_token_id' => $this->accessToken->id
                 ]);
 
                 continue;
