@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\AccountKpi;
+use App\Models\Alert;
 use App\Tag;
 use App\Http\Controllers\Api\AbstractResourceController;
 use App\Http\Controllers\Api\AfterRequestSortController;
@@ -35,6 +36,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'account-kpis' => AccountKpi::class,
                 'access_tokens' => AccessToken::class,
                 'groups' => Tag::class,
+                'alerts' => Alert::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {

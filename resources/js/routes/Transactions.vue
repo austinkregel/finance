@@ -1,22 +1,30 @@
 <template>
-    <div>
+    <div v-if="accounts.length > 0">
         <div class="mx-4 mb-4 flex flex-wrap items-center">
             <div class="flex items-center justify-end w-full">
-                <button @click="refreshAccounts" class="p-2 ml-4 border-2 border-blue-700 focus:outline-none text-blue-700 rounded-lg flex items-center hover:bg-blue-700 hover:text-white hover:shadow">
-                    <zondicon icon="refresh" class="w-6 h-6 fill-current" />
-                    <span class="ml-2 font-medium">Refresh</span>
+                <button @click="refreshAccounts" :disabled="loading" class="p-2 ml-4 border-2 focus:outline-none rounded-lg flex items-center hover:shadow"
+                        :class="{ 'opacity-50': loading }"
+                        v-dark-mode-button
+                >
+                    <zondicon icon="refresh" class="w-6 h-6 fill-current" :class="{ 'rotate': loading }" />
+                    <span class="ml-2 font-medium">Refresh<span v-if="loading">ing</span></span>
                 </button>
             </div>
         </div>
-        <div class="shadow bg-white rounded-lg mx-4">
+        <div class="shadow rounded-lg mx-4" v-dark-mode-dark-text v-dark-mode-white-background>
             <div v-for="(transaction, $index) in data">
                 <single-transaction :transaction="transaction" :index="$index"/>
             </div>
 
             <infinite-loading @infinite="fetchNewTransactions" force-use-infinite-wrapper>
-                <div slot="spinner" class="mt-4"><loading-animation /></div>
+                <div slot="spinner" class="p-4"><loading-animation /></div>
+                <div slot="no-more" class="py-4">No more data...</div>
+                <div slot="no-results" class="py-4">No results...</div>
             </infinite-loading>
         </div>
+    </div>
+    <div v-else>
+        No accounts...
     </div>
 </template>
 
@@ -37,8 +45,8 @@
                 ],
                 modals: {
                     group: false,
-
-                }
+                },
+                loading: false,
             }
         },
         computed: {
@@ -47,6 +55,9 @@
             },
             selectedTransactions() {
                 return Object.keys(this.$store.getters.selectedTransactions);
+            },
+            accounts() {
+                return this.$store.getters.accounts.data
             }
         },
         methods: {
@@ -57,15 +68,13 @@
                     })
                 } finally {
                     $state.loaded();
-
-
-
                     if (this.$store.getters.transactions.meta.current_page >= this.$store.getters.transactions.meta.last_page) {
                         $state.complete();
                     }
                 }
             },
             refreshAccounts() {
+                this.loading = true;
                 const tokens = Object.values(this.$store.getters.accounts.data.reduce((accessTokens, account) => ({
                     ...accessTokens,
                     [account.token.id]: account.token,
@@ -80,6 +89,13 @@
                         }
                     })
                 )
+
+                setTimeout(() => {
+                    this.$store.dispatch('fetchTransactions', {
+                        page: 1
+                    });
+                    this.loading = false;
+                }, 10000);
             }
         },
         mounted() {

@@ -36,11 +36,30 @@ Route::group(['middleware' => 'auth'], static function () {
             $user->load(['accounts']);
             return $user;
         });
+        Route::put('user', function () {
+            $user = auth()->user();
+            $user->update([
+                'alert_channels' => request()->get('alert_channels', [])
+            ]);
+            return $user;
+        });
         Route::post('actions/{action}', ActionController::class);
         Route::post('plaid/exchange_token', TokenController::class);
 
+        Route::apiResource('alerts', App\Http\Controllers\Api\AlertController::class);
+        Route::post('alerts/{alert}/conditionals', [App\Http\Controllers\Api\AlertController::class, 'conditionals']);
+        Route::put('alerts/{alert}/conditionals/{condition}', [App\Http\Controllers\Api\AlertController::class, 'updateConditional']);
+        Route::patch('alerts/{alert}/conditionals/{condition}', [App\Http\Controllers\Api\AlertController::class, 'updateConditional']);
+        Route::delete('alerts/{alert}/conditionals/{condition}', [\App\Http\Controllers\Api\AlertController::class, 'deleteConditional']);
+
+
         Route::apiResource('tags', App\Http\Controllers\Api\TagController::class);
+
         Route::post('tags/{tag}/conditionals', [App\Http\Controllers\Api\TagController::class, 'conditionals']);
+        Route::put('tags/{tag}/conditionals/{condition}', [App\Http\Controllers\Api\TagController::class, 'updateConditional']);
+        Route::patch('tags/{tag}/conditionals/{condition}', [App\Http\Controllers\Api\TagController::class, 'updateConditional']);
+        Route::delete('tags/{tag}/conditionals/{condition}', [\App\Http\Controllers\Api\TagController::class, 'deleteConditional']);
+
         Route::apiResource('transactions', App\Http\Controllers\Api\TransactionController::class);
         Route::apiResource('accounts', App\Http\Controllers\Api\AccountController::class);
     });

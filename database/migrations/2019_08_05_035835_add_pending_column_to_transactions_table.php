@@ -16,7 +16,6 @@ class AddPendingColumnToTransactionsTable extends Migration
         Schema::table('transactions', function (Blueprint $table) {
             $table->boolean('is_subscription')->default(null)->nullable()->after('name')->index();
             $table->boolean('is_possible_subscription')->default(null)->nullable()->after('name')->index();
-            $table->string('amount')->change();
             $table->index([
                 'name',
                 'date',

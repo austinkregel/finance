@@ -2,11 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Condition;
 use Faker\Generator as Faker;
 
-$factory->define(Condition::class, function (Faker $faker) {
+
+$factory->define(App\Condition::class, function (Faker $faker) {
     return [
-        //
+        'value' => $faker->word,
+        'comparator' => 'EQUAL',
+        'parameter' => $faker->word,
     ];
 });

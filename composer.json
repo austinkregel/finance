@@ -13,14 +13,22 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.2",
         "firebase/php-jwt": "^5.0",
+        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "kregel/laravel-abstract": "^2.0.0",
+        "laravel-notification-channels/discord": "^1.1",
+        "laravel-notification-channels/twilio": "^3.0",
+        "laravel-notification-channels/webhook": "^2.0",
         "laravel/framework": "^7.14",
+        "laravel/nexmo-notification-channel": "^2.3",
+        "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "mustache/mustache": "^2.13",
         "predis/predis": "^1.1",
         "spatie/laravel-tags": "^2.6",
-        "staudenmeir/belongs-to-through": "^2.10"
+        "staudenmeir/belongs-to-through": "^2.10",
+        "staudenmeir/eloquent-has-many-deep": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
@@ -67,6 +75,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "test": [
+            "@php vendor/bin/phpunit --configuration phpunit.xml"
         ]
     }
 }

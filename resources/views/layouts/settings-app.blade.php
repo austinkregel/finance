@@ -16,14 +16,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
+<body v-cloak>
+    <div id="app" :class="{ 'bg-gray-800 text-white': $store.getters.darkMode, 'bg-gray-200 text-gray-800': !$store.getters.darkMode }">
         @include('layouts.nav')
         <main class="py-4">
             @yield('content')
         </main>
     </div>
     <!-- Scripts -->
+    @include('darkmode')
+
     <script src="{{ asset('js/settings-app.js') }}"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Condition;
+use App\Contracts\ConditionableContract;
 use App\Contracts\Models\ConditionalsContract;
 use App\Filters\Conditions\EndsWith;
 use App\Filters\Conditions\EqualFilter;
@@ -18,10 +19,7 @@ use App\Filters\Conditions\NotInFilter;
 use App\Filters\Conditions\NotInLikeFilter;
 use App\Filters\Conditions\NotLikeFilter;
 use App\Filters\Conditions\StartsWith;
-use App\Models\Traits\Conditionable;
 use App\Models\Transaction;
-use App\Tag;
-use Spatie\Tags\Tag as SpatieTag;
 
 class TransactionsConditionFilter
 {
@@ -42,11 +40,10 @@ class TransactionsConditionFilter
         ConditionalsContract::COMPARATOR_STARTS_WITH => StartsWith::class,
     ];
 
-    public function handle(Tag $conditionable, Transaction ...$transactions): array
+    public function handle(ConditionableContract $conditionable, Transaction ...$transactions): array
     {
         /** @var Condition[] $conditions */
         $conditions = $conditionable->conditionals;
-
         // Dude we need to get this code tested.
         // We should be ensuring that all transactions get their filter applied correctly.
         return array_values(array_filter($transactions, function (Transaction $transaction) use ($conditions) {

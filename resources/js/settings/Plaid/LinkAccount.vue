@@ -6,15 +6,15 @@
     <div>
         <div class="flex flex-wrap items-center justify-between mb-4">
             <h4 class="text-xl">Accounts</h4>
-            <button id="link-button" class="bg-blue-500 text-white p-2 rounded shadow">
+            <button id="link-button" class="text-white p-2 rounded shadow" :class="{ 'bg-blue-500': !$store.getters.darkMode, 'bg-blue-700': $store.getters.darkMode }">
                 Link new account
             </button>
         </div>
 
-        <div class="shadow p-4 bg-white rounded">
+        <div class="shadow p-4 rounded" :class="{'bg-gray-700': $store.getters.darkMode, 'bg-white': !$store.getters.darkMode}">
             <div v-if="accessTokens.length > 0">
                 Linked to:
-                <account-row v-for="accessToken in accessTokens" :access-token="accessToken" :key="accessToken.id" />
+                <account-row :dark-mode="$store.getters.darkMode" v-for="accessToken in accessTokens" :access-token="accessToken" :key="accessToken.id" />
             </div>
             <div v-else class="text-center italic">
                 No accounts connected...
@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        props: [],
+        props: ['darkMode'],
         data() {
             return {
                 accessTokens: []

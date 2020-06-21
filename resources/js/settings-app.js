@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HistoricalSync from "./settings/Plaid/HistoricalSync";
+import {initLocalStorage, setLocalStorage} from "./LocalStorage";
+import Vuex from "vuex";
+
+initLocalStorage('darkMode', false);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11,6 +15,7 @@ import HistoricalSync from "./settings/Plaid/HistoricalSync";
 require('./bootstrap');
 window.Vue = Vue;
 Vue.use(VueRouter);
+require('./dark-mode-directives')
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +27,7 @@ Vue.use(VueRouter);
 const LinkPlaid = require('./settings/Plaid/LinkAccount').default;
 const Settings = require('./settings/Settings').default;
 const AccountRow = require('./settings/Plaid/AccountRow').default;
+const AlertChannels = require('./settings/AlertChannels').default;
 
 Vue.component('account-row', AccountRow);
 /**
@@ -37,15 +43,23 @@ const routes = [
         children: [
             {
                 path: '/',
-                redirect: "/plaid"
+                redirect: "/plaid",
+                props: true,
             },
             {
                 path: '/plaid',
-                component: LinkPlaid
+                component: LinkPlaid,
+                props: true,
             },
             {
                 path: '/historical-sync',
-                component: HistoricalSync
+                component: HistoricalSync,
+                props: true,
+            },
+            {
+                path: '/alert-channels',
+                component: AlertChannels,
+                props: true,
             }
         ]
     },
@@ -55,7 +69,9 @@ const router = new VueRouter({
 });
 
 window.Bus = new Vue;
+const store = new Vuex.Store(require('./store').default)
 
 const app = new Vue({
     router,
+    store,
 }).$mount('#app');

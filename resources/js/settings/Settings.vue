@@ -1,14 +1,10 @@
-<style scoped>
-
-</style>
-
 <template>
     <div>
         <div class="container mx-auto">
             <div class="flex flex-wrap mx-4">
                 <div class="w-full md:w-1/4">
                     <div class="router-link-table">
-                        <ul class="flex flex-col text-gray-600">
+                        <ul class="flex flex-col" :class="{ 'text-white': $store.getters.darkMode, 'text-gray-600': !$store.getters.darkMode }">
                             <li class="uppercase font-bold">
                                 Settings
                             </li>
@@ -24,6 +20,20 @@
                                     Historical Sync
                                 </router-link>
                             </li>
+                            <li  class="flex items-center pt-4">
+                                <svg class="w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+                                <router-link to="/alert-channels" class="text-lg pl-4 font-bold">
+                                    Alert Channels
+                                </router-link>
+                            </li>
+                            <li class="flex items-center pt-4">
+                                <button class="flex items-center justify-between h-8" @click="$store.commit('toggleDarkmode')">
+                                    <span class="rounded-full flex items-center shadow cursor-pointer w-6" :class="{ 'bg-blue-500 justify-end': $store.getters.darkMode, 'justify-start bg-gray-600': !$store.getters.darkMode }">
+                                        <span class="rounded-full shadow w-3 h-3 shadow-inner bg-white shadow" :class="{ 'border border-gray-400': !$store.getters.darkMode }"></span>
+                                    </span>
+                                </button>
+                                <span class="text-lg pl-4 font-bold">Dark Mode</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -38,7 +48,11 @@
 </template>
 
 <script>
+    import {setLocalStorage} from "../LocalStorage";
+
     export default {
-        name: 'Settings',
+        props: ['darkMode'],
+        methods: {
+        }
     }
 </script>

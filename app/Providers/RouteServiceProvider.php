@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Alert;
 use App\Services\ActionService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -26,6 +27,10 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::bind('action', function ($value) {
             return app(ActionService::class)->build($value);
+        });
+
+        Route::bind('alert', function ($value) {
+            return Alert::findOrFail($value);
         });
 
         parent::boot();

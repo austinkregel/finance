@@ -2,8 +2,11 @@
     <div class="container mx-auto flex flex-wrap">
         <div class="w-full md:w-1/4 xl:1/5 relative">
             <div class="md:mt-16 pt-2 md:fixed">
-                <ul class="flex flex-col text-gray-600 mx-4">
-                    <li v-for="route in routes" class="mt-2 rounded-lg w-full pr-4" :class="{'shadow-lg bg-white': route.path === currentRoute}">
+                <ul class="flex flex-col mx-4" v-dark-mode-light-text>
+                    <li v-for="route in routes" class="mt-2 rounded-lg w-full pr-4" :class="{
+                        'shadow-lg bg-white': route.path === currentRoute && !$store.state.darkMode,
+                        'shadow-lg bg-gray-700': route.path === currentRoute && $store.state.darkMode,
+                    }">
                         <router-link :to="route.path" class="text-lg font-bold p-2 flex items-center ml-1">
                             <span v-html="route.svg"></span>
                             <span class="ml-2">{{ route.name }}</span>
@@ -46,7 +49,7 @@
         computed: {
             currentRoute() {
                 return this.$route.path;
-            }
+            },
         },
         mounted() {
             this.$store.commit('user', this.user)

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Condition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\ConditionalsRequest;
+use App\Http\Requests\Tag\ConditionalUpdateRequest;
 use App\Http\Requests\Tag\DestroyRequest;
+use App\Jobs\SyncTagsWithTransactionsInDatabase;
 use App\Tag;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -45,7 +48,10 @@ class TagController extends Controller
     {
         /** @var AbstractEloquentModel $resource */
         $resource = new Tag;
-        $resource->fill($request->validated() + ['user_id' => auth()->id()]);
+        $resource->fill($request->validated() + [
+            'user_id' => auth()->id(),
+            'type' => 'automatic'
+        ]);
         $resource->save();
         return $this->json($resource->refresh());
     }
@@ -84,8 +90,37 @@ class TagController extends Controller
 
     public function conditionals(ConditionalsRequest $request, Tag $tag)
     {
-        return $this->json(
-            $tag->conditionals()->create($request->json()->all() + ['type' => 'automatic'])
-        );
+        try {
+            $tag->transactions()->sync([]);
+            $response = $this->json(
+                $tag->conditionals()->create($request->json()->all() + ['type' => 'automatic'])
+            );
+        } finally {
+            $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));
+        }
     }
+
+    public function updateConditional(ConditionalUpdateRequest $request, Tag $tag, Condition $condition)
+    {
+        try {
+            $tag->transactions()->sync([]);
+            $condition->update($request->validated());
+
+            return $condition;
+        } finally {
+            $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));
+        }
+    }
+    public function deleteConditional(ConditionalUpdateRequest $request, Tag $tag, Condition $condition)
+    {
+        try {
+            $tag->transactions()->sync([]);
+            $condition->delete();
+
+            return response('', 204);
+        } finally {
+            $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));
+        }
+    }
+
 }

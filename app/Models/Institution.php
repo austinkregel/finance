@@ -39,7 +39,6 @@ class Institution extends Model implements AbstractEloquentModel
     use AbstractModelTrait;
 
     protected $primaryKey = 'institution_id';
-
     /**
      * @return bool
      */
@@ -55,14 +54,8 @@ class Institution extends Model implements AbstractEloquentModel
     {
         return 'string';
     }
-    public $fillable = [
-        'name',
-        'institution_id',
-        'logo',
-        'products',
-        'primary_color',
-        'site_url',
-    ];
+
+    protected $guarded = [];
 
     protected $casts = [
         'products' => 'array',

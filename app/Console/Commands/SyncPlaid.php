@@ -44,11 +44,7 @@ class SyncPlaid extends Command
         $this->info('Looking for more transactions');
         foreach (AccessToken::all() as $token) {
             SyncPlaidAccountsJob::dispatchNow($token);
-
-            foreach (range(0, (int) $this->argument('range')) as $i) {
-                SyncPlaidTransactionsJob::dispatchNow($token, now()->subMonths($i + 1), now()->subMonths($i));
-                $this->info($token->token . ' ' . $i);
-            }
+            SyncPlaidTransactionsJob::dispatchNow($token, now()->subDays((int) $this->argument('range')), now());
         }
     }
 }

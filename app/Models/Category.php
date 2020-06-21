@@ -29,10 +29,7 @@ class Category extends Model implements AbstractEloquentModel
 {
     use AbstractModelTrait;
 
-    public $fillable = [
-        'name',
-        'category_id'
-    ];
+    protected $guarded = [];
 
     public function getAbstractAllowedFilters(): array
     {

@@ -1,4 +1,4 @@
-<nav class="bg-blue-800 shadow py-6">
+<nav class="shadow py-6" :class="{ 'bg-blue-800': !$store.getters.darkMode, 'bg-gray-900': $store.getters.darkMode }">
     <div class="container mx-auto px-6 md:px-0">
         <div class="flex items-center justify-between w-full">
             <div class="mr-6 ml-4">

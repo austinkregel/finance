@@ -12,6 +12,7 @@ class CreateDefaultTagsForUser
     protected const TAGS = [
         [
             'name' => 'subscriptions',
+            'type' => 'automatic',
             'conditions' => [
                 [
                     'parameter' => 'name',
@@ -26,7 +27,7 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'disney+'
+                    'value' => 'disney'
                 ],
                 [
                     'parameter' => 'name',
@@ -68,47 +69,64 @@ class CreateDefaultTagsForUser
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'spotify'
                 ],
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'patreon'
+                ],
             ],
 
         ],
         [
             'name' => 'fast food',
+            'type' => 'automatic',
             'conditions' => [
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'wendys'
+                    'value' => 'Wendy\'s'
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'arbys'
+                    'value' => 'Arby\'s'
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'taco bell'
+                    'value' => 'Taco Bell'
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'mcdonalds'
+                    'value' => 'McDonald\'s'
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'burger king'
+                    'value' => 'Burger King'
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'subway'
+                    'value' => 'Subway'
                 ],
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'dinnerbell'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => "Fast Food"
+                ]
             ],
         ],
 
         [
             'name' => 'fees',
+            'type' => 'automatic',
             'conditions' => [
                 [
                     'parameter' => 'name',
@@ -131,9 +149,11 @@ class CreateDefaultTagsForUser
         $user = $event->user;
 
         foreach (static::TAGS as $tagInfo) {
-            ['name' => $name, 'conditions' => $conditions] = $tagInfo;
+            $conditions = $tagInfo['conditions'];
+            unset($tagInfo['conditions']);
+
             /** @var Tag $tag */
-            $tag = $user->tags()->create(['name' => $name]);
+            $tag = $user->tags()->create($tagInfo);
             foreach ($conditions as $condition) {
                 $tag->conditionals()->create($condition);
             }

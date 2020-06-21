@@ -4,7 +4,7 @@
 
 <template>
     <div class="container mx-auto">
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap justify-center">
             <div v-for="account in accounts" class="w-64">
                 <div class="rounded-lg m-4 p-4 shadow"
                      :class="{ 'bg-green-100 text-green-900': account.balance >= 0, 'bg-red-100 text-red-900': account.balance < 0 }"
@@ -74,7 +74,6 @@
         },
 
         mounted() {
-            this.$store.dispatch('fetchAccounts');
         }
     }
 </script>

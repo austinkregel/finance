@@ -63,7 +63,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
     public function handle(PlaidServiceContract $plaid, GenericRepository $repository)
     {
         $this->repository = $repository;
-
+        sleep(5);
         $transactionsResponse = $this->tryCatch(fn() => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
 
         if (!$transactionsResponse) {
@@ -120,6 +120,15 @@ class SyncPlaidTransactionsJob implements ShouldQueue
 
                 event(new TransactionUpdated($localTransaction));
             }
+
+            $categoriesToSync = [];
+            foreach ($transaction->category as $category) {
+                $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), function () use ($category) {
+                    return Category::where('name', $category)->first();
+                })->id;
+            }
+
+            $localTransaction->categories()->sync($categoriesToSync);
         }
     }
 }

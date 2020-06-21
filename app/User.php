@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\AccessToken;
 use App\Models\Account;
+use App\Models\Alert;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,6 +39,18 @@ use Spatie\Tags\HasTags;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Account[] $accounts
  * @property-read int|null $accounts_count
+ * @property array|null $alert_channels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Tags\Tag[] $oldRelationshipTags
+ * @property-read int|null $old_relationship_tags_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAlertChannels($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User withAllTags($tags, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User withAnyTags($tags, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User withAnyTagsOfAnyType($tags)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $alerts
+ * @property-read int|null $alerts_count
  */
 class User extends Authenticatable
 {
@@ -51,7 +64,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'alert_channels'
     ];
 
     /**
@@ -70,6 +83,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'alert_channels' => 'json',
     ];
 
     public function accessTokens()
@@ -89,7 +103,12 @@ class User extends Authenticatable
         return $this;
     }
 
-    public function tags() {
+    public function tags()
+    {
         return $this->hasMany(Tag::class);
+    }
+    public function alerts()
+    {
+        return $this->hasMany(Alert::class);
     }
 }

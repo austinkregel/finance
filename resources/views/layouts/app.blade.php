@@ -18,20 +18,18 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
-
-
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
+<body v-cloak>
+<div id="app" :class="{ 'bg-gray-800 text-white': $store.getters.darkMode, 'bg-gray-200 text-gray-800': !$store.getters.darkMode }">
         @include('layouts.nav')
 
         <main>
             @yield('content')
         </main>
     </div>
-
+    @include('darkmode')
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

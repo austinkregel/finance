@@ -53,7 +53,7 @@ class SyncInstitutions extends Command
      */
     public function handle($page = 1, $pageSize = 500)
     {
-        $this->info('Attempting to sync the categories from the plaid services... One moment please...');
+        $this->info('Attempting to sync the institutions from the plaid services... Institutions that have already been synced will not be re-created.');
 
         do {
             $categories = $this->plaidService->getInstitutions($pageSize, $page++);

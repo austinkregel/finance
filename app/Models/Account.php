@@ -50,6 +50,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property-read int|null $transactions_count
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account currentUser()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  */
 class Account extends Model implements AbstractEloquentModel
 {

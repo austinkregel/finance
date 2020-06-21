@@ -31,6 +31,10 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  * @property-read int|null $accounts_count
  * @property-read \App\Models\Institution|null $institution
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AccessToken whereInstitutionId($value)
+ * @property string|null $error
+ * @property bool $should_sync
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AccessToken whereError($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AccessToken whereShouldSync($value)
  */
 class AccessToken extends Model implements AbstractEloquentModel
 {

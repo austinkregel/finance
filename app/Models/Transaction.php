@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Tag;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\Tags\HasTags;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
@@ -20,6 +22,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  *
  * @package namespace App\Models;
  * @property-read \App\Models\Account $account
+ * @property-read \App\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
  * @property int $id
  * @property string|null $name
@@ -72,23 +75,14 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Transaction extends Model implements AbstractEloquentModel
 {
-    use AbstractModelTrait, HasTags, BelongsToThrough;
+    use AbstractModelTrait, HasTags, BelongsToThrough, HasRelationships;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    public $fillable = [
-        'account_id',
-        'amount',
-        'date',
-        'name',
-        'pending',
-        'transaction_id',
-        'transaction_type',
-        'category_id',
-    ];
+    protected $guarded = [];
 
     /**
      * @var array
@@ -120,39 +114,25 @@ class Transaction extends Model implements AbstractEloquentModel
             ->where('date', '<=', $end);
     }
 
-    public function scopeNotHas(Builder $query, $relation): Builder
-    {
-        return $query->doesntHave($relation);
-    }
-
-    public function scopeHas(Builder $query, $relation): Builder
-    {
-        return $query->doesntHave($relation);
-    }
-
-    public function scopeNull(Builder $query, ...$relations): Builder
-    {
-        foreach ($relations as $relation) {
-            $query->whereNull($relation);
-        }
-
-        return $query;
-    }
-
-    public function scopeService(Builder $query): Builder
-    {
-        return $query->where(function ($query) {
-            $query->where('is_subscription', true)
-                ->orWhere('is_possible_subscription', true);
-        });
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id', 'account_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOneDeep(User::class, [Account::class, AccessToken::class], [
+            'id',
+            'id',
+            'id',
+        ], [
+            'id',
+            'access_token_id',
+            'user_id'
+        ]);
     }
 
     public function categories()
@@ -220,12 +200,35 @@ class Transaction extends Model implements AbstractEloquentModel
 
     public function getAbstractAllowedSorts(): array
     {
-        return $this->fillable;
+        return [
+            'account_id',
+            'amount',
+            'date',
+            'name',
+            'pending',
+            'transaction_id',
+            'transaction_type',
+            'category_id',
+            'is_possible_subscription',
+            'is_subscription',
+        ];
     }
 
     public function getAbstractAllowedFields(): array
     {
-        return $this->fillable;
+
+        return [
+            'account_id',
+            'amount',
+            'date',
+            'name',
+            'pending',
+            'transaction_id',
+            'transaction_type',
+            'category_id',
+            'is_possible_subscription',
+            'is_subscription',
+        ];
     }
 
     public function getAbstractSearchableFields(): array

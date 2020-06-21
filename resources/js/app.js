@@ -33,7 +33,7 @@ window.request = async (type, url, options) => {
 }
 
 Vue.component('zondicon', Zondicon);
-
+require('./dark-mode-directives')
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -54,137 +54,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
-const store = new Vuex.Store({
-    state: {
-        user: {},
-        groups: {
-            loading: true,
-            data: [],
-            links: {},
-            meta: {
-                current_page: 0
-            }
-        },
-        transactions: {
-            loading: true,
-            data: [],
-            links: {},
-            meta: {
-                current_page: 0
-            }
-        },
-        accounts: {
-            loading: true,
-            data: [],
-            links: {},
-            meta: {
-                current_page: 0
-            }
-        },
-        selectedTransactions: {},
-    },
-    getters: {
-        user: (state) => state.user,
-        groups: (state) => state.groups,
-        transactions: (state) => state.transactions,
-        accounts: (state) => state.accounts,
-        accountsById: (state) => state.accounts.data.reduce((accounts, account) => ({
-            ...accounts,
-            [account.account_id]: account,
-        }), {}),
-        selectedTransactions: (state) => state.selectedTransactions
-    },
-    mutations: {
-        transactionLoading(state, value) {
-            state.transactions.loading = value;
-        },
-        select(state, transaction) {
-            if (state.selectedTransactions[transaction.id]) {
-                const transactions = state.selectedTransactions;
-                delete transactions[transaction.id];
-                state.selectedTransactions = {
-                    ...transactions
-                }
-                return;
-            }
-
-            state.selectedTransactions = {
-                ...state.selectedTransactions,
-                [transaction.id]: transaction
-            };
-        },
-        user(state, user) {
-            state.user = user;
-        }
-    },
-    actions: {
-        async fetchGroups({ dispatch, state, commit }) {
-            const { data: groups } = await axios.get(buildUrl('/abstract-api/groups', {
-                include: 'conditionals',
-            }));
-
-            state.groups = {
-                ...groups,
-                loading: false,
-            };
-        },
-        async fetchTransactions({ dispatch, state, commit, getters }, { page = 1,  }) {
-            state.transactions.loading = true;
-
-            try {
-                const {data: transactions} = await axios.get(buildUrl('/abstract-api/transactions', {
-                    filter: {
-                        account_id: 'in:' + getters.accounts.data.map(account => account.account_id).join(',')
-                    },
-                    sort: '-date',
-                    page,
-                    include: 'categories,category,tags',
-                }));
-
-
-                state.transactions = {
-                    ...transactions,
-                    data: state.transactions.data.concat(transactions.data),
-                    loading: false,
-                }
-            } catch (e) { console.log('faided to transact', e) }
-        },
-        async fetchUser({ state }) {
-            const { data: user } = await axios.get(buildUrl('/api/user'));
-
-            state.user = user;
-        },
-        async runAction({ getters }, { action, data }) {
-            await axios.post(buildUrl('/api/actions/' + action), data);
-        },
-        async fetchAccounts({ state }) {
-            const { data: accounts } = await axios.get(buildUrl('/api/accounts', {
-                action: 'paginate:100',
-                include: 'institution,token'
-            }));
-
-            state.accounts = accounts;
-        },
-        async saveGroup({ state, dispatch }, { name, conditions}) {
-            try {
-                const {data: group} = await axios.post('/api/tags', {
-                    name
-                })
-
-                await Promise.all(conditions.map(async ({parameter, value, comparator}) => {
-                    await axios.post('/api/tags/' + group.id + '/conditionals', {
-                        parameter, comparator, value,
-                    })
-                }))
-            } catch (e) {
-                console.error(e);
-
-            } finally {
-                await dispatch('fetchGroups')
-            }
-        }
-    }
-})
+const store = new Vuex.Store(require('./store').default)
 
 const router = new VueRouter({
     routes: [
@@ -220,17 +90,29 @@ const router = new VueRouter({
                 }
             ]
         }
-    ]
+        ]
 })
 const start = async () => {
-    await store.dispatch('fetchUser')
-    await store.dispatch('fetchAccounts')
-    store.dispatch('fetchGroups')
-
     const app = new Vue({
         el: '#app',
         store,
-        router
+        router,
+        computed: {
+            darkMode() {
+                return window.darkMode;
+            }
+        },
+        async mounted() {
+            try {
+                await store.dispatch('fetchUser')
+                await store.dispatch('fetchAccounts')
+                store.dispatch('fetchGroups')
+                store.dispatch('fetchAlerts')
+            } catch (e) {
+                console.error(e)
+            }
+
+        }
     });
 }
 

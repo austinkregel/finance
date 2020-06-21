@@ -10,7 +10,7 @@ class EmitRefreshEvent extends Action
 {
     public function handle(): void
     {
-        $userId = request()->get('user_id');
+        $userId = auth()->id();
         $page = 1;
 
         $accounts = Account::whereHas('users', function ($query) use ($userId) {
@@ -22,7 +22,7 @@ class EmitRefreshEvent extends Action
                 $pagination = Transaction::where('account_id', $account->id)->paginate(50, ['*'], 'page', $page++);
 
                 foreach ($pagination->items() as $transaction) {
-                    dispatch(new RegroupEvent($transaction));
+                    event(new RegroupEvent($transaction));
                 }
             } while ($pagination->hasMorePages());
         }
@@ -30,8 +30,6 @@ class EmitRefreshEvent extends Action
 
     public function validate(): array
     {
-        return [
-            'user_id' => 'required|exists:users,id',
-        ];
+        return [];
     }
 }

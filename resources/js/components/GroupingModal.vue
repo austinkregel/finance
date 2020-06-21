@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="openModal" class="p-2 border-2 border-blue-700 focus:outline-none text-blue-700 rounded-full flex items-center hover:bg-blue-700 hover:text-white hover:shadow">
+        <button @click="openModal" class="p-2 focus:outline-none rounded-full flex items-center hover:shadow" v-dark-mode-button>
             <category-icon class="w-6 h6" :category="transaction.category"></category-icon>
         </button>
 

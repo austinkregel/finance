@@ -39,11 +39,7 @@ class Condition extends Model implements AbstractEloquentModel, ConditionalsCont
 {
     use AbstractModelTrait;
 
-    protected $fillable = [
-        'parameter',
-        'comparator',
-        'value',
-    ];
+    protected $guarded = [];
 
     public function conditionable(): MorphTo
     {

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Contracts\Events\TransactionEventContract;
+use App\Events\TransactionGroupedEvent;
 use App\Filters\TransactionsConditionFilter;
 use App\Tag;
 use App\Models\Transaction;
@@ -27,13 +28,14 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
 
         $user = $transaction->account->owner;
         /** @var Collection $groupsForUser */
-        $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addHour(), function () use ($user) {
+        $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), function () use ($user) {
             return Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get();
         });
         $groupsForUser->each(function (Tag $group) use ($transaction) {
             if ($group->conditionals->count() === 0) {
                 // Shortcut. save the group to the conditional.
                 $transaction->attachTag($group);
+                event(new TransactionGroupedEvent($group, $transaction));
                 return;
             }
 
@@ -50,6 +52,7 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
             }
 
             $transaction->attachTag($group);
+            event(new TransactionGroupedEvent($group, $transaction));
         });
     }
 }

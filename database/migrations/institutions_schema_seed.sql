@@ -12,8 +12,7 @@ create table institutions
     updated_at     timestamp     null,
     constraint institutions_name_institution_id_unique
         unique (name, institution_id)
-)
-    collate = utf8mb4_unicode_ci;
+);
 
 create index institutions_institution_id_index
     on institutions (institution_id);

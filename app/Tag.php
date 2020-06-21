@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
+use App\Models\Transaction;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\Tags\Tag as SpatieTag;
@@ -38,8 +40,10 @@ use Spatie\Tags\Tag as SpatieTag;
  * @method static \Illuminate\Database\Eloquent\Builder|\Spatie\Tags\Tag withType($type = null)
  * @mixin \Eloquent
  * @property-read \App\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
+ * @property-read int|null $transactions_count
  */
-class Tag extends SpatieTag implements AbstractEloquentModel
+class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContract
 {
     use Conditionable, AbstractModelTrait;
     protected $fillable = [
@@ -89,4 +93,13 @@ class Tag extends SpatieTag implements AbstractEloquentModel
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get all of the posts that are assigned this tag.
+     */
+    public function transactions()
+    {
+        return $this->morphedByMany(Transaction::class, 'taggable');
+    }
+
 }

@@ -10,19 +10,19 @@
             </div>
             <div class="font-bold text-lg flex-grow truncate ml-3 tracking-normal flex flex-col">
                 <div>{{ transaction.name }}</div>
-                <div class="text-sm font-normal text-gray-600">
+                <div class="text-sm font-normal" v-dark-mode-light-text>
                     {{ transaction.category.name }}
                     •
                     {{ date }}
                     •
-
+                    {{ transaction.tags.map(tag => tag.name.en).join(", ") }}
                 </div>
             </div>
             <div class="flex flex-col text-right">
                 <span class="font-bold text-lg" :class="{ 'text-green-500': isPositive, 'text-red-500': !isPositive }">
                     ${{ Math.abs(transaction.amount).toFixed(2) }}
                 </span>
-                <span class="font-normal text-sm text-gray-600">{{ account.name }}</span>
+                <span class="font-normal text-sm" v-dark-mode-light-text>{{ account.name }}</span>
             </div>
         </div>
     </div>
