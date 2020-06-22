@@ -24,9 +24,9 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
     {
         /** @var Transaction $transaction */
         $transaction = $event->getTransaction();
-        $transaction->load('account.owner');
+        $transaction->load(['user', 'category']);
 
-        $user = $transaction->account->owner;
+        $user = $transaction->user;
         /** @var Collection $groupsForUser */
         $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), function () use ($user) {
             return Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get();

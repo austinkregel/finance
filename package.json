@@ -40,6 +40,7 @@
         "tailwindcss": "^1.4.6",
         "vue-heroicons": "^0.9.4",
         "vue-infinite-loading": "^2.4.4",
+        "vue-responsive-dash": "^0.4.2",
         "vue-router": "^3.3.2",
         "vue-toast-notification": "^0.0.2",
         "vue-zondicons": "^0.1.10",

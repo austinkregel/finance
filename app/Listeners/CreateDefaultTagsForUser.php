@@ -74,8 +74,49 @@ class CreateDefaultTagsForUser
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'patreon'
                 ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Subscription'
+                ],
             ],
+        ],
 
+        [
+            'name' => 'bills',
+            'type' => 'automatic',
+            'conditions' => [
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Utilities'
+                ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Insurance'
+                ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Billpay'
+                ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Loans and Mortgage'
+                ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Cable'
+                ],
+                [
+                    'parameter' => 'transaction.category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Telecommunication Services'
+                ]
+            ],
         ],
         [
             'name' => 'fast food',
@@ -112,18 +153,12 @@ class CreateDefaultTagsForUser
                     'value' => 'Subway'
                 ],
                 [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'dinnerbell'
-                ],
-                [
-                    'parameter' => 'category.name',
+                    'parameter' => 'transaction.category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => "Fast Food"
                 ]
             ],
         ],
-
         [
             'name' => 'fees',
             'type' => 'automatic',
@@ -132,6 +167,28 @@ class CreateDefaultTagsForUser
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'fee'
+                ],
+            ],
+        ],
+        [
+            'name' => 'via Privacy.com',
+            'type' => 'automatic',
+            'conditions' => [
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_STARTS_WITH,
+                    'value' => 'PWP*'
+                ],
+            ],
+        ],
+        [
+            'name' => 'transfer',
+            'type' => 'automatic',
+            'conditions' => [
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'transfer'
                 ],
             ],
         ]

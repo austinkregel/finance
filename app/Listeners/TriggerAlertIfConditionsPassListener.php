@@ -76,6 +76,10 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
         $alerts = $user->alerts;
         $filter = new TransactionsConditionFilter();
 
+        $transaction = $event->getTransaction();
+
+        $transaction->load(['user', 'category']);
+
         /** @var Alert $alert */
         foreach ($alerts as $alert) {
             // If the current event' isn't chosen by the user to be notified about, let's ignore this shiz.
@@ -83,7 +87,7 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
                 return true;
             }
 
-            $transaction = $filter->handle($alert, $event->getTransaction());
+            $transaction = $filter->handle($alert, $transaction);
 
             if (empty($transaction)) {
                 // True here because we don't want to notify anyone if the transaction doesn't pass filters.

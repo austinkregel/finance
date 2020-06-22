@@ -611,6 +611,38 @@
     postcss "7.0.28"
     purgecss "^2.2.0"
 
+"@interactjs/actions@^1.9.14":
+  version "1.9.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/actions/-/actions-1.9.19.tgz#b7f6c406e905f0e3f4d74bff9b093fbdd471abcc"
+  integrity sha512-qa+uiHb61tHAlW0GpJV9B1jb1WHynNgE4u/89ttO2RPdUQ2ep9I7JraO4SON0HaaeZh1BhRUNaiAVE0mEr623w==
+  optionalDependencies:
+    "@interactjs/interact" "1.9.19"
+
+"@interactjs/auto-start@^1.9.14":
+  version "1.9.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/auto-start/-/auto-start-1.9.19.tgz#16601481060ae32efd488686857c82f29ccbcf09"
+  integrity sha512-u5E4JIPVpkdJE3uLDXKGw5UR+ebzQBErNcOw6/nbq9Jp1E4drSsO39agZqBV6Tyn7ekt788S1Zc5JC8msLGdaA==
+  optionalDependencies:
+    "@interactjs/interact" "1.9.19"
+
+"@interactjs/core@1.9.19":
+  version "1.9.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/core/-/core-1.9.19.tgz#214090d552a3ac136d4963b84bbede88d895d661"
+  integrity sha512-543AtrH11FV78KSHjxsyMfBE3rpcl/5ojaYC7EqbH3S/rGfI6GTlaI4+Ip8IZP+8+lTOXlq3Tz0p6o1opZzzIg==
+
+"@interactjs/interact@1.9.19", "@interactjs/interact@^1.9.14":
+  version "1.9.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/interact/-/interact-1.9.19.tgz#7e4ccfcd812ae383f537c2525e052bea8b763114"
+  integrity sha512-bXX8dW/VI0Wc5/s0h7EhzNtakqNHE787t+06wuFaVbHUBastdufNhFOqDnOKUZj1sd9LJp4vMFl0g1yZ+3zByA==
+  dependencies:
+    "@interactjs/core" "1.9.19"
+    "@interactjs/utils" "1.9.19"
+
+"@interactjs/utils@1.9.19":
+  version "1.9.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/utils/-/utils-1.9.19.tgz#1025e1e84be2d1fd3fe0a9198ed397e6a87e864d"
+  integrity sha512-oHiM2Du8fUfTdtCHGJmfAkr62cFzMuJ6N/rheXDa7dofnaS/HkKobVUT92ZnD69eik6Ex9R6O3MmsUXSDmeulQ==
+
 "@kbco/query-builder@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@kbco/query-builder/-/query-builder-0.0.3.tgz#a601ab7724b0f5507268ef8b46aad3cf13b456e2"
@@ -1227,6 +1259,11 @@ base@^0.11.1:
     isobject "^3.0.1"
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
+
+batch-processor@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/batch-processor/-/batch-processor-1.0.0.tgz#75c95c32b748e0850d10c2b168f6bdbe9891ace8"
+  integrity sha1-dclcMrdI4IUNEMKxaPa9vpiRrOg=
 
 batch@0.6.1:
   version "0.6.1"
@@ -2624,6 +2661,13 @@ electron-to-chromium@^1.3.413:
   version "1.3.467"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.467.tgz#84eeb332134d49f0e49b88588824e56b20af9e27"
   integrity sha512-U+QgsL8TZDU/n+rDnYDa3hY5uy3C4iry9mrJS0PNBBGwnocuQ+aHSfgY44mdlaK9744X5YqrrGUvD9PxCLY1HA==
+
+element-resize-detector@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.2.1.tgz#b0305194447a4863155e58f13323a0aef30851d1"
+  integrity sha512-BdFsPepnQr9fznNPF9nF4vQ457U/ZJXQDSNF1zBe7yaga8v9AdZf3/NElYxFdUh7SitSGt040QygiTo6dtatIw==
+  dependencies:
+    batch-processor "1.0.0"
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -7225,6 +7269,18 @@ statuses@~1.4.0:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.4.0.tgz#bb73d446da2796106efcc1b601a253d6c46bd087"
   integrity sha512-zhSCtt8v2NDrRlPQpCNtw/heZLtfUDqxBM1udqikb/Hbk52LK4nQSwr10u77iopCW5LsyHpuXS0GnEc48mLeew==
 
+ste-core@^1.6.11:
+  version "1.6.12"
+  resolved "https://registry.yarnpkg.com/ste-core/-/ste-core-1.6.12.tgz#4d89519bfd160fb7bf3ac80e257e52564009e707"
+  integrity sha512-RlJW7BluGAKIP23znXJ27JcAuCoY7MMfRY+dCLrP7Pa6MUEOOogCnMzdtZz3jj+TUrEM+rrFDyFLe4ICUrVN8A==
+
+ste-simple-events@^1.6.11:
+  version "1.6.12"
+  resolved "https://registry.yarnpkg.com/ste-simple-events/-/ste-simple-events-1.6.12.tgz#f6ab34173abf916a181a5e685b66d0dadfa4dfd3"
+  integrity sha512-HSXdGly2jaDgLW7eXrXAxHaEs8bmiZdb/7Oy8+/wRD4TWA6dT3GUuFbBzd+mTDrhNJd1krgmhx+ZZThjocOaIQ==
+  dependencies:
+    ste-core "^1.6.11"
+
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"
@@ -7860,6 +7916,13 @@ vscode-languageserver-types@^3.5.0:
   resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.14.0.tgz#d3b5952246d30e5241592b6dde8280e03942e743"
   integrity sha512-lTmS6AlAlMHOvPQemVwo3CezxBp0sNB95KNPkqp3Nxd5VFEnuG1ByM0zlRWos0zjO3ZWtkvhal0COgiV1xIA4A==
 
+vue-element-resize-detector@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-element-resize-detector/-/vue-element-resize-detector-1.0.6.tgz#c0aa8ccb32d93892e32a16a9b3049ce06c1d2339"
+  integrity sha512-1vh9GtSFcwEJJEGkSZfYV3kKYqCoDGmtlOZhLcy7Itt0f5mK4V9Pa/r/9qmRa031VUIdO0WTXsHrNQnY9A/+Gw==
+  dependencies:
+    element-resize-detector "^1.2.1"
+
 vue-heroicons@^0.9.4:
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/vue-heroicons/-/vue-heroicons-0.9.4.tgz#bc233ee35fbc8c41855a9848cde386c151a87c50"
@@ -7885,6 +7948,17 @@ vue-loader@^15.4.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-responsive-dash@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/vue-responsive-dash/-/vue-responsive-dash-0.4.2.tgz#ad2374a9db133eff2aa4ad7a9ae3768a9dc5b126"
+  integrity sha512-HHnCp+/vY/4g5BZXVv4wYk0XKqGnyqyw7+gB/cv2k9MxWTsttoXsh0dILRnyUMxuFuSrJiiQNtLJrFStzM1FFA==
+  dependencies:
+    "@interactjs/actions" "^1.9.14"
+    "@interactjs/auto-start" "^1.9.14"
+    "@interactjs/interact" "^1.9.14"
+    ste-simple-events "^1.6.11"
+    vue-element-resize-detector "^1.0.6"
 
 vue-router@^3.3.2:
   version "3.3.2"

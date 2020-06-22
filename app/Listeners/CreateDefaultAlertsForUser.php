@@ -4,19 +4,21 @@ namespace App\Listeners;
 
 use App\Condition;
 use App\Events\TransactionCreated;
+use App\Events\TransactionGroupedEvent;
 use App\Models\Alert;
 use App\Tag;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Notifications\Channels\DatabaseChannel;
+use Illuminate\Notifications\Channels\MailChannel;
 
 class CreateDefaultAlertsForUser
 {
     protected const ALERTS = [
         [
-            'name' => 'fees',
+            'name' => 'Charged a fee',
             'title' => 'You\'ve been charged a {{ transaction.name }} fee',
-            'body' => 'The fee is in the amount of ${{ transaction.amount }} on {{ transaction.amount }}',
+            'body' => 'The fee is in the amount of ${{ transaction.amount }} on {{ transaction.account.name }}',
             'conditions' => [
                 [
                     'parameter' => 'name',
@@ -29,6 +31,29 @@ class CreateDefaultAlertsForUser
             ],
             'channels' => [
                 DatabaseChannel::class,
+            ]
+        ],
+        [
+            'name' => 'Bill/subscription paid!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'body' => 'This time around, you paid ${{ transaction.amount }}.',
+            'conditions' => [
+                [
+                    'parameter' => 'tag.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'bill'
+                ],
+                [
+                    'parameter' => 'tag.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'subscription'
+                ],
+            ],
+            'events' => [
+                TransactionGroupedEvent::class,
+            ],
+            'channels' => [
+                MailChannel::class,
             ]
         ]
     ];
@@ -47,6 +72,7 @@ class CreateDefaultAlertsForUser
         $user->update([
             'alert_channels' => array_merge($user->alert_channels ?? [], [
                 DatabaseChannel::class,
+                MailChannel::class,
             ])
         ]);
 

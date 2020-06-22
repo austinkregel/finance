@@ -58,10 +58,10 @@ Vue.directive('dark-mode-link', {
 Vue.directive('dark-mode-input', {
     bind: function bind(el, binding, vNode) {
         el.classList.remove(!darkMode(vNode) ? 'bg-gray-800' : 'bg-white');
-        el.classList.remove(!darkMode(vNode) ? 'text-white' : 'text-gray-800');
+        el.classList.remove(!darkMode(vNode) ? 'text-gray-200' : 'text-gray-800');
 
-        el.classList.add(darkMode(vNode) ? 'bg-gray-800' : 'bg-white');
-        el.classList.add(darkMode(vNode) ? 'text-white' : 'text-gray-800');
+        el.classList.add(darkMode(vNode) ? 'bg-gray-800' : 'bg-gray-200');
+        el.classList.add(darkMode(vNode) ? 'text-gray-200' : 'text-gray-800');
     }
 });
 
