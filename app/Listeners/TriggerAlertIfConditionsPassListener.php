@@ -23,7 +23,7 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
      */
     public function handle($event)
     {
-        $user = $event->getTransaction()->user;
+        $user = $event->getTransaction()->account->owner;
         $user->load('alerts.conditionals');
 
         if ($this->shouldNotNotifyAbout($event, $user)) {
@@ -47,6 +47,7 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
         $alerts = $user->alerts;
 
         $transaction = $event->getTransaction();
+        $transaction->load(['tags', 'category', 'account']);
         $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
             // Should be empty if the transaction fails the alert's conditionals.
             return !empty((new TransactionsConditionFilter)->handle($alert, $transaction));
@@ -58,10 +59,10 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
     protected function handleTransactionEvent(TransactionEventContract $event, User $user)
     {
         $transaction = $event->getTransaction();
-        $transaction->load(['user.alerts']);
+        $transaction->load(['account.owner.alerts']);
 
         /** @var Collection $alerts */
-        $alerts = $transaction->user->alerts;
+        $alerts = $transaction->account->owner->alerts;
 
         $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
             // Should be empty if the transaction fails the alert's conditionals.

@@ -5,6 +5,7 @@ namespace Tests\Integration\Filters;
 use App\Condition;
 use App\Contracts\ConditionableContract;
 use App\Filters\TransactionsConditionFilter;
+use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -18,7 +19,6 @@ class TransactionsConditionFilterTest extends TestCase
     const SHOULD_BE_EMPTY = true;
     const SHOULD_NOT_BE_EMPTY = false;
 
-    /** @test */
     public function testHandle()
     {
         $data = $this->dataProvider();
@@ -55,6 +55,15 @@ class TransactionsConditionFilterTest extends TestCase
             'conditionable_id' => $tag2->id
         ]);
         $tag2->load('conditionals');
+        $tag3 = factory(Tag::class)->create(['name' => 'Subscriptions']);
+        factory(Condition::class)->create([
+            'parameter' => 'category',
+            'comparator' => Condition::COMPARATOR_EQUAL,
+            'value' => 'Subscription',
+            'conditionable_type' => Tag::class,
+            'conditionable_id' => $tag3->id
+        ]);
+        $tag3->load('conditionals');
 
         return [
             [
@@ -105,6 +114,41 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         // A charge through a privacy.com card
                         'name' => 'GOG*netflix - GPay',
+                    ]),
+                    factory(Transaction::class)->create([
+                        'name' => 'Nope',
+                    ]),
+                ]
+            ],
+            [
+                self::SHOULD_NOT_BE_EMPTY,
+                3,
+                $tag2,
+                [
+                    factory(Transaction::class)->create([
+                        'name' => 'Nope',
+                    ]),
+                    factory(Transaction::class)->create([
+                        'name' => 'Netflix',
+                        'category_id' => $subscriptionCategory = factory(Category::class)->create([
+                            'name' => 'Subscription'
+                        ])->category_id
+                    ]),
+                    factory(Transaction::class)->create([
+                        'name' => 'Hello',
+                    ]),
+                    factory(Transaction::class)->create([
+                        // A charge through a privacy.com card
+                        'name' => 'PWP*Netflix.com          844-7718229  NY',
+                        'category_id' => $subscriptionCategory
+                    ]),
+                    factory(Transaction::class)->create([
+                        'name' => 'Nope',
+                    ]),
+                    factory(Transaction::class)->create([
+                        // A charge through a privacy.com card
+                        'name' => 'GOG*netflix - GPay',
+                        'category_id' => $subscriptionCategory,
                     ]),
                     factory(Transaction::class)->create([
                         'name' => 'Nope',

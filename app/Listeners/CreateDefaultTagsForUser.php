@@ -75,7 +75,7 @@ class CreateDefaultTagsForUser
                     'value' => 'patreon'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'Subscription'
                 ],
@@ -87,32 +87,32 @@ class CreateDefaultTagsForUser
             'type' => 'automatic',
             'conditions' => [
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Utilities'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Insurance'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Billpay'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Loans and Mortgage'
+                    'value' => 'Loans and Mortgages'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Cable'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Telecommunication Services'
                 ]
@@ -153,7 +153,7 @@ class CreateDefaultTagsForUser
                     'value' => 'Subway'
                 ],
                 [
-                    'parameter' => 'transaction.category.name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => "Fast Food"
                 ]

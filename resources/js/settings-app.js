@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 import HistoricalSync from "./settings/Plaid/HistoricalSync";
 import {initLocalStorage, setLocalStorage} from "./LocalStorage";
 import Vuex from "vuex";
+import VueToasted from 'vue-toasted';
+import Zondicon from 'vue-zondicons';
+
+Vue.component('zondicon', Zondicon);
 
 initLocalStorage('darkMode', false);
 
@@ -15,6 +19,7 @@ initLocalStorage('darkMode', false);
 require('./bootstrap');
 window.Vue = Vue;
 Vue.use(VueRouter);
+Vue.use(VueToasted);
 require('./dark-mode-directives')
 
 /**
@@ -28,6 +33,7 @@ const LinkPlaid = require('./settings/Plaid/LinkAccount').default;
 const Settings = require('./settings/Settings').default;
 const AccountRow = require('./settings/Plaid/AccountRow').default;
 const AlertChannels = require('./settings/AlertChannels').default;
+const FailedJobs = require('./settings/FailedJobs').default;
 
 Vue.component('account-row', AccountRow);
 /**
@@ -59,6 +65,11 @@ const routes = [
             {
                 path: '/alert-channels',
                 component: AlertChannels,
+                props: true,
+            },
+            {
+                path: '/failed-jobs',
+                component: FailedJobs,
                 props: true,
             }
         ]

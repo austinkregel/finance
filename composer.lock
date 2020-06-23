@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9188c6d4409140fa202a4c886ed95f1c",
+    "content-hash": "7f44758d4ca114f8526db035edb0acd9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1070,6 +1070,51 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "kregel/exception-probe",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/austinkregel/php-exception-probe.git",
+                "reference": "f1e3c98ffcc2d298b0b0f593bc304e57b24131fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/austinkregel/php-exception-probe/zipball/f1e3c98ffcc2d298b0b0f593bc304e57b24131fa",
+                "reference": "f1e3c98ffcc2d298b0b0f593bc304e57b24131fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kregel\\ExceptionProbe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Austin Kregel",
+                    "email": "github@austinkregel.com",
+                    "homepage": "https://austinkregel.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to help get more information from stack traces, and exceptions",
+            "homepage": "https://github.com/kregel/php-exception-probe",
+            "keywords": [
+                "php-exception-probe"
+            ],
+            "time": "2019-01-18T19:53:26+00:00"
         },
         {
             "name": "kregel/laravel-abstract",

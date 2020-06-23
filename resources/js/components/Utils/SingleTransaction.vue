@@ -14,8 +14,9 @@
                     {{ transaction.category.name }}
                     •
                     {{ date }}
-                    •
-                    {{ transaction.tags.map(tag => tag.name.en).join(", ") }}
+                </div>
+                <div class="flex items-center -ml-2">
+                    <div v-for="tag in transaction.tags" class="ml-2 text-xs bg-gray-300 text-black rounded-full px-1">{{ tag.name.en }}</div>
                 </div>
             </div>
             <div class="flex flex-col text-right">

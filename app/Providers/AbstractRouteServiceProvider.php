@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\AccountKpi;
+use App\FailedJob;
 use App\Models\Alert;
 use App\Tag;
 use App\Http\Controllers\Api\AbstractResourceController;
@@ -37,6 +38,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'access_tokens' => AccessToken::class,
                 'groups' => Tag::class,
                 'alerts' => Alert::class,
+                'failed_jobs' => FailedJob::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {
