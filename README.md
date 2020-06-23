@@ -1,4 +1,6 @@
 # finance
+![Tests](https://github.com/austinkregel/finance/workflows/Tests/badge.svg)
+
 A self hosted app to help you get a better understanding of your finances.
  - [screenshots](#screenshots)
  - [Installing/Setting up](#installing-setting-up)
