@@ -72,6 +72,11 @@ class AbstractRouteServiceProvider extends ServiceProvider
     protected function mapRoutes()
     {
         Route::middleware(abstracted()->middlewareGroup)
+            ->namespace('App\Http\Controllers\Api')
+            ->group(function () {
+                Route::get('abstract-api/{abstract_model}/fields', 'AbstractResourceController@fields');
+            });
+        Route::middleware(abstracted()->middlewareGroup)
             ->group(function () {
                 Route::get('abstract-api/{abstract_model}', [AbstractResourceController::class, 'index']);
                 Route::post('abstract-api/{abstract_model}', [AbstractResourceController::class, 'store']);

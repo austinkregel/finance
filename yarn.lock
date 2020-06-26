@@ -7939,6 +7939,11 @@ vue-infinite-loading@^2.4.4:
   resolved "https://registry.yarnpkg.com/vue-infinite-loading/-/vue-infinite-loading-2.4.4.tgz#8a9defb9ceeea797c057cb36bdf558a4b2ce409f"
   integrity sha512-eIFBcyKqkivtsDDq7Ee5ybDJVGLxIzU1NcBJCHG7Zx9Ic66QEGzSPs2OPJlGUdtu0/RS7KpUER35ZP/a7FdSOg==
 
+vue-json-pretty@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.6.3.tgz#c7f378f3c9f68977047de28197735bc2cf81b15b"
+  integrity sha512-dgb04fT9PMndfCI4RiQcqaV5P0hSg97LObm15Mkzjl2hL+qWJd833tOd2RhK/yk8AieZt8eJUac5NTZb31O6Mg==
+
 vue-loader@^15.4.2:
   version "15.7.0"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.7.0.tgz#27275aa5a3ef4958c5379c006dd1436ad04b25b3"
@@ -7948,6 +7953,11 @@ vue-loader@^15.4.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-multiselect@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.6.tgz#5be5d811a224804a15c43a4edbb7485028a89c7f"
+  integrity sha512-s7jmZPlm9FeueJg1RwJtnE9KNPtME/7C8uRWSfp9/yEN4M8XcS/d+bddoyVwVnvFyRh9msFo0HWeW0vTL8Qv+w==
 
 vue-responsive-dash@^0.4.2:
   version "0.4.2"
@@ -7960,10 +7970,10 @@ vue-responsive-dash@^0.4.2:
     ste-simple-events "^1.6.11"
     vue-element-resize-detector "^1.0.6"
 
-vue-router@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.2.tgz#0099de402edb2fe92f9711053ab5a2156f239cad"
-  integrity sha512-5sEbcfb7MW8mY8lbUVbF4kgcipGXsagkM/X+pb6n0MhjP+RorWIUTPAPSqgPaiPOxVCXgAItBl8Vwz8vq78faA==
+vue-router@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"
+  integrity sha512-SdKRBeoXUjaZ9R/8AyxsdTqkOfMcI5tWxPZOUX5Ie1BTL5rPSZ0O++pbiZCeYeythiZIdLEfkDiQPKIaWk5hDg==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

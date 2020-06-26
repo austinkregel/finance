@@ -74,8 +74,13 @@ const router = new VueRouter({
                     props: true,
                 },
                 {
-                    path: '/graphs',
-                    component: require('./routes/CoolGraphs').default,
+                    path: '/metrics',
+                    component: require('./routes/Metrics').default,
+                    props: true,
+                },
+                {
+                    path: '/query',
+                    component: require('./routes/Query').default,
                     props: true,
                 },
                 {
