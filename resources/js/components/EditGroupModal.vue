@@ -31,12 +31,7 @@
                                 </div>
                             </div>
                             <select v-model="condition.parameter" class="appearance-none block w-full rounded py-1 px-2 leading-tight focus:outline-none" v-dark-mode-input>
-                                <option value="name">name</option>
-                                <option value="amount">amount</option>
-                                <option value="account.name">account.name</option>
-                                <option value="date">date</option>
-                                <option value="pending">pending</option>
-                                <option value="category.name">category.name</option>
+                                <option v-for="parameter in parameters" :value="parameter.value">{{ parameter.name }}</option>
                             </select>
                         </div>
                         <div class="flex-1 ml-4">
@@ -48,20 +43,7 @@
                             </div>
 
                             <select v-model="condition.comparator" class="appearance-none block w-full rounded py-1 px-2 leading-tight focus:outline-none" v-dark-mode-input>
-                                <option value="EQUAL">EQUAL</option>
-                                <option value="NOT_EQUAL">NOT_EQUAL</option>
-                                <option value="LIKE">LIKE</option>
-                                <option value="NOT_LIKE">NOT_LIKE</option>
-                                <option value="IN">IN</option>
-                                <option value="NOT_IN">NOT_IN</option>
-                                <option value="IN_LIKE">IN_LIKE</option>
-                                <option value="NOT_IN_LIKE">NOT_IN_LIKE</option>
-                                <option value="STARTS_WITH">STARTS_WITH</option>
-                                <option value="ENDS_WITH">ENDS_WITH</option>
-                                <option value="LESS_THAN">LESS_THAN</option>
-                                <option value="LESS_THAN_EQUAL">LESS_THAN_EQUAL</option>
-                                <option value="GREATER_THAN">GREATER_THAN</option>
-                                <option value="GREATER_THAN_EQUAL">GREATER_THAN_EQUAL</option>
+                                <option v-for="comparator in comparators" :value="comparator.value">{{ comparator.name }}</option>
                             </select>
                         </div>
                         <div class="flex-1 ml-4">
@@ -108,7 +90,9 @@
                     name: '',
                     conditionals: [],
                 },
-                saving: false
+                saving: false,
+                parameters: require('../condition-parameters'),
+                comparators: require('../condition-comparator'),
             }
         },
         methods: {

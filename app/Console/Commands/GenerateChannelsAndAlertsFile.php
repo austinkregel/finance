@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\AccountKpi;
+use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Events\TransactionUpdated;
@@ -50,7 +51,7 @@ class GenerateChannelsAndAlertsFile extends Command
      */
     public function handle()
     {
-        $channels =  [
+        $this->writeToDisk('js/channels.js', [
             [
                 'type' => SlackWebhookChannel::class,
                 'name' => 'Slack',
@@ -79,12 +80,9 @@ class GenerateChannelsAndAlertsFile extends Command
                 'type' => DatabaseChannel::class,
                 'name' => 'In-site notification',
             ],
-        ];
+        ]);
 
-        file_put_contents(resource_path('js/channels.js'), sprintf('module.exports = %s', json_encode($channels)));
-
-
-        $channels =  [
+        $this->writeToDisk('js/alert-events.js', [
             [
                 'type' => TransactionUpdated::class,
                 'name' => 'When a transaction is updated (moving from pending to not pending, updating amounts, etc...)'
@@ -97,8 +95,65 @@ class GenerateChannelsAndAlertsFile extends Command
                 'type' => TransactionGroupedEvent::class,
                 'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)'
             ],
-        ];
+        ]);
 
-        file_put_contents(resource_path('js/alert-events.js'), sprintf('module.exports = %s', json_encode($channels)));
+        $this->writeToDisk('js/condition-parameters.js', [
+            [
+                'value' => 'name',
+                'name' => 'transaction.name'
+            ],
+            [
+                'value' => 'amount',
+                'name' => 'transaction.amount'
+            ],
+            [
+                'value' => 'account.name',
+                'name' => 'transaction.account.name'
+            ],
+            [
+                'value' => 'date',
+                'name' => 'transaction.date'
+            ],
+            [
+                'value' => 'pending',
+                'name' => 'transaction.pending'
+            ],
+            [
+                'value' => 'category.name',
+                'name' => 'transaction.category.name'
+            ],
+            [
+                'value' => 'tag.name',
+                'name' => 'transaction.tag.name'
+            ],
+        ]);
+
+        $this->writeToDisk('js/alert-events.js', [
+            [
+                'type' => TransactionUpdated::class,
+                'name' => 'When a transaction is updated (moving from pending to not pending, updating amounts, etc...)'
+            ],
+            [
+                'type' => TransactionCreated::class,
+                'name' => 'When a transaction is initially created (only fired once per transaction)',
+            ],
+            [
+                'type' => TransactionGroupedEvent::class,
+                'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)'
+            ],
+        ]);
+
+        $this->writeToDisk('js/condition-comparator.js', array_map(function ($comparator) {
+            return [
+                'value' => $comparator,
+                'name' => $comparator,
+            ];
+        }, Condition::ALL_COMPARATORS));
+
+    }
+
+    protected function writeToDisk(string $file, array $data)
+    {
+        file_put_contents(resource_path($file), sprintf('module.exports = %s', json_encode($data, JSON_PRETTY_PRINT)));
     }
 }
