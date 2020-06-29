@@ -9,6 +9,8 @@
     import { LineChart } from '@vue-responsive-dash/chartjs'
     import { findLocalStorage } from "../LocalStorage";
     Chart.defaults.global.defaultFontColor = findLocalStorage('darkMode') ?  'white' : 'black';
+    Chart.defaults.scale.ticks.display = true;
+    Chart.defaults.scale.gridLines.display = false;
 
     export default {
         props: ['chartData'],
@@ -26,14 +28,6 @@
 
                     responsive: false,
                     maintainAspectRatio: false,
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                display: false //this will remove only the label
-                            }
-                        }]
-                    }
-
                 }
             }
         }

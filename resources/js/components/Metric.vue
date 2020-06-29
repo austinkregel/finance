@@ -51,6 +51,8 @@
         },
         computed: {
             chartData() {
+                const currentSize = Object.values(this.data['current']).length;
+
                 return {
                     labels: Object.keys(this.data['current']),
                     datasets: [
@@ -65,7 +67,7 @@
                             label: this.$store.getters.groupsById[this.item.value].name.en,
                             backgroundColor: 'rgba(255,99,132,0.69)',
                             borderColor: 'rgba(255,99,132,0.69)',
-                            data: Object.values(this.data['previous']),
+                            data: Object.values(this.data['previous']).splice(0, currentSize),
                             fill: false,
                         }
                     ]
