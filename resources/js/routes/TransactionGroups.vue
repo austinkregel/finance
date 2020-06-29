@@ -24,7 +24,7 @@
                     <div class="text-xs tracking-tight">
                         <div v-for="condition in tag.conditionals" :key="condition.id">
                             <span :title="'transaction.' + condition.parameter" v-text="'t.' + condition.parameter"></span>
-                            {{ condition.parameter }} {{ condition.comparator }} {{ condition.value }}
+                            {{ condition.comparator }} {{ condition.value }}
                         </div>
                     </div>
                 </div>

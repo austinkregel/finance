@@ -18,9 +18,9 @@ class NotLikeFilterTest extends TestCase
         $condition->value = $valueSearch;
         $filter = new NotLikeFilter();
 
-        $this->assertSame($expect, $filter([
+        $this->assertSame($expect, $filter(collect([
             'name' => $actualValue
-        ], $condition));
+        ]), $condition));
     }
 
     public function dataProvider()

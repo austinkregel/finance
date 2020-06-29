@@ -18,9 +18,9 @@ class LikeFilterTest extends TestCase
         $condition->value = $valueSearch;
         $filter = new LikeFilter();
 
-        $this->assertSame($expect, $filter([
+        $this->assertSame($expect, $filter(collect([
             'name' => $actualValue
-        ], $condition));
+        ]), $condition));
     }
 
     public function dataProvider()

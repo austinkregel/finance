@@ -7,6 +7,7 @@ use App\Events\TransactionGroupedEvent;
 use App\Filters\TransactionsConditionFilter;
 use App\Tag;
 use App\Models\Transaction;
+use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
@@ -26,11 +27,14 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
         $transaction = $event->getTransaction();
         $transaction->load(['account.owner', 'category']);
 
+        /** @var User $user */
         $user = $transaction->account->owner;
+
         /** @var Collection $groupsForUser */
         $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), function () use ($user) {
             return Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get();
         });
+
         $groupsForUser->each(function (Tag $group) use ($transaction) {
             if ($group->conditionals->count() === 0) {
                 // Shortcut. save the group to the conditional.

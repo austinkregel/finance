@@ -39,12 +39,12 @@ class CreateDefaultAlertsForUser
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
                 [
-                    'parameter' => 'tag.name',
+                    'parameter' => 'tag.name.en',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'bill'
                 ],
                 [
-                    'parameter' => 'tag.name',
+                    'parameter' => 'tag.name.en',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'subscription'
                 ],

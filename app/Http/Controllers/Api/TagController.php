@@ -92,8 +92,8 @@ class TagController extends Controller
     {
         try {
             $tag->transactions()->sync([]);
-            $response = $this->json(
-                $tag->conditionals()->create($request->json()->all() + ['type' => 'automatic'])
+            return $this->json(
+                $tag->conditionals()->create($request->json()->all())
             );
         } finally {
             $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));

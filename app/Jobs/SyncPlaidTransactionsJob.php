@@ -104,6 +104,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'transaction_type' => $transaction->transaction_type,
                 ]);
 
+                $this->syncTransactions($transaction, $localTransaction);
                 event(new TransactionCreated($localTransaction));
             } else {
                 $localTransaction->update([
@@ -118,17 +119,21 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'transaction_type' => $transaction->transaction_type,
                 ]);
 
+                $this->syncTransactions($transaction, $localTransaction);
                 event(new TransactionUpdated($localTransaction));
             }
-
-            $categoriesToSync = [];
-            foreach ($transaction->category as $category) {
-                $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), function () use ($category) {
-                    return Category::where('name', $category)->first();
-                })->id;
-            }
-
-            $localTransaction->categories()->sync($categoriesToSync);
         }
+    }
+
+    protected function syncTransactions($transaction, $localTransaction)
+    {
+        $categoriesToSync = [];
+        foreach ($transaction->category as $category) {
+            $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), function () use ($category) {
+                return Category::where('name', $category)->first();
+            })->id;
+        }
+
+        $localTransaction->categories()->sync($categoriesToSync);
     }
 }

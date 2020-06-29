@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], static function () {
         });
         Route::post('actions/{action}', ActionController::class);
         Route::post('plaid/exchange_token', TokenController::class);
+        Route::post('cache-clear', App\Http\Controllers\Api\CacheController::class);
 
         Route::apiResource('alerts', App\Http\Controllers\Api\AlertController::class);
         Route::post('alerts/{alert}/conditionals', [App\Http\Controllers\Api\AlertController::class, 'conditionals']);
@@ -62,6 +63,7 @@ Route::group(['middleware' => 'auth'], static function () {
 
         Route::apiResource('transactions', App\Http\Controllers\Api\TransactionController::class);
         Route::apiResource('accounts', App\Http\Controllers\Api\AccountController::class);
+
+        Route::get('data/{type}:{model}', \App\Http\Controllers\Api\UglyChartController::class);
     });
 });
-

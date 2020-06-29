@@ -19,7 +19,10 @@ initLocalStorage('darkMode', false);
 require('./bootstrap');
 window.Vue = Vue;
 Vue.use(VueRouter);
-Vue.use(VueToasted);
+Vue.use(VueToasted, {
+    position: 'bottom-right',
+    theme: "custom"
+});
 require('./dark-mode-directives')
 
 /**
@@ -82,7 +85,7 @@ const router = new VueRouter({
 window.Bus = new Vue;
 const store = new Vuex.Store(require('./store').default)
 
-const app = new Vue({
+window.app = new Vue({
     router,
     store,
 }).$mount('#app');

@@ -20,9 +20,9 @@ class NotInFilterTest extends TestCase
         $condition->value = $valueSearch;
         $filter = new NotInFilter();
 
-        $this->assertSame($expect, $filter([
+        $this->assertSame($expect, $filter(collect([
             'name' => $actualValue
-        ], $condition));
+        ]), $condition));
     }
 
     public function dataProvider()

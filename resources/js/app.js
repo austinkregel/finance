@@ -74,8 +74,8 @@ const router = new VueRouter({
                     props: true,
                 },
                 {
-                    path: '/graphs',
-                    component: require('./routes/CoolGraphs').default,
+                    path: '/metrics',
+                    component: require('./routes/Metrics').default,
                     props: true,
                 },
                 {
@@ -93,7 +93,7 @@ const router = new VueRouter({
         ]
 })
 const start = async () => {
-    const app = new Vue({
+    window.app = new Vue({
         el: '#app',
         store,
         router,

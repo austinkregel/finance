@@ -4,11 +4,13 @@ namespace App\Filters\Conditions;
 
 use App\Contracts\Models\ConditionalsContract;
 use App\Contracts\Models\ConditionContract;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 
 class NotLikeFilter implements ConditionContract
 {
-    public function __invoke($item, ConditionalsContract $condition): bool
+    public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return stripos($item[$condition->getComparatorField()], $condition->getComparatorValue()) === false;
+        return stripos(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue()) === false;
     }
 }

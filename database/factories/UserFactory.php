@@ -42,10 +42,3 @@ $factory->define(App\Models\Transaction::class, function (Faker $faker) {
         'transaction_type' => 'debit',
     ];
 });
-
-
-$factory->define(Account::class, function (Faker $faker) {
-    return [
-        //
-    ];
-});
