@@ -95,10 +95,6 @@ class Transaction extends Model implements AbstractEloquentModel
         'is_possible_subscription' => 'bool',
     ];
 
-    public $appends = [
-        'tag',
-    ];
-
     public function getTagAttribute()
     {
         if (array_key_exists('tag', $this->attributes)) {

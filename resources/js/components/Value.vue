@@ -6,7 +6,7 @@
 
         <div class="tracking-wide flex flex-wrap items-center leading-tight">
             <span>$</span>
-            <span class="text-6xl">{{ format(data[0]) }}</span>
+            <span class="text-6xl">{{ format(value) }}</span>
         </div>
         <div class="tracking-wide flex flex-wrap items-center pt-2" :class="{ 'text-red-300': !isIncrease && $store.getters.darkMode, 'text-red-600': !isIncrease && !$store.getters.darkMode }">
             <svg class="fill-current" :class="(!isIncrease ? 'rotate-180' : '')" width="20" height="12">
@@ -37,13 +37,13 @@
         },
         computed: {
             isIncrease() {
-                return this.data[0] < this.data[1];
+                return this.value < this.previousValue;
             },
             previousValue() {
-                return this.format(this.data[1] || 0);
+                return this.format(this.data['previous'] || 0);
             },
             value() {
-                return this.format(this.data[0] || 0);
+                return this.format(this.data['current'] || 0);
             },
             increaseDecreaseLabel() {
                 switch (Math.sign(this.increaseOrDecrease)) {

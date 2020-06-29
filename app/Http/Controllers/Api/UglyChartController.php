@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Contracts\Repositories\TransactionRepositoryContract;
+use App\Filters\Metrics\TrendFilter;
 use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use App\Tag;
@@ -17,11 +18,14 @@ class UglyChartController
 {
     protected TransactionRepositoryContract $transactionRepository;
 
+    protected TrendFilter $trendFilter;
+
     public function __invoke(Request $request, $type, $model)
     {
         abort_unless($model === 'tag', 400, 'Unsupported model ' .$model);
 
         $this->transactionRepository = new TransactionRepository;
+        $this->trendFilter = new TrendFilter;
 
         ['current' => $data, 'previous' => $previousData] = $this->fetchDataForModel($model, $request);
 
@@ -91,37 +95,22 @@ class UglyChartController
     {
         ['current' => $currentDuration, 'previous' => $previousDuration] = $this->formatDuration($request);
 
-        [$currentDurationStart, $currentDurationEnd] = $currentDuration;
-
-
-        $numericalDuration = $currentDurationStart->diffInDays($currentDurationEnd);
-
-        if ($numericalDuration > 31) {
-            $numericalDuration = $currentDurationStart->diffInMonths($currentDurationEnd);
-        }
         $returnedData = [];
 
         switch ($type) {
             // Trends are line graphs. They need keys to be the dates, and the values to be the total.
             case 'trend':
-                for ($i = 0; $i < $numericalDuration; $i++) {
-                    $returnedData[$currentDurationStart->copy()->addDay($i)->format('m/d')] = 0;
-                }
-
-                $data->each(function (Transaction $transaction) use (&$returnedData) {
-                    if (!array_key_exists($transaction->date->format('m/d'), $returnedData)) {
-                        $returnedData[$transaction->date->format('m/d')] = 0;
-                    }
-
-                    $returnedData[$transaction->date->format('m/d')] += $transaction->amount;
-                });
+                $returnedData = [
+                    'current' => $this->trendFilter->handle($currentDuration, $data),
+                    'previous' => $this->trendFilter->handle($previousDuration, $previousData),
+                ];
 
                 break;
             // Values are displayed literally. So whatever is returned is dispalyed.
             case 'value':
                 $returnedData = [
-                    $data->sum('amount'),
-                    $previousData->sum('amount'),
+                    'current' => $data->sum('amount'),
+                    'previous' => $previousData->sum('amount'),
                 ];
                 break;
         }

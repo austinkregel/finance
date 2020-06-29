@@ -52,12 +52,21 @@
         computed: {
             chartData() {
                 return {
-                    labels: Object.keys(this.data),
+                    labels: Object.keys(this.data['current']),
                     datasets: [
                         {
                             label: this.$store.getters.groupsById[this.item.value].name.en,
-                            backgroundColor: '#f87979',
-                            data: Object.values(this.data),
+                            backgroundColor: 'rgba(54,162,235,0.75)',
+                            borderColor: 'rgba(54,162,235,0.75)',
+                            fill: false,
+                            data: Object.values(this.data['current']),
+                        },
+                        {
+                            label: this.$store.getters.groupsById[this.item.value].name.en,
+                            backgroundColor: 'rgba(255,99,132,0.69)',
+                            borderColor: 'rgba(255,99,132,0.69)',
+                            data: Object.values(this.data['previous']),
+                            fill: false,
                         }
                     ]
                 }
