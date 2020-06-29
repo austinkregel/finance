@@ -146,13 +146,10 @@
                 <div v-if="model" class="flex flex-wrap mx-2 relative text-xs" id="autocomplete-container">
                     <div class="w-full text-sm uppercase text-gray-dark py-2 px-1">Filter data</div>
 
-                    <div class="flex flex-wrap w-full" v-for="(filter, $i) in filters">
+                    <div class="flex flex-wrap w-full" v-for="(condition, $i) in filters">
                         <div class="flex-1">
                             <div class="block uppercase tracking-wide text-xs mb-2 font-semibold"  v-dark-mode-dark-text>
                                 Parameter
-                                <div class="text-xs font-normal tracking-tight" v-dark-mode-light-text>
-                                    The field who's value we will compare against
-                                </div>
                             </div>
                             <select v-model="condition.parameter" class="appearance-none block w-full  rounded py-1 px-2 leading-tight focus:outline-none"  v-dark-mode-input>
                                 <option v-for="parameter in parameters" :value="parameter.value">{{ parameter.name }}</option>
@@ -161,9 +158,6 @@
                         <div class="flex-1 ml-4">
                             <div class="block uppercase tracking-wide text-xs mb-2 font-semibold" v-dark-mode-dark-text>
                                 Comparator
-                                <div class="text-xs font-normal tracking-tight" v-dark-mode-light-text>
-                                    How we compare the parameter to the value
-                                </div>
                             </div>
 
                             <select v-model="condition.comparator" class="appearance-none block w-full  rounded py-1 px-2 leading-tight focus:outline-none"  v-dark-mode-input>
@@ -173,9 +167,6 @@
                         <div class="flex-1 ml-4">
                             <div class="block uppercase tracking-wide text-xs mb-2 font-semibold" v-dark-mode-dark-text>
                                 Value
-                                <div class="text-xs font-normal tracking-tight" v-dark-mode-light-text>
-                                    What we are comparing the transaction to
-                                </div>
                             </div>
                             <input v-model="condition.value" class="appearance-none block w-full  rounded py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="STEAMGAMES.COM"  v-dark-mode-input/>
                         </div>
@@ -302,8 +293,8 @@
 
             addFilter() {
                 this.filters.push({
-                    name: '',
-
+                    parameter: '',
+                    condition: '',
                     value: ''
                 })
             },
@@ -323,7 +314,6 @@
         computed: {
             models: () => ([
                 'transactions',
-                'groups'
             ]),
             selectedModel() {
                 return this.modelFields[this.model] || {
@@ -349,11 +339,11 @@
             },
             filterObject() {
                 return this.filters.reduce((filters, filter) => {
-                    if (!filter.value || !filter.text) {
+                    if (!filter.value || !filter.parameter) {
                         return filters;
                     }
 
-                    filters[filter.value] = filter.text;
+                    filters[filter.parameter] = filters.condition + ':' + filter.value;
                     return filters;
                 }, {});
             },

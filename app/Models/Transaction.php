@@ -89,11 +89,29 @@ class Transaction extends Model implements AbstractEloquentModel
      */
     public $casts = [
         'pending' => 'bool',
-        'amount' => 'decimal:2',
-        'date' => 'date',
+        'amount' => 'float',
+        'date' => 'datetime:Y-m-d',
         'is_subscription' => 'bool',
         'is_possible_subscription' => 'bool',
     ];
+
+    public $appends = [
+        'tag',
+    ];
+
+    public function getTagAttribute()
+    {
+        if (array_key_exists('tag', $this->attributes)) {
+            return $this->attributes['tag'];
+        }
+
+        return null;
+    }
+
+    public function setTagAttribute($value)
+    {
+        $this->attributes['tag'] = $value;
+    }
 
     public static function getTagClassName(): string
     {

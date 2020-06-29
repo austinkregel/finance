@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Mail\TransactionAlertMail;
 use App\Models\AlertLog;
 use App\Models\Transaction;
 use App\Tag;
@@ -55,5 +56,10 @@ class TransactionTagAlertNotification extends Notification
     protected function render($string, $data)
     {
         return app(\Mustache_Engine::class)->render($string, $data);
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new TransactionAlertMail($this->alertLog))->to($notifiable->email);
     }
 }

@@ -43,6 +43,10 @@ export default {
     getters: {
         user: (state) => state.user,
         groups: (state) => state.groups,
+        groupsById: (state) => state.groups.data.reduce((groups, group) => ({
+            ...groups,
+            [group.id]: group,
+        }), {}),
         alerts: (state) => state.alerts,
         transactions: (state) => state.transactions,
         accounts: (state) => state.accounts,

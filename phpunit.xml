@@ -25,6 +25,7 @@
         <server name="DB_DATABASE" value=":memory:"  force="true"/>
         <server name="MAIL_MAILER" value="array"  force="true"/>
         <server name="QUEUE_CONNECTION" value="sync"  force="true"/>
+        <server name="CACHE_DRIVER" value="array" force="true"/>
         <server name="SESSION_DRIVER" value="array"  force="true"/>
         <server name="TELESCOPE_ENABLED" value="false"  force="true"/>
     </php>

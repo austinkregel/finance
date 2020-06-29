@@ -1,11 +1,15 @@
 <template>
     <div>
-        <graph-modal :types="types" />
+        <graph-modal :types="types" :add-item="addItem" />
 
         <dashboard id="dashboard">
-            <dash-layout v-for="layout in layouts" v-bind="layout" :debug="true" :key="layout.breakpoint">
-                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id">
-                    <div class="content">{{ item }}</div>
+            <dash-layout v-for="layout in layouts" v-bind="layout" :key="layout.breakpoint">
+                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id" @resizeEnd="(data) => resizeItem(item, data)">
+                    <div class="h-full w-full rounded shadow" v-dark-mode-white-background>
+                        <metric
+                            :item="item"
+                        />
+                    </div>
                 </dash-item>
             </dash-layout>
         </dashboard>
@@ -29,34 +33,34 @@
                 items: findLocalStorage('cool-graphs', []),
                 types: [
                     {
-                        name: "Graph a trend",
-                        type: "trend",
+                        name: "Graph a trend (bar graph)",
+                        type: "trend:tag",
                         fields: [
                             {
                                 name: "Group",
-                                value: 'tag.name',
+                                type: 'tag',
                             },
                             {
                                 name: "Over the past...",
-                                value: 'duration',
+                                type: 'duration',
                             },
                         ]
                     },
                     {
-                        name: "Display a metric",
-                        type: "value",
+                        name: "Display a metric (just a number)",
+                        type: "value:tag",
                         fields: [
                             {
-                                name: "Transaction Name",
-                                value: 'transaction.name',
+                                name: "Group",
+                                type: 'tag',
                             },
                             {
                                 name: "Over the past...",
-                                value: 'duration',
+                                type: 'duration',
                             },
                         ]
                     }
-        ]
+                ]
             };
         },
         computed: {
@@ -87,12 +91,6 @@
                     },
                     {
                         breakpoint: "xs",
-                        breakpointWidth: 480,
-                        numberOfCols: 2,
-                        items: this.items
-                    },
-                    {
-                        breakpoint: "xxs",
                         breakpointWidth: 0,
                         numberOfCols: 1,
                         items: this.items
@@ -102,14 +100,14 @@
         },
         methods: {
             addItem(itemData) {
-                this.items.push({
-
-                });
-
+                this.items.push(Object.assign({
+                    ...itemData,
+                    id: this.items.length + 1
+                }));
                 setLocalStorage('cool-graphs', this.items);
             },
             generateKpiItem(itemData) {
-                const { type } = itemData;
+                const {type} = itemData;
                 const defaults = {
                     label: '$',
                     description: 'A key performance indicator',
@@ -121,17 +119,37 @@
                     inverse: false,
                 }
 
+            },
+            resizeItem(item, data) {
+                const items = this.items.map(dashboardItem => {
+                    if (dashboardItem.id !== item.id) {
+                        return dashboardItem;
+                    }
+
+                    dashboardItem.x = data.x;
+                    dashboardItem.y = data.y;
+                    dashboardItem.width = data.width;
+                    dashboardItem.height = data.height;
+                    console.log(item.id, dashboardItem.id)
+
+                    return dashboardItem;
+                });
+
+                this.items = items;
+
+                console.log({items})
+
+                setLocalStorage('cool-graphs', items);
             }
+        },
+        mounted() {
+            Bus.$off('addItem');
+            Bus.$on('addItem', (item) => {
+                this.addItem(item);
+            })
+
+            Bus.$off('updateItems');
+            Bus.$on('updateItems', () => this.items = findLocalStorage('cool-graphs', []));
         }
     }
 </script>
-
-<style scoped>
-    .content {
-        height: 100%;
-        width: 100%;
-        border: 2px solid #42b983;
-        border-radius: 5px;
-    }
-
-</style>

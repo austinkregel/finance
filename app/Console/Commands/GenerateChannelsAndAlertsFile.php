@@ -123,8 +123,8 @@ class GenerateChannelsAndAlertsFile extends Command
                 'name' => 'transaction.category.name'
             ],
             [
-                'value' => 'tag.name',
-                'name' => 'transaction.tag.name'
+                'value' => 'tag.name.en',
+                'name' => 'transaction.tag.name.en'
             ],
         ]);
 

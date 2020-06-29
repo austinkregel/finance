@@ -77,6 +77,7 @@
                         .then(res => {
                             this.failedJobs = res.data;
                             this.loading = false;
+                            setTimeout(() => Prism.highlightAll(), 10);
                         })
                         .catch(err => {
                             this.$toasted.show(err, { type: 'error' })

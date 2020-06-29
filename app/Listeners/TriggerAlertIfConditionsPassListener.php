@@ -15,6 +15,8 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
 {
     use InteractsWithQueue;
 
+    protected TransactionsConditionFilter $filter;
+
     /**
      * Handle the event.
      *
@@ -23,8 +25,13 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
      */
     public function handle($event)
     {
+        $this->filter = new TransactionsConditionFilter;
         $user = $event->getTransaction()->account->owner;
         $user->load('alerts.conditionals');
+
+        if ($event instanceof TransactionGroupedEvent) {
+            $event->transaction->tag = $event->getTag();
+        }
 
         if ($this->shouldNotNotifyAbout($event, $user)) {
             // Our event didn't pass our conditionals. So let's kill the task.
@@ -48,9 +55,10 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
 
         $transaction = $event->getTransaction();
         $transaction->load(['tags', 'category', 'account']);
+        /** @var Collection|Alert $alertsToTrigger */
         $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
             // Should be empty if the transaction fails the alert's conditionals.
-            return !empty((new TransactionsConditionFilter)->handle($alert, $transaction));
+            return !empty($this->filter->handle($alert, $transaction));
         });
 
         $alertsToTrigger->map->createNotificationWithTag($transaction, $tag);
@@ -66,7 +74,7 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
 
         $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
             // Should be empty if the transaction fails the alert's conditionals.
-            return !empty((new TransactionsConditionFilter)->handle($alert, $transaction));
+            return !empty($this->filter->handle($alert, $transaction));
         });
 
         $alertsToTrigger->map->createNotification($transaction);
@@ -75,28 +83,29 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
     protected function shouldNotNotifyAbout(TransactionEventContract $event, User $user)
     {
         $alerts = $user->alerts;
-        $filter = new TransactionsConditionFilter();
-
         $transaction = $event->getTransaction();
 
         $transaction->load(['user', 'category']);
 
+        $shouldNotAlertMe = true;
         /** @var Alert $alert */
         foreach ($alerts as $alert) {
             // If the current event' isn't chosen by the user to be notified about, let's ignore this shiz.
             if (!in_array(get_class($event), $alert->events)) {
-                return true;
+                continue;
             }
 
-            $transaction = $filter->handle($alert, $transaction);
+            $transaction = $this->filter->handle($alert, $transaction);
 
             if (empty($transaction)) {
                 // True here because we don't want to notify anyone if the transaction doesn't pass filters.
-                return true;
+                continue;
             }
+
+            $shouldNotAlertMe = false;
         }
 
         // False here basically means we're going to notify someone about something.
-        return false;
+        return $shouldNotAlertMe;
     }
 }

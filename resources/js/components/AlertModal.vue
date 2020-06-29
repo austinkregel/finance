@@ -189,6 +189,7 @@
         data() {
             return {
                 form: {
+                    id: undefined,
                     name: '',
                     title: '',
                     body: '',
@@ -233,8 +234,15 @@
             async saveAlert() {
                 this.saving = true;
 
-                await this.$store.dispatch('saveAlert', this.form);
+                if (this.form.id) {
+                    await this.$store.dispatch('updateAlert', {
+                        original: this.alert,
+                        updated: this.form
+                    });
 
+                } else {
+                    await this.$store.dispatch('saveAlert', this.form);
+                }
                 this.saving = false;
 
                 setTimeout(() => this.closeModal(), 300);
@@ -271,6 +279,9 @@
                 const alertEvents = require('../alert-events');
                 return alertEvents
             }
+        },
+        mounted() {
+            this.addItem.bind(this);
         }
     }
 </script>

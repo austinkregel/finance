@@ -3,7 +3,7 @@
 
 <template>
     <div class="text-white items-center rounded mb-4" v-dark-mode-white-background>
-        <div class="px-2">{{ job.message }}</div>
+        <div class="px-2" v-dark-mode-dark-text>{{ job.message }}</div>
         <stacktrace v-for="(code, $i) in stack" :key="code.id" :code="code" :first="$i === 0" :show-vendor="showVendorTrace"></stacktrace>
         <div class="p-2 rounded-b border-t flex">
             <span class="rounded-full px-3 py-1 text-sm font-semibold mr-2" v-dark-mode-input>
@@ -12,7 +12,7 @@
             <span class="rounded-full px-3 py-1 text-sm font-semibold mr-2" v-dark-mode-input>
                 #queue-{{ job.queue }}
             </span>
-            <span v-for="(arg, $i) in job.args" v-if="arg && arg.length !== 0" class="rounded-full px-3 py-1 text-sm font-semibold mr-2" v-dark-mode-input>
+            <span v-for="(arg, $i) in job.args" v-if="arg && arg.length !== 0 && $i !== 'data'" class="rounded-full px-3 py-1 text-sm font-semibold mr-2" v-dark-mode-input>
                 #{{ $i }}-{{ arg }}
             </span>
             <span class="flex-grow">&nbsp;</span>
@@ -51,7 +51,6 @@
             }
         },
         mounted() {
-            Prism.highlightAll();
         }
     }
 </script>

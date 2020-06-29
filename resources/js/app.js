@@ -79,11 +79,6 @@ const router = new VueRouter({
                     props: true,
                 },
                 {
-                    path: '/query',
-                    component: require('./routes/Query').default,
-                    props: true,
-                },
-                {
                     path: '/alerts',
                     component: require('./routes/TransactionAlerts').default,
                     props: true,
