@@ -51,20 +51,20 @@
         },
         computed: {
             chartData() {
-                const currentSize = Object.values(this.data['current']).length;
+                const currentSize = Object.values(this.data['current'] || []).length;
 
                 return {
-                    labels: Object.keys(this.data['current']),
+                    labels: Object.keys(this.data['current'] || []),
                     datasets: [
                         {
-                            label: this.$store.getters.groupsById[this.item.value].name.en,
+                            label: this.$store.getters.groupsById[this.item.value].name.en + ' ' + this.item.duration,
                             backgroundColor: 'rgba(54,162,235,0.75)',
                             borderColor: 'rgba(54,162,235,0.75)',
                             fill: false,
                             data: Object.values(this.data['current']),
                         },
                         {
-                            label: this.$store.getters.groupsById[this.item.value].name.en,
+                            label: this.$store.getters.groupsById[this.item.value].name.en + ' last ' + this.item.duration,
                             backgroundColor: 'rgba(255,99,132,0.69)',
                             borderColor: 'rgba(255,99,132,0.69)',
                             data: Object.values(this.data['previous']).splice(0, currentSize),
@@ -76,7 +76,6 @@
             type() {
                 return this.item.type.split(':')[0]
             },
-
         },
         watch: {
             duration(newDuration, oldDuration) {
@@ -98,8 +97,14 @@
             }
         },
         mounted() {
-            this.duration = this.item.duration;
-            this.fetchData(this.item);
+            try {
+                this.duration = this.item.duration;
+                this.fetchData(this.item);
+            } catch (e) {
+                this.$toasted.error(e, {
+                    theme: "custom"
+                })
+            }
         }
     }
 </script>

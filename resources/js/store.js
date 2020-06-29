@@ -85,6 +85,17 @@ export default {
         }
     },
     actions: {
+        async purgeCache() {
+            try {
+                await axios.post('/api/cache-clear')
+                app.$toasted.success('Your cache was cleared!', {
+                    position: 'bottom-right',
+                    theme: "custom"
+                })
+            } catch (e) {
+                app.$toasted.success('We ran into an error when purging your cache!')
+            }
+        },
         async fetchTransactions({ dispatch, state, commit, getters }, { page = 1,  }) {
             state.transactions.loading = true;
 

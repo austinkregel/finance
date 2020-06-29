@@ -93,7 +93,7 @@ const router = new VueRouter({
         ]
 })
 const start = async () => {
-    const app = new Vue({
+    window.app = new Vue({
         el: '#app',
         store,
         router,

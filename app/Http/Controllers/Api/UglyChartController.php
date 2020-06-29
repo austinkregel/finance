@@ -33,7 +33,12 @@ class UglyChartController
             abort(400, 'No data');
         }
 
-        return $this->formatType($request, $type, $data, $previousData);
+        return cache()->tags([$request->user()->email])->remember(
+            // This way we ensure each type/model/scope/duration combination can be cached on their own, and make it unique per user.
+            sprintf('%s.%s.%s.%s.%s', $type, $model, $request->user()->id, $request->get('scope'), $request->get('duration')),
+            now()->addMinutes(10),
+            fn() => $this->formatType($request, $type, $data, $previousData)
+        );
     }
 
     public function fetchDataForModel($model, $request)
