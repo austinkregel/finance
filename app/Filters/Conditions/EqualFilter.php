@@ -9,12 +9,8 @@ use Illuminate\Support\Arr;
 
 class EqualFilter implements ConditionContract
 {
-    public function __invoke($item, ConditionalsContract $condition): bool
+    public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        if ($item instanceof Arrayable) {
-            return $condition->getComparatorValue() == Arr::get($item->toArray(), $condition->getComparatorField());
-        }
-
-        return $condition->getComparatorValue() == $item[$condition->getComparatorField()];
+        return $condition->getComparatorValue() == Arr::get($item->toArray(), $condition->getComparatorField());
     }
 }

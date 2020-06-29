@@ -4,11 +4,13 @@ namespace App\Filters\Conditions;
 
 use App\Contracts\Models\ConditionalsContract;
 use App\Contracts\Models\ConditionContract;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 
 class GreaterThan implements ConditionContract
 {
-    public function __invoke($items, ConditionalsContract $condition): bool
+    public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return $items[$condition->getComparatorField()] > $condition->getComparatorValue();
+        return Arr::get($item->toArray(), $condition->getComparatorField()) > $condition->getComparatorValue();
     }
 }

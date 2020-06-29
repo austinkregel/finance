@@ -18,9 +18,9 @@ class InLikeFilterTest extends TestCase
         $condition->value = $valueSearch;
         $filter = new InLikeFilter();
 
-        $this->assertSame($expect, $filter([[
+        $this->assertSame($expect, $filter(collect([[
             'name' => $actualValue
-        ]], $condition));
+        ]]), $condition));
     }
 
     public function dataProvider()

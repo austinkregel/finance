@@ -9,18 +9,11 @@ use Illuminate\Support\Arr;
 
 class LikeFilter implements ConditionContract
 {
-    public function __invoke($item, ConditionalsContract $condition): bool
+    public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        if ($item instanceof Arrayable) {
-            return stripos(
-                    Arr::get($item->toArray(), $condition->getComparatorField()),
-                    $condition->getComparatorValue()
-                ) !== false;
-        }
-
         return stripos(
-                $item[$condition->getComparatorField()],
-                $condition->getComparatorValue()
-            ) !== false;
+            Arr::get($item->toArray(), $condition->getComparatorField()),
+            $condition->getComparatorValue()
+        ) !== false;
     }
 }
