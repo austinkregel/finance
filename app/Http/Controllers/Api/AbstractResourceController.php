@@ -104,19 +104,4 @@ class AbstractResourceController extends Controller
 
         return $this->json($abstractEloquentModel->refresh());
     }
-
-    public function fields(AbstractEloquentModel $model)
-    {
-        return response()->json([
-            'fields' => $model->getAbstractAllowedFields(),
-            'includes' => $model->getAbstractAllowedRelationships(),
-            'sorts' => $model->getAbstractAllowedSorts(),
-            'filters' => $model->getAbstractAllowedFilters(),
-            'actions' => [
-                'get',
-                'paginate:14',
-                'first'
-            ],
-        ]);
-    }
 }
