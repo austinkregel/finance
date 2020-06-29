@@ -4,6 +4,9 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Contracts\Repositories\TransactionRepositoryContract;
+use App\Models\Transaction;
+use App\Repositories\TransactionRepository;
 use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -12,22 +15,21 @@ use Illuminate\Support\Collection;
 
 class UglyChartController
 {
+    protected TransactionRepositoryContract $transactionRepository;
+
     public function __invoke(Request $request, $type, $model)
     {
-        if ($model !== 'tag') {
-            abort(400, 'Unsupported model ' .$model);
-        }
+        abort_unless($model === 'tag', 400, 'Unsupported model ' .$model);
 
-        /** @var Tag $data */
+        $this->transactionRepository = new TransactionRepository;
+
         ['current' => $data, 'previous' => $previousData] = $this->fetchDataForModel($model, $request);
-
-        $data = $data->first();
 
         if (empty($data)) {
             abort(400, 'No data');
         }
 
-        return $this->formatType($request, $type, $data->transactions, $previousData->first()->transactions);
+        return $this->formatType($request, $type, $data, $previousData);
     }
 
     public function fetchDataForModel($model, $request)
@@ -45,19 +47,7 @@ class UglyChartController
 
     protected function fetchTransactionsForTagBetweenDates(Carbon $start, Carbon $end, Request $request)
     {
-        return $request->user()
-            ->tags()
-            ->with([
-                'transactions' => function (MorphToMany $query) use ($start , $end) {
-                    $query
-                        ->selectRaw('id, sum(amount) as amount, date')
-                        ->where('date', '>=', $start)
-                        ->where('date', '<=', $end)
-                        ->groupBy('date');
-                }
-            ])
-            ->where('id', $request->get('scope'))
-            ->get();
+        return $this->transactionRepository->findAllBetweenDateForUserInScope($request->user(), $start, $end, $request->get('scope'));
     }
 
     public function formatDuration(Request $request): array
@@ -118,7 +108,7 @@ class UglyChartController
                     $returnedData[$currentDurationStart->copy()->addDay($i)->format('m/d')] = 0;
                 }
 
-                $data->each(function (\App\Models\Transaction $transaction) use (&$returnedData) {
+                $data->each(function (Transaction $transaction) use (&$returnedData) {
                     if (!array_key_exists($transaction->date->format('m/d'), $returnedData)) {
                         $returnedData[$transaction->date->format('m/d')] = 0;
                     }

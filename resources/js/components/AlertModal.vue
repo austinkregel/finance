@@ -280,9 +280,6 @@
                 return alertEvents
             }
         },
-        mounted() {
-            this.addItem.bind(this);
-        }
     }
 </script>
 

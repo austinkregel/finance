@@ -1,7 +1,8 @@
 <template>
     <div>
-        <graph-modal :types="types" :add-item="addItem" />
-
+        <div class="flex flex-wrap justify-end mx-2">
+            <graph-modal :types="types" :add-item="addItem" />
+        </div>
         <dashboard id="dashboard">
             <dash-layout v-for="layout in layouts" v-bind="layout" :key="layout.breakpoint">
                 <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id" @resizeEnd="(data) => resizeItem(item, data)">
