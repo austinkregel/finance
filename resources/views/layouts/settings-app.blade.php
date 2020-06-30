@@ -14,10 +14,19 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    <style>
+        [v-cloak] {
+            background: #2d3748;
+        }
+        [v-cloak] div {
+            display: none;
+        }
+    </style>
 </head>
-<body v-cloak>
-    <div id="app" :class="{ 'bg-gray-800 text-white': $store.getters.darkMode, 'bg-gray-200 text-gray-800': !$store.getters.darkMode }">
+<body>
+    <div v-cloak id="app" :class="{ 'bg-gray-800 text-white': $store.getters.darkMode, 'bg-gray-200 text-gray-800': !$store.getters.darkMode }">
         @include('layouts.nav')
         <main class="py-4">
             @yield('content')
@@ -26,6 +35,6 @@
     <!-- Scripts -->
     @include('darkmode')
 
-    <script src="{{ asset('js/settings-app.js') }}"></script>
+    <script src="{{ mix('js/settings-app.js') }}"></script>
 </body>
 </html>

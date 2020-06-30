@@ -10,12 +10,12 @@ import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import dayjs from 'dayjs';
 import locale from 'dayjs/plugin/localizedFormat'
-
-dayjs.extend(locale)
-
-dayjs.extend(require('./FormatToLocaleTimezone').default)
-
+import relativeTime from 'dayjs/plugin/relativeTime'
 window.buildUrl = buildUrl
+
+dayjs.extend(relativeTime)
+dayjs.extend(locale)
+dayjs.extend(require('./FormatToLocaleTimezone').default)
 window.dayjs = dayjs
 
 window.request = async (type, url, options) => {
@@ -104,10 +104,10 @@ const start = async () => {
         },
         async mounted() {
             try {
-                await store.dispatch('fetchUser')
-                await store.dispatch('fetchAccounts')
-                store.dispatch('fetchGroups')
-                store.dispatch('fetchAlerts')
+                await store.dispatch('fetchUser');
+                await store.dispatch('fetchAccounts');
+                store.dispatch('fetchGroups');
+                store.dispatch('fetchAlerts');
             } catch (e) {
                 console.error(e)
             }

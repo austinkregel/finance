@@ -3,4 +3,3 @@
 @section('content')
     <accounts :user="{{ auth()->user() }}"></accounts>
 @endsection
-
