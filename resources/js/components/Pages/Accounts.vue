@@ -4,6 +4,9 @@
 
 <template>
     <div class="container mx-auto">
+        <div class="justify-end flex">
+            <refresh-button :refreshing="loading" :click="refreshAccounts" class="mt-4 -mr-6"/>
+        </div>
         <div class="flex flex-wrap justify-center">
             <div v-for="account in accounts" class="w-64">
                 <div class="rounded-lg m-4 p-4 shadow"
@@ -27,7 +30,9 @@
 </template>
 
 <script>
+    import RefreshButton from "../Utils/RefreshButton";
     export default {
+        components: {RefreshButton},
         props: [],
 
         data() {
@@ -37,9 +42,33 @@
         computed: {
             accounts() {
                 return this.$store.getters.accounts.data;
+            },
+            loading() {
+                return this.$store.getters.accounts.loading;
             }
         },
         methods: {
+            async refreshAccounts() {
+                this.$store.commit('setAccountLoading', true)
+                const tokens = this.accounts.reduce((tokens, account) => ({
+                    ...tokens,
+                    [account.token.id]: account.token
+                }), {});
+
+                await Promise.all(Object.keys(tokens).map(async token => (
+                    await this.$store.dispatch('runAction', {
+                        action: 'refresh-accounts-for',
+                        data: {
+                            access_token_id: token
+                        }
+                    })
+                )))
+
+                setTimeout(() => {
+                    this.$store.dispatch('fetchAccounts');
+                    this.$store.mutate('setAccountLoading', false)
+                }, 5000)
+            },
             lastUpdated(time) {
                 return moment(time).format('LLL')
             },

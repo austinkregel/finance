@@ -9,6 +9,11 @@ export default {
             }
         },
     },
+    mutations: {
+        setAccountLoading(state, loading) {
+            state.accounts.loading = loading;
+        }
+    },
     getters: {
         accounts: (state) => state.accounts,
         accountsById: (state) => state.accounts.data.reduce((accounts, account) => ({
@@ -23,7 +28,10 @@ export default {
                 include: 'institution,token'
             }));
 
-            state.accounts = accounts;
+            state.accounts = {
+                ...accounts,
+                loading: false,
+            };
         }
     }
 }
