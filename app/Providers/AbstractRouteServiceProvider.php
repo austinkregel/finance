@@ -41,7 +41,6 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'groups' => Tag::class,
                 'alerts' => Alert::class,
                 'failed_jobs' => FailedJob::class,
-                'notifications' => DatabaseNotification::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {
