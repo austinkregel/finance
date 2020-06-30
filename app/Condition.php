@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Contracts\Models\ConditionalsContract;
+use App\Contracts\ConditionalsContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;

@@ -3,12 +3,12 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\Models\ConditionalsContract;
-use App\Contracts\Models\ConditionContract;
-use App\Filters\Conditions\NotEqualFilter;
+use App\Contracts\ConditionalsContract;
+use App\Filters\Conditions\EndsWith;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class NotEqualFilterTest extends TestCase
+class EndsWithTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
@@ -18,7 +18,7 @@ class NotEqualFilterTest extends TestCase
         $condition = new Condition;
         $condition->parameter = 'name';
         $condition->value = $valueSearch;
-        $filter = new NotEqualFilter();
+        $filter = new EndsWith;
 
         $this->assertSame($expect, $filter(collect([
             'name' => $actualValue
@@ -28,8 +28,10 @@ class NotEqualFilterTest extends TestCase
     public function dataProvider()
     {
         return [
-            [true, "dog", "Hello dog, how are you?"],
-            [false, "nope", "nope"],
+            [false, 'This', 'ThisIsAValue'],
+            [false, 'Valu', 'ThisIsAValue'],
+            [true, 'Value', 'ThisIsAValue'],
+            [false, 'value', 'ThisIsAValUE'],// Ensure this is case sensitive
         ];
     }
 }

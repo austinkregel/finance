@@ -2,8 +2,8 @@
 
 namespace App\Filters\Conditions;
 
-use App\Contracts\Models\ConditionalsContract;
-use App\Contracts\Models\ConditionContract;
+use App\Contracts\ConditionalsContract;
+use App\Contracts\ConditionContract;
 use Illuminate\Contracts\Support\Arrayable;
 
 class InLikeFilter implements ConditionContract

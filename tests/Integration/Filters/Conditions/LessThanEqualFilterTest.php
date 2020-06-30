@@ -3,12 +3,12 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\Models\ConditionalsContract;
-use App\Contracts\Models\ConditionContract;
-use App\Filters\Conditions\NotInFilter;
+use App\Contracts\ConditionalsContract;
+use App\Contracts\ConditionContract;
+use App\Filters\Conditions\LessThanEqualFilter;
 use Tests\TestCase;
 
-class NotInFilterTest extends TestCase
+class LessThanEqualFilterTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
@@ -18,7 +18,7 @@ class NotInFilterTest extends TestCase
         $condition = new Condition;
         $condition->parameter = 'name';
         $condition->value = $valueSearch;
-        $filter = new NotInFilter();
+        $filter = new LessThanEqualFilter();
 
         $this->assertSame($expect, $filter(collect([
             'name' => $actualValue
@@ -28,8 +28,11 @@ class NotInFilterTest extends TestCase
     public function dataProvider()
     {
         return [
-            [true, "dog", ["Hello dog, how are you?", "nope"]],
-            [false, "nope", ["nope", "dog"]],
+            [true, 310, 310],
+            [false, 310, 312],
+            [true, 312, 310],
+            [false, false, true],
         ];
     }
 }
+
