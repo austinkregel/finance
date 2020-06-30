@@ -5,11 +5,19 @@ import {initLocalStorage, setLocalStorage} from "./LocalStorage";
 import Vuex from "vuex";
 import VueToasted from 'vue-toasted';
 import Zondicon from 'vue-zondicons';
+import Notifications from "./settings/Notifications";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import locale from "dayjs/plugin/localizedFormat";
 
 Vue.component('zondicon', Zondicon);
 
 initLocalStorage('darkMode', false);
 
+dayjs.extend(relativeTime)
+dayjs.extend(locale)
+dayjs.extend(require('./FormatToLocaleTimezone').default)
+window.dayjs = dayjs
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -71,6 +79,11 @@ const routes = [
                 props: true,
             },
             {
+                path: '/notifications',
+                component: Notifications,
+                props: true,
+            },
+            {
                 path: '/failed-jobs',
                 component: FailedJobs,
                 props: true,
@@ -88,4 +101,8 @@ const store = new Vuex.Store(require('./store').default)
 window.app = new Vue({
     router,
     store,
-}).$mount('#app');
+    el: '#app',
+    async mounted() {
+        await store.dispatch('fetchUser');
+    }
+});

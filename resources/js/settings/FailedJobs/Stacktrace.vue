@@ -5,8 +5,7 @@
         </div>
         <div class="overflow-hidden">
             <pre class="language-php text-sm text-base line-numbers language-php" style="margin: -1.7em -1em;" :data-line="code.line + 1" :data-start="code.line - 5 < 1 ? 1 : code.line - 5" v-show="display">
-                <code class="w-full block" v-text="Object.values(code.code).join('')"></code>
-                <div class="-mt-2 absolute text-sm" style="bottom: 1.4rem;left:1rem;">{{ code.file}}</div>
+                <code class="w-full block -mb-6" v-text="Object.values(code.code).join('')"></code>
             </pre>
         </div>
     </div>

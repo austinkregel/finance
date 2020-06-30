@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::group(['prefix' => 'api', 'middleware' => ['auth']], function () {
         Route::get('user', function () {
             $user = auth()->user();
-            $user->load(['accounts']);
+            $user->load(['accounts', 'unreadNotifications' ]);
             return $user;
         });
         Route::put('user', function () {
@@ -43,6 +43,11 @@ Route::group(['middleware' => 'auth'], static function () {
             ]);
             return $user;
         });
+        Route::put('read-notification/{notification}', function (\Illuminate\Http\Request $request, \App\Models\DatabaseNotification $notification) {
+            $notification->markAsRead();
+            return response('', 204);
+        });
+
         Route::post('actions/{action}', ActionController::class);
         Route::post('plaid/exchange_token', TokenController::class);
         Route::post('cache-clear', App\Http\Controllers\Api\CacheController::class);

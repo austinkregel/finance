@@ -4,7 +4,7 @@ namespace App\Filters;
 
 use App\Condition;
 use App\Contracts\ConditionableContract;
-use App\Contracts\Models\ConditionalsContract;
+use App\Contracts\ConditionalsContract;
 use App\Filters\Conditions\EndsWith;
 use App\Filters\Conditions\EqualFilter;
 use App\Filters\Conditions\GreaterThan;
