@@ -240,7 +240,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
-            'name' => 'Bill/subscription paid!',
+            'name' => 'Bill paid!',
             'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'payload' => '{}',
@@ -255,11 +255,6 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
             'parameter' => 'tag.name.en',
             'comparator' => Condition::COMPARATOR_LIKE,
             'value' => 'bill'
-        ]);
-        $alert->conditionals()->create([
-            'parameter' => 'tag.name.en',
-            'comparator' => Condition::COMPARATOR_LIKE,
-            'value' => 'subscription'
         ]);
 
         /** @var Tag $tag */

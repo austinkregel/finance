@@ -11,6 +11,8 @@ class NotInFilter implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return !in_array($condition->getComparatorValue(), Arr::get($item->toArray(), $condition->getComparatorField()));
+        $arrayOfData = explode(',', $condition->getComparatorValue());
+
+        return !in_array(Arr::get($item->toArray(), $condition->getComparatorField()), $arrayOfData);
     }
 }

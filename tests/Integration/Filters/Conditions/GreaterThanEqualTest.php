@@ -29,6 +29,9 @@ class GreaterThanEqualTest extends TestCase
             [true, 310, 310],
             [false, 500, 312],
             [true, 312, 500],
+            [true, '312', '500'],
+            [true, 312, '500'],
+
         ];
     }
 }

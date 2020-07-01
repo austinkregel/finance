@@ -11,6 +11,6 @@ class LessThanEqualFilter implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return Arr::get($item->toArray(), $condition->getComparatorField()) <= $condition->getComparatorValue();
+        return floatval(Arr::get($item->toArray(), $condition->getComparatorField())) <= floatval($condition->getComparatorValue());
     }
 }
