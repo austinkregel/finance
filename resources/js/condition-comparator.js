@@ -24,14 +24,6 @@ module.exports = [
         "name": "NOTIN"
     },
     {
-        "value": "IN_LIKE",
-        "name": "IN_LIKE"
-    },
-    {
-        "value": "NOTIN_LIKE",
-        "name": "NOTIN_LIKE"
-    },
-    {
         "value": "STARTS_WITH",
         "name": "STARTS_WITH"
     },
