@@ -11,8 +11,6 @@ interface ConditionalsContract
         self::COMPARATOR_NOT_LIKE,
         self::COMPARATOR_IN,
         self::COMPARATOR_NOT_IN,
-        self::COMPARATOR_IN_LIKE,
-        self::COMPARATOR_NOT_IN_LIKE,
         self::COMPARATOR_STARTS_WITH,
         self::COMPARATOR_ENDS_WITH,
         self::COMPARATOR_LESS_THAN,
@@ -50,16 +48,6 @@ interface ConditionalsContract
      * @var string
      */
     const COMPARATOR_NOT_IN = 'NOTIN';
-
-    /**
-     * @var string
-     */
-    const COMPARATOR_IN_LIKE = 'IN_LIKE';
-
-    /**
-     * @var string
-     */
-    const COMPARATOR_NOT_IN_LIKE = 'NOTIN_LIKE';
 
     /**
      * @var string

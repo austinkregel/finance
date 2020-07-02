@@ -11,11 +11,11 @@ class InFilterTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue)
     {
         $condition = new Condition;
         $condition->parameter = 'name';
-        $condition->value = $valueSearch;
+        $condition->value = $valuesWeWantOurTransactionToLookInto;
         $filter = new InFilter();
 
         $this->assertSame($expect, $filter(collect([
@@ -26,11 +26,11 @@ class InFilterTest extends TestCase
     public function dataProvider()
     {
         return [
-            [false, 'Hello', [310]],
-            [true, 310, [310]],
-            [true, 'Yes', ['Yes']],
-            [false, 'Yes', ['No']],
-            [true, 'Yes', [4290 => 'Yes']],
+            [false, 'Hello,Nope', 310],
+            [true, 310, 310],
+            [true, 'Yes,Nope', 'Yes'],
+            [false, 'Yes,Nope', 'No'],
+            [true, 'Yes,Ya',  'Yes'],
         ];
     }
 }

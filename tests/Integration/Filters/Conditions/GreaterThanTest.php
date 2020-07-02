@@ -28,6 +28,8 @@ class GreaterThanTest extends TestCase
         return [
             [false, 310, 310],
             [true, 310, 312],
+            [true, '310', '312'],
+            [true, 310, '312'],
             [true, false, true],
         ];
     }

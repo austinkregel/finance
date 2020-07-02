@@ -11,6 +11,6 @@ class EqualFilter implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return $condition->getComparatorValue() == Arr::get($item->toArray(), $condition->getComparatorField());
+        return Arr::get($item->toArray(), $condition->getComparatorField()) == $condition->getComparatorValue();
     }
 }
