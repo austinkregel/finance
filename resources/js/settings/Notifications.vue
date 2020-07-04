@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$store.getters.notifications.length > 0" v-dark-mode-white-background class="px-4 italic rounded shadow">
+    <div v-if="$store.getters.notifications.length > 0" v-dark-mode-white-background v-dark-mode-dark-text class="px-4 italic rounded shadow">
         <div v-for="(notification, $i) in $store.getters.notifications" class="border-gray-500 py-4" :class="{'border-b': $i !== ($store.getters.notifications.length - 1)}">
             <div class="flex flex-wrap items-center">
                 <div>
@@ -10,13 +10,13 @@
                 <div class="ml-4">
                     <div class="font-bold">{{ notification.data.title }}</div>
                     <div>{{ notification.data.body }}</div>
-                    <div class="" v-dark-mode-dark-text>{{ date(notification.created_at) }}</div>
+                    <div v-dark-mode-dark-text>{{ date(notification.created_at) }}</div>
                 </div>
             </div>
         </div>
     </div>
     <div v-else>
-        <div v-dark-mode-white-background class="p-4 italic rounded shadow">
+        <div v-dark-mode-white-background v-dark-mode-dark-text class="p-4 italic rounded shadow">
             You're all caught up!
         </div>
     </div>

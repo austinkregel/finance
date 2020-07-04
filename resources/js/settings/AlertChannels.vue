@@ -47,7 +47,6 @@
         async mounted() {
             const { data: user } = await axios.get('/api/user');
             this.alert_channels = user.alert_channels || [];
-            console.log(user)
         }
     }
 </script>
