@@ -80,12 +80,12 @@ class UglyChartController
             case 'mtd':
                 return [
                     'current' => [now()->startOfMonth(), now()],
-                    'previous' => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()]
+                    'previous' => [now()->subMonth()->startOfMonth(), now()->subMonth()]
                 ];
             case 'ytd':
                 return [
                     'current' => [now()->startOfYear(), now()],
-                    'previous' => [now()->subYear()->startOfYear(), now()->subYear()->endOfYear()]
+                    'previous' => [now()->subYear()->startOfYear(), now()->subYear()]
                 ];
             case '7d':
             default:
