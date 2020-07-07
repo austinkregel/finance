@@ -21,6 +21,7 @@
         "laravel-notification-channels/twilio": "^3.0",
         "laravel-notification-channels/webhook": "^2.0",
         "laravel/framework": "^7.14",
+        "laravel/horizon": "^4.3",
         "laravel/nexmo-notification-channel": "^2.3",
         "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^2.0",
