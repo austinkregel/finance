@@ -34,6 +34,7 @@
                 alert_channels: [],
                 channels: require('../channels'),
                 loading: false,
+                selected_channels: [],
             }
         },
         methods: {
@@ -42,6 +43,9 @@
                 axios.put('/api/user', {
                     alert_channels: this.alert_channels
                 }).then(() => this.loading = false).catch(() => this.loading = false);
+            },
+            selected(channel) {
+                return this.selected_channels.filters(chan => chan.name === channel.name)[0] !== undefined;
             }
         },
         async mounted() {

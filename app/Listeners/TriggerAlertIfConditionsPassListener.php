@@ -95,9 +95,9 @@ class TriggerAlertIfConditionsPassListener implements ShouldQueue
                 continue;
             }
 
-            $transaction = $this->filter->handle($alert, $transaction);
+            $transactions = $this->filter->handle($alert, $transaction);
 
-            if (empty($transaction)) {
+            if (empty($transactions)) {
                 // True here because we don't want to notify anyone if the transaction doesn't pass filters.
                 continue;
             }

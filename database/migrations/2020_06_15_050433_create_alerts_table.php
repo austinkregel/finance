@@ -18,8 +18,8 @@ class CreateAlertsTable extends Migration
             $table->string('name');
             $table->string('title', 180)->nullable();
             $table->string('body', 260)->nullable();
-            $table->text('payload')->nullable();
-            $table->string('channels');
+            $table->json('payload')->nullable();
+            $table->json('channels');
             $table->addColumn('boolean', 'is_templated')->storedAs(
                 '(INSTR(`body`, \'{{\') or INSTR(`body`, \'}}\') or INSTR(`title`, \'{{\') or INSTR(`title`, \'}}\'))'
             );
@@ -28,6 +28,7 @@ class CreateAlertsTable extends Migration
             $table->string('messaging_service_channel')->nullable();
             // These are the events this alert is related to. This gives users more control over their alerts.
             $table->json('events')->nullable();
+            $table->boolean('must_all_conditions_pass')->default(true);
             // The owner
             $table->unsignedInteger('user_id');
             $table->timestamps();

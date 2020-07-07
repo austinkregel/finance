@@ -44,7 +44,7 @@ class TransactionsConditionFilter
         $conditions = $conditionable->conditionals;
         // Dude we need to get this code tested.
         // We should be ensuring that all transactions get their filter applied correctly.
-        return array_values(array_filter($transactions, function (Transaction $transaction) use ($conditions) {
+        return array_values(array_filter($transactions, function (Transaction $transaction) use ($conditions, $conditionable) {
             if (count($conditions) === 0) {
                 // If there are no conditionals, apply the tag to everything.
                 return true;
@@ -57,7 +57,16 @@ class TransactionsConditionFilter
 
                 $condition = new $condition;
 
-                if (!$condition($transaction, $conditional)) {
+                $passesCondition = $condition($transaction, $conditional);
+
+                // Default behavior is to have all the conditions pass to do anything.
+                // Here we want the `must_all_conditions_pass` variable to be false and have the condition pass
+                // in order to get through this filter.
+                if ($passesCondition && !$conditionable->must_all_conditions_pass) {
+                    return true;
+                }
+
+                if (!$passesCondition) {
                     $returnValue = false;
                 }
             }

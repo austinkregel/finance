@@ -64,7 +64,10 @@
                         </div>
                     </div>
                     <div class="w-full text-xs" v-dark-mode-light-text>
-                        Remember, ALL of the conditions must be true for the group to be applied.
+                        <label class="mt-2 flex w-full items-center">
+                            <input type="checkbox" v-model="form.must_all_conditions_pass" />
+                            <span class="ml-2">Must all conditions be true?</span>
+                        </label>
                     </div>
                     <button @click="addCondition" class="mt-4 px-2 py-1 text-sm focus:outline-none rounded-lg flex items-center hover:shadow" v-dark-mode-button>
                         <zondicon icon="add-outline" class="fill-current w-4 h-4" />
@@ -90,7 +93,7 @@
                 form: {
                     name: '',
                     conditions: [],
-                    applyRetroactively: true
+                    must_all_conditions_pass: true
                 },
                 saving: false,
                 parameters: require('../condition-parameters'),

@@ -13,6 +13,7 @@ class CreateDefaultTagsForUser
         [
             'name' => 'subscriptions',
             'type' => 'automatic',
+            'must_all_conditions_pass' => false,
             'conditions' => [
                 [
                     'parameter' => 'name',
@@ -81,10 +82,10 @@ class CreateDefaultTagsForUser
                 ],
             ],
         ],
-
         [
             'name' => 'bills',
             'type' => 'automatic',
+            'must_all_conditions_pass' => false,
             'conditions' => [
                 [
                     'parameter' => 'category.name',
@@ -121,6 +122,7 @@ class CreateDefaultTagsForUser
         [
             'name' => 'fast food',
             'type' => 'automatic',
+            'must_all_conditions_pass' => false,
             'conditions' => [
                 [
                     'parameter' => 'name',
@@ -191,7 +193,50 @@ class CreateDefaultTagsForUser
                     'value' => 'transfer'
                 ],
             ],
-        ]
+        ],
+        [
+            'name' => 'credit/income',
+            'type' => 'automatic',
+            'conditions' => [
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_NOT_LIKE,
+                    'value' => 'transfer'
+                ],
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_NOT_LIKE,
+                    'value' => 'fee'
+                ],
+                [
+                    'parameter' => 'amount',
+                    'comparator' => Condition::COMPARATOR_LESS_THAN,
+                    'value' => 0
+                ],
+            ],
+        ],
+        [
+            'name' => 'debit/expense',
+            'type' => 'automatic',
+            'conditions' => [
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_NOT_LIKE,
+                    'value' => 'transfer'
+                ],
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_NOT_LIKE,
+                    'value' => 'fee'
+                ],
+                [
+                    'parameter' => 'amount',
+                    'comparator' => Condition::COMPARATOR_GREATER_THAN,
+                    'value' => 0
+                ],
+            ],
+        ],
+
     ];
 
     /**

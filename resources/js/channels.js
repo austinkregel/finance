@@ -1,30 +1,32 @@
 module.exports = [
     {
         "type": "Illuminate\\Notifications\\Channels\\SlackWebhookChannel",
-        "name": "Slack"
+        "name": "Slack",
+        "service": "webhook"
     },
     {
         "type": "NotificationChannels\\Discord\\DiscordChannel",
-        "name": "Discord"
+        "name": "Discord",
+        "service": "webhook"
     },
     {
         "type": "NotificationChannels\\Webhook\\WebhookChannel",
-        "name": "Webhook"
-    },
-    {
-        "type": "Illuminate\\Notifications\\Channels\\BroadcastChannel",
-        "name": "Broadcasts"
+        "name": "Webhook",
+        "service": "webhook"
     },
     {
         "type": "Illuminate\\Notifications\\Channels\\MailChannel",
-        "name": "Email"
+        "name": "Email",
+        "service": "email"
     },
     {
         "type": "Illuminate\\Notifications\\Channels\\NexmoSmsChannel",
-        "name": "Nexmo"
+        "name": "Nexmo",
+        "service": "sms"
     },
     {
         "type": "Illuminate\\Notifications\\Channels\\DatabaseChannel",
-        "name": "In-site notification"
+        "name": "In-site notification",
+        "service": "in-site"
     }
 ]

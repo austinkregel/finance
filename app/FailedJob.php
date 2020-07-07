@@ -12,6 +12,25 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  *
  * @package namespace App\Models;
  * @mixin \Eloquent
+ * @property int $id
+ * @property string $connection
+ * @property string $queue
+ * @property string $payload
+ * @property string $exception
+ * @property string $failed_at
+ * @property-read mixed $args
+ * @property-read mixed $codestack
+ * @property-read mixed $message
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob q($string)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereConnection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereException($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereFailedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FailedJob whereQueue($value)
  */
 class FailedJob extends Model implements AbstractEloquentModel
 {

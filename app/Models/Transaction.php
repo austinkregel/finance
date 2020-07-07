@@ -72,6 +72,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction withAllTagsOfAnyType($tags)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction withAnyTags($tags, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction withAnyTagsOfAnyType($tags)
+ * @property mixed $tag
  */
 class Transaction extends Model implements AbstractEloquentModel
 {

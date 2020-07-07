@@ -50,6 +50,14 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $webhook_url
+ * @property string|null $messaging_service_channel
+ * @property array|null $events
+ * @property int $must_all_conditions_pass
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereEvents($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereMessagingServiceChannel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereMustAllConditionsPass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Alert whereWebhookUrl($value)
  */
 class Alert extends Model implements AbstractEloquentModel, ConditionableContract
 {

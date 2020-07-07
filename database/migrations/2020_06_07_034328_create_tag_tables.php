@@ -13,6 +13,7 @@ class CreateTagTables extends Migration
             $table->json('name');
             $table->json('slug');
             $table->string('type')->nullable();
+            $table->boolean('must_all_conditions_pass')->default(true);
             $table->integer('order_column')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
