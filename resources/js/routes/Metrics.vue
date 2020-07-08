@@ -34,7 +34,7 @@
                 items: findLocalStorage('cool-graphs', []),
                 types: [
                     {
-                        name: "Graph a trend (bar graph)",
+                        name: "Graph a trend (line graph)",
                         type: "trend:tag",
                         fields: [
                             {
@@ -48,7 +48,7 @@
                         ]
                     },
                     {
-                        name: "Display a metric (just a number)",
+                        name: "Display a metric (summed number)",
                         type: "value:tag",
                         fields: [
                             {
