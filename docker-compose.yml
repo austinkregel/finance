@@ -1,6 +1,7 @@
 version: "3"
 services:
   mysql:
+    container_name: finance-mysql
     image: mysql:5.7
     ports:
       - 3306:3306
@@ -12,12 +13,14 @@ services:
     networks:
       - code-network
   redis:
+    container_name: finance-redis
     image: redis:4.0-alpine
     ports:
       - 6379:6379
     networks:
       - code-network
   web:
+    container_name: finance-web
     image: nginx:latest
     ports:
       - 80:80
@@ -29,6 +32,7 @@ services:
     networks:
       - code-network
   php:
+    container_name: finance-php
     build: ./docker/php
     user: "1000"
     expose:
@@ -39,6 +43,7 @@ services:
       - code-network
 
   node:
+    container_name: finance-node
     image: node
     user: "1000"
     volumes:
