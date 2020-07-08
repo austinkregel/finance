@@ -1,5 +1,8 @@
 <template>
-    <div v-if="accounts.length > 0">
+    <div v-if="$store.getters.accounts.loading">
+        <loading-animation />
+    </div>
+    <div v-else-if="accounts.length > 0">
         <div class="mx-4 mb-4 flex flex-wrap items-center">
             <div class="flex items-center justify-end w-full">
                 <button @click="refreshAccounts" :disabled="loading" class="p-2 ml-4 border-2 focus:outline-none rounded-lg flex items-center hover:shadow"
