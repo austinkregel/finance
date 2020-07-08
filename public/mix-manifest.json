@@ -1,8 +1,5 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/settings-app.js": "/js/settings-app.js",
-    "/js/app.294aba07cde31c22aea9.hot-update.js": "/js/app.294aba07cde31c22aea9.hot-update.js",
-    "/js/app.2bd4add630efc8fa122f.hot-update.js": "/js/app.2bd4add630efc8fa122f.hot-update.js",
-    "/js/app.23bed7de5672c64db890.hot-update.js": "/js/app.23bed7de5672c64db890.hot-update.js",
-    "/js/app.bacbd7e5941f40ffd29d.hot-update.js": "/js/app.bacbd7e5941f40ffd29d.hot-update.js"
+    "/css/app.css": "/css/app.css",
+    "/js/settings-app.js": "/js/settings-app.js"
 }
