@@ -42,17 +42,13 @@ use Spatie\Tags\Tag as SpatieTag;
  * @property-read \App\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
  * @property-read int|null $transactions_count
+ * @property int $must_all_conditions_pass
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Tag whereMustAllConditionsPass($value)
  */
 class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContract
 {
     use Conditionable, AbstractModelTrait;
-    protected $fillable = [
-        'name',
-        'slug',
-        'type',
-        'order_column',
-        'user_id',
-    ];
+    public $guarded = [];
 
     public function getValidationCreateRules(): array
     {
@@ -101,5 +97,4 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
     {
         return $this->morphedByMany(Transaction::class, 'taggable');
     }
-
 }

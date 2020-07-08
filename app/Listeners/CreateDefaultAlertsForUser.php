@@ -34,7 +34,7 @@ class CreateDefaultAlertsForUser
             ]
         ],
         [
-            'name' => 'Bill/subscription paid!',
+            'name' => 'Bill paid!',
             'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
@@ -43,6 +43,19 @@ class CreateDefaultAlertsForUser
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'bill'
                 ],
+            ],
+            'events' => [
+                TransactionGroupedEvent::class,
+            ],
+            'channels' => [
+                MailChannel::class,
+            ]
+        ],
+        [
+            'name' => 'Subscription paid!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'body' => 'This time around, you paid ${{ transaction.amount }}.',
+            'conditions' => [
                 [
                     'parameter' => 'tag.name.en',
                     'comparator' => Condition::COMPARATOR_LIKE,

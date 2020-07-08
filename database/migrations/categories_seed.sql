@@ -8,7 +8,7 @@ create table categories
 	updated_at timestamp null,
 	constraint categories_category_id_unique
 		unique (category_id)
-);
+) collate = utf8mb4_unicode_ci;
 
 create index categories_name_index
 	on categories (name);

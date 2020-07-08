@@ -221,4 +221,70 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertCount(1, $tags);
         $this->assertSame($tag->id, $tags->first()->id);
     }
+
+    public function testHandleSuccessAttachTagWithAllConditionsPassSetToFalse()
+    {
+        $this->expectsEvents([
+            TransactionGroupedEvent::class
+        ]);
+        $category = Category::first();
+        /** @var Transaction $transaction */
+        $transaction = factory(Transaction::class)->create([
+            'name' => 'Netflix',
+            'category_id' => $category->category_id,
+            'amount' => 9.99
+        ]);
+        /** @var Tag $tag */
+        $tag = factory(Tag::class)->create([
+            'type' => 'automatic',
+            'name' => 'debits/withdrawals',
+            'user_id' => $transaction->account->owner->id,
+            'must_all_conditions_pass' => false,
+        ]);
+        $tag->conditionals()->create([
+            'parameter' => 'amount',
+            'comparator' => Condition::COMPARATOR_GREATER_THAN,
+            'value' => '0'
+        ]);
+        $tag->conditionals()->create([
+            'parameter' => 'name',
+            'comparator' => Condition::COMPARATOR_NOT_LIKE,
+            'value' => 'fee'
+        ]);
+        $tag->conditionals()->create([
+            'parameter' => 'name',
+            'comparator' => Condition::COMPARATOR_NOT_LIKE,
+            'value' => 'transfer'
+        ]);
+
+        /** @var Tag $tag */
+        $tag2 = factory(Tag::class)->create([
+            'type' => 'automatic',
+            'name' => 'credits/income',
+            'user_id' => $transaction->account->owner->id
+        ]);
+        $tag2->conditionals()->create([
+            'parameter' => 'amount',
+            'comparator' => Condition::COMPARATOR_LESS_THAN,
+            'value' => '0'
+        ]);
+        $tag2->conditionals()->create([
+            'parameter' => 'name',
+            'comparator' => Condition::COMPARATOR_NOT_LIKE,
+            'value' => 'fee'
+        ]);
+        $tag2->conditionals()->create([
+            'parameter' => 'name',
+            'comparator' => Condition::COMPARATOR_NOT_LIKE,
+            'value' => 'transfer'
+        ]);
+
+        $handler = new ApplyGroupToTransactionAutomaticallyListener();
+        $event = new TransactionCreated($transaction);
+        $handler->handle($event);
+
+        $tags = $transaction->tags()->get();
+        $this->assertCount(1, $tags);
+        $this->assertSame($tag->id, $tags->first()->id);
+    }
 }

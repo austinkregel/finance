@@ -55,30 +55,33 @@ class GenerateChannelsAndAlertsFile extends Command
             [
                 'type' => SlackWebhookChannel::class,
                 'name' => 'Slack',
+                'service' => 'webhook',
             ],
             [
                 'type' => DiscordChannel::class,
                 'name' => 'Discord',
+                'service' => 'webhook',
             ],
             [
                 'type' => WebhookChannel::class,
                 'name' => 'Webhook',
-            ],
-            [
-                'type' => BroadcastChannel::class,
-                'name' => 'Broadcasts',
+                'service' => 'webhook',
             ],
             [
                 'type' => MailChannel::class,
                 'name' => 'Email',
+                'service' => 'email',
             ],
             [
                 'type' => NexmoSmsChannel::class,
                 'name' => 'Nexmo',
+                'service' => 'sms'
             ],
             [
+                // BroadcastChannel::class
                 'type' => DatabaseChannel::class,
                 'name' => 'In-site notification',
+                'service' => 'in-site'
             ],
         ]);
 

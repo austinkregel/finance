@@ -5,7 +5,7 @@
         </div>
         <dashboard id="dashboard">
             <dash-layout v-for="layout in layouts" v-bind="layout" :key="layout.breakpoint">
-                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id" @resizeEnd="(data) => resizeItem(item, data)">
+                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id" @resizeEnd="(data) => resizeItem(item, data)" @moveEnd="(data) => resizeItem(item, data)">
                     <div class="h-full w-full rounded shadow" v-dark-mode-white-background>
                         <metric
                             :item="item"
@@ -19,9 +19,9 @@
 
 <script>
     import { Dashboard, DashLayout, DashItem } from "vue-responsive-dash";
-    import {findLocalStorage, setLocalStorage} from "../LocalStorage";
+    import {findLocalStorage, initLocalStorage, setLocalStorage} from "../LocalStorage";
     import GraphModal from "../components/GraphModal";
-
+    initLocalStorage('cool-graphs', []);
     export default {
         components: {
             GraphModal,
@@ -69,25 +69,26 @@
                 return [
                     {
                         breakpoint: "xl",
+                        breakpointWidth: 1280,
                         numberOfCols: 12,
                         items: this.items
                     },
                     {
                         breakpoint: "lg",
-                        breakpointWidth: 1200,
+                        breakpointWidth: 1024,
                         numberOfCols: 10,
                         items: this.items
                     },
                     {
                         breakpoint: "md",
-                        breakpointWidth: 996,
-                        numberOfCols: 8,
+                        breakpointWidth: 768,
+                        numberOfCols: 4,
                         items: this.items
                     },
                     {
                         breakpoint: "sm",
-                        breakpointWidth: 768,
-                        numberOfCols: 4,
+                        breakpointWidth: 640,
+                        numberOfCols: 2,
                         items: this.items
                     },
                     {
