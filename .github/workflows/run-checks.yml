@@ -6,6 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: install pcntl
+        run: apt-get install php-cli
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
       - uses: nathanheffley/laravel-phpunit-action@master
 
   security-checks:
@@ -13,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: install pcntl
+        run: apt-get install php-cli
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
