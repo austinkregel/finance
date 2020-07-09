@@ -6,11 +6,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: start mysql
+        run: sudo systemctl start mysql.service
+      - name: create database
+        run: mysql -uroot -proot -e "create database 'testing'"
       - name: install pcntl
         run: sudo apt-get install php-cli
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - uses: nathanheffley/laravel-phpunit-action@master
+      - name: delete database
+        run: mysql -uroot -proot -e "drop database 'testing'"`
+      - name: stop mysql
+        run: sudo systemctl stop mysql.service
 
   security-checks:
     name: PHP Stan
