@@ -12,16 +12,19 @@ jobs:
     name: PHP Stan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: PHPStan the app
-        uses: chindit/actions-phpstan@master
-        with:
-          arguments: 'app/'
+      name: PHP fixer
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: PHPStan the app
+          uses: chindit/actions-phpstan@master
+          with:
+            arguments: 'app/'
 
-      - name: PHPStan the tests
-        uses: chindit/actions-phpstan@master
-        with:
-          arguments: 'tests/'
+        - name: PHPStan the tests
+          uses: chindit/actions-phpstan@master
+          with:
+            arguments: 'tests/'
 
   cs-fixes:
     name: PHP fixer
