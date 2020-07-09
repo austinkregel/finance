@@ -1,5 +1,5 @@
 name: Checks
-on: [ push, pull_request ]
+on: [ pull_request ]
 jobs:
   phpunit:
     name: PHPUnit
