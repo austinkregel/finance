@@ -9,7 +9,7 @@ jobs:
       - name: start mysql
         run: sudo systemctl start mysql.service
       - name: create database
-        run: mysql -uroot -proot -e "create database 'testing'"
+        run: mysql -uroot -proot -e 'create database "testing"'
       - name: install pcntl
         run: sudo apt-get install php-cli
       - name: Install dependencies
