@@ -12,27 +12,21 @@ jobs:
     name: PHP Stan
     runs-on: ubuntu-latest
     steps:
-      name: PHP fixer
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: PHPStan the app
-          uses: chindit/actions-phpstan@master
-          with:
-            arguments: 'app/'
+      - uses: actions/checkout@v2
+      - name: PHPStan the app
+        uses: chindit/actions-phpstan@master
+        with:
+          arguments: 'app/'
 
-        - name: PHPStan the tests
-          uses: chindit/actions-phpstan@master
-          with:
-            arguments: 'tests/'
+      - name: PHPStan the tests
+        uses: chindit/actions-phpstan@master
+        with:
+          arguments: 'tests/'
 
   cs-fixes:
     name: PHP fixer
     runs-on: ubuntu-latest
     steps:
-      name: PHP-CS-Fixer
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: PHP-CS-Fixer
-          uses: docker://oskarstark/php-cs-fixer-ga
+      - uses: actions/checkout@v2
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
