@@ -45,7 +45,7 @@ Which will build the containers, and start them daemonized (in the background)
  - Install the composer dependencies `docker exec -it finance-php composer install`
  - Install the npm/yarn dependencies `docker exec -it finance-node npm install` or `yarn` (Yes you need this on your host computer for now.)
  - Build the assets `docker exec -it finance-node npm run production`
- - Start the job queue worker `docker exec -it finance-php php artisan horizon`
+ - Start the job queue worker `docker exec -it finance-php php artisan queue:work`
  - Navigate to `127.0.0.1` (or localhost, or whatever IP you're using to host this app) and register an account. Then navigate to your `settings` page and link your bank account
  - Click the "refresh" icon next to your bank name. (Give it a few seconds to process, and click the button again.) You should then see your accounts populate under the bank name.
  - Click "Historical Sync" select your accounts, select your date, then sync. _The time it can take to pull these transactions will vary widely based on the number of transactions, and date you choose. For a date range spanning several years it can take up to 30 minutes to sync everything. You can watch the terminal where you have the queue worker running to know when the last job processes._ 
@@ -53,7 +53,7 @@ Which will build the containers, and start them daemonized (in the background)
 # Cron Jobs
 If you can configure the Laravel task scheduler `php artisan schedule:run` then commands will be ran when they're suppose to.
 ```cron
-* * * * * "docker exec -it finance_php_1 php artisan horizon"
+* * * * * "docker exec -it finance_php_1 php artisan queue:work"
 ```
 Or you can configure a manual cron job to run those commands.
 
