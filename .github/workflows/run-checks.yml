@@ -11,7 +11,7 @@ jobs:
       - name: create database
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
       - name: install pcntl
-        run: sudo apt-get install php-cli
+        run: sudo apt-get install php-pcntl
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - uses: nathanheffley/laravel-phpunit-action@master
@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install pcntl
-        run: sudo apt-get install php-cli
+        run: sudo apt-get install php-pcntl
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
