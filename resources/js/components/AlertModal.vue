@@ -91,50 +91,14 @@
                     <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
                         Alert Channels
                     </label>
-                    <label v-for="(channel, $i) in channels" class="w-full mt-2 cursor-pointer" :class="{'pt-2 border-t border-gray-500': $i !== 0}">
-                        <input type="checkbox" v-model="form.channels[channel.type].value" :value="channel.type" />
-                        <span class="ml-2">{{ channel.name }}</span>
-
-                        <div v-if="form.channels.includes(channel.type) && form.channels[channel.type]">
-
-                            <div class="w-full mt-4" v-if="channel.type === 'Illuminate\\Notifications\\Channels\\NexmoSmsChannel'">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
-                                    Number to send SMS Alerts to
-                                </label>
-                                <input v-model="form.channels[channel.type].messaging_service_channel" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="+1-213-555-5555" v-dark-mode-input/>
-                            </div>
-                            <div class="w-full mt-4" v-if="channel.type === 'NotificationChannels\\Webhook\\WebhookChannel'">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
-                                    Webhook URL
-                                </label>
-                                <input v-model="form.channels[channel.type].webhook_url" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="https://ifttt.com/..." v-dark-mode-input/>
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-2 mt-2" v-dark-mode-dark-text>
-                                    Webhook Payload
-                                </label>
-                                <textarea v-model="form.channels[channel.type].payload" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none h-32" type="text" :placeholder="alertPayloadPlaceholder" v-dark-mode-input/>
-                            </div>
-                            <div class="w-full mt-4" v-if="channel.type === 'NotificationChannels\\Discord\\DiscordChannel'">
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
-                                    Discord Webhook URL
-                                </label>
-                                <input v-model="form.channels[channel.type].webhook_url" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="https://discordapp.com/api/webhooks/..." v-dark-mode-input/>
-                                <label class="block uppercase tracking-wide text-xs font-bold mb-2 mt-2" v-dark-mode-dark-text>
-                                    Discord Channel
-                                </label>
-                                <input v-model="form.channels[channel.type].messaging_service_channel" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="#general" v-dark-mode-input/>
-                            </div>
+                    <div v-for="(channel) in form.channels">
+                        <label>
+                            <input type="checkbox" v-model="channel.enabled"> {{ channel.type }}
+                        </label>
+                        <div v-if="channel.enabled" v-for="field in channels[channel.type].fields">
+                            <input type="text" v-dark-mode-input class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" v-model="channel[field]" :placeholder="field">
                         </div>
-                        <div class="w-full mt-4" v-if="channel.type === 'Illuminate\\Notifications\\Channels\\SlackWebhookChannel'">
-                            <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
-                                Slack Webhook URL
-                            </label>
-                            <input v-model="form.channels[channel.type].webhook_url" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="https://hooks.slack.com/services/..." v-dark-mode-input/>
-                            <label class="block uppercase tracking-wide text-xs font-bold mb-2 mt-2" v-dark-mode-dark-text>
-                                Slack Channel
-                            </label>
-                            <input v-model="form.channels[channel.type].messaging_service_channel" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" placeholder="#random" v-dark-mode-input/>
-                        </div>
-                    </label>
+                    </div>
                 </div>
 
 
@@ -308,12 +272,14 @@
                 if (!this.$store.getters.user.alert_channels) {
                     return []
                 }
-
                 // The problem I now face is that since each alert can do discord, webhooks, and slack it convolutes the available fields on the model
                 // Which IMO means that we need to go nesting things in the json blob :mask:. I think it will be one of the better ways to allow alerts to be used in a more globalized way.`` sl
 
-                const channels = require('../channels');
-                return this.$store.getters.user.alert_channels.map(channel => (channels.filter(c => c.type === channel)[0]))
+                const channels_ = require('../channels');
+                return this.$store.getters.user.alert_channels.reduce((channels, channel) => ({
+                    ...channels,
+                    [channel]: channels_[channel],
+                }), {})
             },
             alertEvents() {
                 return require('../alert-events');

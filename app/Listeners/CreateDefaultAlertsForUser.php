@@ -30,12 +30,18 @@ class CreateDefaultAlertsForUser
                 TransactionCreated::class,
             ],
             'channels' => [
-                DatabaseChannel::class,
+                [
+                    'type' => DatabaseChannel::class,
+                ],
+                [
+                    'type' => MailChannel::class,
+                    'email' => '',
+                ],
             ]
         ],
         [
             'name' => 'Bill paid!',
-            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
                 [
@@ -48,12 +54,15 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
-                MailChannel::class,
+                [
+                    'type' => MailChannel::class,
+                    'email' => '',
+                ],
             ]
         ],
         [
             'name' => 'Subscription paid!',
-            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
                 [
@@ -66,7 +75,10 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
-                MailChannel::class,
+                [
+                    'type' => MailChannel::class,
+                    'email' => '',
+                ],
             ]
         ]
     ];
@@ -92,6 +104,10 @@ class CreateDefaultAlertsForUser
         foreach (static::ALERTS as $alertInfo) {
             $conditions = $alertInfo['conditions'];
             unset($alertInfo['conditions']);
+
+            if (isset($alertInfo['channels'][MailChannel::class]) && isset($alertInfo['channels'][MailChannel::class]['fields']['to'])) {
+                $alertInfo['channels'][MailChannel::class]['fields']['to'] = $user->email;
+            }
 
             /** @var Alert $alert */
             $alert = $user->alerts()->create($alertInfo);

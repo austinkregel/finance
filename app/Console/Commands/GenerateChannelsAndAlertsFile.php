@@ -52,36 +52,29 @@ class GenerateChannelsAndAlertsFile extends Command
     public function handle()
     {
         $this->writeToDisk('js/channels.js', [
-            [
-                'type' => SlackWebhookChannel::class,
+            SlackWebhookChannel::class => [
                 'name' => 'Slack',
-                'service' => 'webhook',
+                'fields' => ['webhook_url', 'channel']
             ],
-            [
-                'type' => DiscordChannel::class,
+            DiscordChannel::class => [
                 'name' => 'Discord',
-                'service' => 'webhook',
+                'fields' => ['webhook_url', 'channel']
             ],
-            [
-                'type' => WebhookChannel::class,
+            WebhookChannel::class => [
                 'name' => 'Webhook',
-                'service' => 'webhook',
+                'fields' => ['webhook_url', 'payload']
             ],
-            [
-                'type' => MailChannel::class,
+            MailChannel::class => [
                 'name' => 'Email',
-                'service' => 'email',
+                'fields' => ['email']
             ],
-            [
-                'type' => NexmoSmsChannel::class,
+            NexmoSmsChannel::class => [
                 'name' => 'Nexmo',
-                'service' => 'sms'
+                'fields' => ['sms_number']
             ],
-            [
-                // BroadcastChannel::class
-                'type' => DatabaseChannel::class,
+            DatabaseChannel::class => [
                 'name' => 'In-site notification',
-                'service' => 'in-site'
+                'fields' => []
             ],
         ]);
 
