@@ -30,12 +30,13 @@ class CreateDefaultAlertsForUser
                 TransactionCreated::class,
             ],
             'channels' => [
+                MailChannel::class,
                 DatabaseChannel::class,
             ]
         ],
         [
             'name' => 'Bill paid!',
-            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
                 [
@@ -53,7 +54,7 @@ class CreateDefaultAlertsForUser
         ],
         [
             'name' => 'Subscription paid!',
-            'title' => 'You just paid your {{ transaction.name }} {{ tag.name }}!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
             'conditions' => [
                 [
@@ -92,6 +93,10 @@ class CreateDefaultAlertsForUser
         foreach (static::ALERTS as $alertInfo) {
             $conditions = $alertInfo['conditions'];
             unset($alertInfo['conditions']);
+
+            if (isset($alertInfo['channels'][MailChannel::class]) && isset($alertInfo['channels'][MailChannel::class]['fields']['to'])) {
+                $alertInfo['channels'][MailChannel::class]['fields']['to'] = $user->email;
+            }
 
             /** @var Alert $alert */
             $alert = $user->alerts()->create($alertInfo);

@@ -59,12 +59,12 @@ class AlertNotiffication extends Notification
 
     public function routeNotificationForDiscord()
     {
-        return $this->alertLog->alert->messaging_service_channel;
+        return config('services.discord_webhook_url');
     }
 
     public function routeNotificationForSlack($notification)
     {
-        return $this->alertLog->alert->webhook_url;
+        return config('services.slack_webhook_url');
     }
 
     public function toMail($notifiable)
@@ -80,9 +80,10 @@ class AlertNotiffication extends Notification
             ->warning();
     }
 
-    public function toDiscord()
+    public function toDiscord($notifiable)
     {
-        return new DiscordMessage(sprintf('We saw you were charged $%s by %s to your account %s', $this->alertLog->transaction->amount, $this->alertLog->transaction->name, $this->alertLog->transaction->account->name));
+        return (new DiscordMessage)
+            ->body(sprintf('We saw you were charged $%s by %s to your account %s', $this->alertLog->transaction->amount, $this->alertLog->transaction->name, $this->alertLog->transaction->account->name));
     }
 
     public function toWebhook($notifiable)

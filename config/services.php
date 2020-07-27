@@ -49,5 +49,8 @@ return [
         'public_key' => env('PLAID_PUBLIC_KEY', ''),
         'secret_key' => env('PLAID_SECRET', ''),
         'client_id' => env('PLAID_CLIENT_ID', '')
-    ]
+    ],
+
+    'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
+    'discord_webhook_url' => env('DISCORD_WEBHOOK_URL'),
 ];

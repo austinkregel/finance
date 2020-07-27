@@ -10,7 +10,7 @@ export default {
     actions: {
         async fetchUser({ state }) {
             try {
-                const {data: user} = await axios.get('/api/user');
+                const { data: user } = await axios.get('/api/user');
 
                 state.user = user;
             } catch (e) {

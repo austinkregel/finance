@@ -39,7 +39,8 @@ class TagController extends Controller
                 Filter::scope('q')
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts());
+            ->allowedSorts($model->getAbstractAllowedSorts())
+            ->where('user_id', auth()->id());
 
         return $this->json($action->execute($query));
     }
@@ -63,6 +64,7 @@ class TagController extends Controller
             ->allowedFilters($model->getAbstractAllowedFilters())
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
+            ->where('user_id', auth()->id())
             ->find($model->id);
 
         if (empty($result)) {

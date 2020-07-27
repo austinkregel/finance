@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::group(['prefix' => 'api', 'middleware' => ['auth']], function () {
         Route::get('user', function () {
             $user = auth()->user();
-            $user->load(['accounts', 'unreadNotifications' ]);
+            $user->load(['accessTokens', 'unreadNotifications' ]);
             return $user;
         });
         Route::put('user', function () {
