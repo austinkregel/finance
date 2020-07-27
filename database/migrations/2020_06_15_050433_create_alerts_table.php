@@ -20,7 +20,7 @@ class CreateAlertsTable extends Migration
             $table->string('body', 260)->nullable();
             $table->json('payload')->nullable();
             $table->json('channels');
-            $table->addColumn('boolean', 'is_templated')->storedAs(
+            $table->addColumn('smallInteger', 'is_templated')->storedAs(
                 '(INSTR(`body`, \'{{\') or INSTR(`body`, \'}}\') or INSTR(`title`, \'{{\') or INSTR(`title`, \'}}\'))'
             );
             $table->string('webhook_url', 2048)->nullable();
