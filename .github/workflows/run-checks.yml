@@ -10,8 +10,8 @@ jobs:
         run: sudo systemctl start mysql.service
       - name: create database
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
-      - name: install pcntl
-        run: sudo apt install -y php-pcntl php-mysql
+      - name: install mysql
+        run: sudo apt install -y php-mysql
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - uses: nathanheffley/laravel-phpunit-action@master
