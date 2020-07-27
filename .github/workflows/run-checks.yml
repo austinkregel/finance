@@ -12,11 +12,14 @@ jobs:
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
       - name: install mysql
         run: sudo apt install -y php-mysql
-      - name: Get php info
-        run: php -i
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
-      - uses: nathanheffley/laravel-phpunit-action@master
+      - name: Run tests
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php vendor/bin/phpunit
       - name: delete database
         run: mysql -uroot -proot -e "drop database 'testing'"`
       - name: stop mysql
