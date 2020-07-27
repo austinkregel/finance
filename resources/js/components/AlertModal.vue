@@ -84,23 +84,19 @@
                     <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
                         Alert Body
                     </label>
-                    <textarea v-model="form.body" class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" :placeholder="`{{ transaction.name }} charged your account {{ transaction.account.name }} \${{ transaction.amount }}`" v-dark-mode-input/>
+                    <textarea v-model="form.body" class="appearanc e-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" type="text" :placeholder="`{{ transaction.name }} charged your account {{ transaction.account.name }} \${{ transaction.amount }}`" v-dark-mode-input/>
                 </div>
 
                 <div class="w-full mt-4 flex flex-col">
                     <label class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
                         Alert Channels
                     </label>
-                    <div v-for="(channel) in form.channels">
+                    <div v-for="(channel) in channels">
                         <label>
-                            <input type="checkbox" v-model="channel.enabled"> {{ channel.type }}
+                            <input type="checkbox" v-model="form.channels" :value="channel.type"> {{ channel.name }}
                         </label>
-                        <div v-if="channel.enabled" v-for="field in channels[channel.type].fields">
-                            <input type="text" v-dark-mode-input class="appearance-none block w-full mt-2 rounded py-3 px-4 leading-tight focus:outline-none" v-model="channel[field]" :placeholder="field">
-                        </div>
                     </div>
                 </div>
-
 
                 <div class="w-full py-4 ">
                     <div class="block uppercase tracking-wide text-xs font-bold mb-2" v-dark-mode-dark-text>
@@ -195,7 +191,7 @@
                     title: '',
                     body: '',
                     payload: '{}',
-                    channels: {},
+                    channels: [],
                     conditionals: [],
                     events: [],
                     must_all_conditions_pass: true
@@ -276,10 +272,9 @@
                 // Which IMO means that we need to go nesting things in the json blob :mask:. I think it will be one of the better ways to allow alerts to be used in a more globalized way.`` sl
 
                 const channels_ = require('../channels');
-                return this.$store.getters.user.alert_channels.reduce((channels, channel) => ({
-                    ...channels,
-                    [channel]: channels_[channel],
-                }), {})
+                return this.$store.getters.user.alert_channels.map(channel => ({
+                    ...channels_.filter(c => c.type === channel)[0]
+                }))
             },
             alertEvents() {
                 return require('../alert-events');

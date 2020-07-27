@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\FailedJob;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -36,6 +38,10 @@ class AbstractResourceController extends Controller
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts());
+
+        if (!in_array(get_class($model), [FailedJob::class, Transaction::class])) {
+            $query->where('user_id', auth()->id());
+        }
 
         return $this->json($action->execute($query));
     }

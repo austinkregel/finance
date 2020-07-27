@@ -30,13 +30,8 @@ class CreateDefaultAlertsForUser
                 TransactionCreated::class,
             ],
             'channels' => [
-                [
-                    'type' => DatabaseChannel::class,
-                ],
-                [
-                    'type' => MailChannel::class,
-                    'email' => '',
-                ],
+                MailChannel::class,
+                DatabaseChannel::class,
             ]
         ],
         [
@@ -54,10 +49,7 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
-                [
-                    'type' => MailChannel::class,
-                    'email' => '',
-                ],
+                MailChannel::class,
             ]
         ],
         [
@@ -75,10 +67,7 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
-                [
-                    'type' => MailChannel::class,
-                    'email' => '',
-                ],
+                MailChannel::class,
             ]
         ]
     ];

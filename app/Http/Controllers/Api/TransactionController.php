@@ -37,7 +37,10 @@ class TransactionController extends Controller
                 Filter::scope('q')
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts());
+            ->allowedSorts($model->getAbstractAllowedSorts())
+            ->whereHas('account', function ($query) use ($request) {
+                $query->whereIn('access_token_id', $request->user()->accessTokens->map->id);
+            });
 
         return $this->json($action->execute($query));
     }

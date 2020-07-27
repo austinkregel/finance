@@ -1,39 +1,26 @@
-module.exports = {
-    "Illuminate\\Notifications\\Channels\\SlackWebhookChannel": {
+module.exports = [
+    {
         "name": "Slack",
-        "fields": [
-            "webhook_url",
-            "channel"
-        ]
+        "type": "Illuminate\\Notifications\\Channels\\SlackWebhookChannel"
     },
-    "NotificationChannels\\Discord\\DiscordChannel": {
+    {
         "name": "Discord",
-        "fields": [
-            "webhook_url",
-            "channel"
-        ]
+        "type": "NotificationChannels\\Discord\\DiscordChannel"
     },
-    "NotificationChannels\\Webhook\\WebhookChannel": {
+    {
         "name": "Webhook",
-        "fields": [
-            "webhook_url",
-            "payload"
-        ]
+        "type": "NotificationChannels\\Webhook\\WebhookChannel"
     },
-    "Illuminate\\Notifications\\Channels\\MailChannel": {
+    {
         "name": "Email",
-        "fields": [
-            "email"
-        ]
+        "type": "Illuminate\\Notifications\\Channels\\MailChannel"
     },
-    "Illuminate\\Notifications\\Channels\\NexmoSmsChannel": {
+    {
         "name": "Nexmo",
-        "fields": [
-            "sms_number"
-        ]
+        "type": "Illuminate\\Notifications\\Channels\\NexmoSmsChannel"
     },
-    "Illuminate\\Notifications\\Channels\\DatabaseChannel": {
+    {
         "name": "In-site notification",
-        "fields": []
+        "type": "Illuminate\\Notifications\\Channels\\DatabaseChannel"
     }
-}
+]

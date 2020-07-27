@@ -22,7 +22,7 @@ export default {
         }), {}),
     },
     actions: {
-        async fetchAccounts({ state }) {
+        async fetchAccounts({ state, rootGetters }) {
             const { data: accounts } = await axios.get(buildUrl('/api/accounts', {
                 action: 'paginate:100',
                 include: 'institution,token'

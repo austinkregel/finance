@@ -35,7 +35,8 @@ class AccountController extends Controller
                 Filter::scope('q')
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts());
+            ->allowedSorts($model->getAbstractAllowedSorts())
+            ->whereIn('access_token_id', $request->user()->accessTokens->map->id);
 
         return $this->json($action->execute($query));
     }
@@ -56,6 +57,7 @@ class AccountController extends Controller
             ->allowedFilters($model->getAbstractAllowedFilters())
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
+            ->whereIn('access_token_id', $request->user()->accessTokens->map->id)
             ->find($model->id);
 
         if (empty($result)) {
