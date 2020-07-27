@@ -12,6 +12,9 @@ services:
       MYSQL_ROOT_PASSWORD: secret
     networks:
       - code-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
   redis:
     container_name: finance-redis
     image: redis:4.0-alpine
@@ -54,3 +57,5 @@ services:
 networks:
   code-network:
     driver: bridge
+volumes:
+  mysql-data:
