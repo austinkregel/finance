@@ -24,23 +24,3 @@ jobs:
         run: mysql -uroot -h127.0.0.1 -proot -e "drop database testing;"
       - name: stop mysql
         run: sudo systemctl stop mysql.service
-
-  security-checks:
-    name: PHP Stan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: install pcntl
-        run: sudo apt-cache search php-pcntl
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: PHPStan the app
-        uses: chindit/actions-phpstan@master
-        with:
-          arguments: 'app/'
-
-      - name: PHPStan the tests
-        uses: chindit/actions-phpstan@master
-        with:
-          arguments: 'tests/'
