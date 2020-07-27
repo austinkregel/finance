@@ -12,6 +12,8 @@ jobs:
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
       - name: install mysql
         run: sudo apt install -y php-mysql
+      - name: Get php info
+        run: php -i
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - uses: nathanheffley/laravel-phpunit-action@master
