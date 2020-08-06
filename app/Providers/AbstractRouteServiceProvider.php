@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\AccountKpi;
+use App\Budget;
 use App\FailedJob;
 use App\Models\Alert;
 use App\Models\DatabaseNotification;
@@ -41,6 +42,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'groups' => Tag::class,
                 'alerts' => Alert::class,
                 'failed_jobs' => FailedJob::class,
+                'budgets' => Budget::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {

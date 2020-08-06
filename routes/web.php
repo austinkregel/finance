@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], static function () {
 
         Route::apiResource('transactions', App\Http\Controllers\Api\TransactionController::class);
         Route::apiResource('accounts', App\Http\Controllers\Api\AccountController::class);
+        Route::put('budgets/{budget}/tags', [App\Http\Controllers\Api\BudgetController::class, 'tags']);
 
         Route::get('data/{type}:{model}', \App\Http\Controllers\Api\UglyChartController::class);
     });

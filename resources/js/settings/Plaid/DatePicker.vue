@@ -106,7 +106,7 @@
 </template>
 <script>
     export default {
-        props: ['darkMode'],
+        props: ['darkMode', 'id', 'value'],
         data() {
             return {
                 showDatepicker: false,
@@ -131,9 +131,14 @@
                     "November",
                     "December"
                 ],
-                date: new Date,
+                date: null,
                 actualValue: '',
             };
+        },
+        computed: {
+            realMonth() {
+                return Number(this.month) + 1;
+            }
         },
         methods: {
             goBackAMonth() {
@@ -158,13 +163,13 @@
             },
 
             initDate() {
-                let today = new Date();
-                this.month = today.getMonth();
-                this.year = today.getFullYear();
+                const d = dayjs(this.value || undefined);
+                this.month = d.month();
+                this.year = d.year();
                 this.datepickerValue = new Date(
                     this.year,
                     this.month,
-                    today.getDate()
+                    d.date()
                 ).toDateString();
             },
 
@@ -179,18 +184,12 @@
                 let selectedDate = new Date(this.year, this.month, date);
                 this.datepickerValue = selectedDate.toDateString();
 
-                Bus.$emit('choseDate',
-                    selectedDate.getFullYear() +
-                    "-" +
-                    ("0" + selectedDate.getMonth()).slice(-2) +
-                    "-" +
-                    ("0" + selectedDate.getDate()).slice(-2));
-
+                this.chooseDate(date);
                 this.showDatepicker = false;
             },
 
             getNoOfDays() {
-                let daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+                let daysInMonth = new Date(this.year, this.month, 0).getDate();
 
                 // find where to start calendar day of week
                 let dayOfWeek = new Date(this.year, this.month).getDay();
@@ -208,7 +207,12 @@
                 this.no_of_days = daysArray;
             },
             chooseDate(day) {
-                this.$emit('chosenDate', this.year + '-' + this.month + '-' + day);
+                let eventName = 'chosenDate';
+                if (this.id) {
+                    eventName += '.' + this.id;
+                }
+
+                Bus.$emit(eventName, dayjs(new Date(this.year, this.month, day)).format('YYYY-MM-DD'));
             }
         },
         mounted() {
