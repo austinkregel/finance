@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\AccountKpi;
 use App\Condition;
+use App\Events\BudgetBreachedEstablishedAmount;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Events\TransactionUpdated;
@@ -76,6 +77,10 @@ class GenerateChannelsAndAlertsFile extends Command
                 'type' => TransactionGroupedEvent::class,
                 'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)'
             ],
+            [
+                'type' => BudgetBreachedEstablishedAmount::class,
+                'name' => 'When a budget\'s total spend amount for a period exceeds the set amount.'
+            ]
         ]);
 
         $this->writeToDisk('js/condition-parameters.js', [
@@ -106,21 +111,6 @@ class GenerateChannelsAndAlertsFile extends Command
             [
                 'value' => 'tag.name.en',
                 'name' => 'transaction.tag.name.en'
-            ],
-        ]);
-
-        $this->writeToDisk('js/alert-events.js', [
-            [
-                'type' => TransactionUpdated::class,
-                'name' => 'When a transaction is updated (moving from pending to not pending, updating amounts, etc...)'
-            ],
-            [
-                'type' => TransactionCreated::class,
-                'name' => 'When a transaction is initially created (only fired once per transaction)',
-            ],
-            [
-                'type' => TransactionGroupedEvent::class,
-                'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)'
             ],
         ]);
 

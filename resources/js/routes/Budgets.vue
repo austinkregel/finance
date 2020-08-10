@@ -13,7 +13,7 @@
             <div class="flex items-center justify-between w-full">
                <div class="flex flex-col w-2/3">
                    <div class="text-xs mx-2" v-dark-mode-light-gray-text>
-                       A budget here is a dollar amount and time period for a group...
+                       A budget is a dollar amount and time period for one or more groups...
                    </div>
                </div>
 
@@ -45,8 +45,8 @@
                         </div>
                     </div>
                     <div class="w-full overflow-hidden">
-                        <div class="flex flex-wrap pt-2 pb-4 rounded-b">
-                            <div v-for="(tag, $i) in budget.tags" class="px-2 py-1 rounded  text-center ml-4" v-dark-mode-input>
+                        <div class="flex flex-wrap pb-4 rounded-b">
+                            <div v-for="(tag, $i) in budget.tags" class="px-2 py-1 rounded mt-4 text-center ml-4" v-dark-mode-input>
                                 {{ tag.name.en }}
                             </div>
                         </div>

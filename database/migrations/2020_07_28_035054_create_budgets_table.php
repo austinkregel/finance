@@ -20,8 +20,9 @@ class CreateBudgetsTable extends Migration
             $table->double('amount');
             $table->string('frequency'); // Year, month, week,
             $table->string('interval');
-            $table->timestamp('started_at');
+            $table->dateTime('started_at');
             $table->integer('count')->nullable();
+            $table->dateTime('breached_at')->nullable();
             $table->timestamps();
         });
     }

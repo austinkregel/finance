@@ -19,7 +19,7 @@ class AlertNotiffication extends Notification
 
     public function __construct(AlertLog $alertLog)
     {
-        $alertLog->load(['alert', 'transaction']);
+        $alertLog->load(['alert', 'transaction', 'budget']);
         $this->alertLog = $alertLog;
     }
 
@@ -42,11 +42,15 @@ class AlertNotiffication extends Notification
     protected function renderField($field)
     {
         if (Str::contains($field, ['{{', '}}'])) {
-            return $this->render($field, array_merge([
+            return $this->render($field, array_merge($this->alertLog->transaction ? [
                 'transaction' => $this->alertLog->transaction->toArray(),
-            ], $this->alertLog->tag ? [
-                'tag' => $this->alertLog->tag->toArray(),
-            ] : []));
+            ] : [],
+                $this->alertLog->tag ? [
+                    'tag' => $this->alertLog->tag->toArray(),
+                ] : [],
+                $this->alertLog->budget ? [
+                    'budget' => $this->alertLog->budget->toArray(),
+                ] : []));
         }
 
         return $field;

@@ -2,23 +2,24 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\CheckBudgetsForBreachesOfAmount;
 use Illuminate\Console\Command;
 
-class SyncTokens extends Command
+class CheckBudgetBreachCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:tokens';
+    protected $signature = 'check:budget-breach';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sync the accounts from the stored plaid access tokens.';
+    protected $description = 'Check the budgets to see if they\'re over budget';
 
     /**
      * Create a new command instance.
@@ -30,13 +31,8 @@ class SyncTokens extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        //
+        CheckBudgetsForBreachesOfAmount::dispatch();
     }
 }

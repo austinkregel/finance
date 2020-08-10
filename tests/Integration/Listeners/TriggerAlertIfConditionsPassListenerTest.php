@@ -5,7 +5,7 @@ namespace Tests\Integration\Listeners;
 use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
-use App\Listeners\TriggerAlertIfConditionsPassListener;
+use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
 use App\Models\Alert;
 use App\Models\Category;
 use App\Models\Transaction;
@@ -24,6 +24,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
 
+        $transaction->load('user.alerts');
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
             'name' => 'Alert',
@@ -38,7 +39,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
         $event = new TransactionCreated($transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -54,6 +55,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
         ]);
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -73,7 +75,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
         $event = new TransactionCreated($transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -89,6 +91,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction = factory(Transaction::class)->create([
             'amount' => 10,
         ]);
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -108,7 +111,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
         $event = new TransactionCreated($transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -122,10 +125,11 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
         ]);
+        $transaction->load('user.alerts');
 
         $event = new TransactionCreated($transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -136,6 +140,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -155,7 +160,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
         $event = new TransactionGroupedEvent($tag, $transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -169,6 +174,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -188,7 +194,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
         $event = new TransactionGroupedEvent($tag, $transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -199,6 +205,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -218,7 +225,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
         $event = new TransactionGroupedEvent($tag, $transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
@@ -232,6 +239,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
             'category_id' => Category::firstWhere('name', 'Loans and Mortgages')->category_id,
         ]);
 
+        $transaction->load('user.alerts');
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
             'name' => 'Bill paid!',
@@ -264,7 +272,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction->setRelations([]);
         $event = new TransactionGroupedEvent($tag, $transaction);
 
-        $listener = new TriggerAlertIfConditionsPassListener();
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
 
         $this->assertEmpty(\DB::table('notifications')->get()->all());
         $listener->handle($event);
