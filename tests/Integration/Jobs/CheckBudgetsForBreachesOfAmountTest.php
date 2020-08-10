@@ -50,6 +50,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'interval' => 'MONTHLY',
             'started_at' => $now,
             'count' => 1,
+            'user_id' => $user->id,
         ]);
 
         $budget = factory(Budget::class)->create([
@@ -59,6 +60,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'interval' => 'MONTHLY',
             'started_at' => $now,
             'count' => 1,
+            'user_id' => $user->id,
         ]);
 
         $category = factory(Category::class)->create();
