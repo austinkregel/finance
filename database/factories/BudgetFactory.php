@@ -6,9 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Budget::class, function (Faker $faker) {
     return [
-        'user_id' => function () {
-            return factory(\App\User::class)->create()->id;
-        },
+        'user_id' => factory(\App\User::class),
         'name' => $faker->name,
         'amount' => $faker->numberBetween(10, 30),
         'frequency' => 1,

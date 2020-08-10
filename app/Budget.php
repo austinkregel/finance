@@ -66,7 +66,9 @@ class Budget extends Model implements AbstractEloquentModel
     public static function booted()
     {
         static::creating(function ($budget) {
-            $budget->user_id = auth()->id();
+            if (empty($budget->user_id) && auth()->check()) {
+                $budget->user_id = auth()->id();
+            }
         });
     }
 

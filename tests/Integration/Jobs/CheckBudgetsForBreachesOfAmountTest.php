@@ -34,7 +34,9 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
     {
         Carbon::setTestNow($now = Carbon::create(2020, 1, 1, 0, 0, 0));
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'id' => 1
+        ]);
 
         $token = $user->accessTokens()->create([
             'token' => Str::random(16),
@@ -46,21 +48,21 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         factory(Budget::class)->create([
             'name' => 'Fake budget',
             'amount' => 100,
-            'frequency' => 1,
-            'interval' => 'MONTHLY',
+            'frequency' => 'MONTHLY',
+            'interval' => 1,
             'started_at' => $now,
             'count' => 1,
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 
         $budget = factory(Budget::class)->create([
             'name' => 'food',
             'amount' => 10,
-            'frequency' => 1,
-            'interval' => 'MONTHLY',
+            'frequency' => 'MONTHLY',
+            'interval' => 1,
             'started_at' => $now,
             'count' => 1,
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 
         $category = factory(Category::class)->create();
@@ -68,11 +70,11 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         factory(Budget::class)->create([
             'name' => 'This other budget',
             'amount' => 100,
-            'frequency' => 1,
-            'interval' => 'MONTHLY',
+            'frequency' => 'MONTHLY',
+            'interval' => 1,
             'started_at' => $now,
             'count' => 1,
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 
         $tag = factory(Tag::class)->create();
