@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\FailedJob;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Tag;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -43,6 +45,10 @@ class AbstractResourceController extends Controller
             $query->where('user_id', auth()->id());
         }
 
+        if (get_class($model) === Tag::class) {
+            $query->withSum('transactions.amount');
+        }
+
         return $this->json($action->execute($query));
     }
 
@@ -73,9 +79,15 @@ class AbstractResourceController extends Controller
         return $this->json($result);
     }
 
+    /**
+     * @param  UpdateRequest  $request
+     * @param  AbstractEloquentModel  $model
+     * @param  AbstractEloquentModel|Model  $abstractEloquentModel
+     * @return \Illuminate\Http\JsonResponse|object
+     */
     public function update(UpdateRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
-        $abstractEloquentModel->update($request->all());
+        $abstractEloquentModel->update($request->validated());
 
         return $this->json($abstractEloquentModel->refresh());
     }

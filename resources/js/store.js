@@ -8,6 +8,7 @@ export default {
         alerts: require('./state/Alerts').default,
         actions: require('./state/Actions').default,
         authentication: require('./state/Authentication').default,
+        budgets: require('./state/Budgets').default,
         groups: require('./state/Groups').default,
         transactions: require('./state/Transactions').default,
     },

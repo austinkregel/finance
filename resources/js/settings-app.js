@@ -13,6 +13,7 @@ import locale from "dayjs/plugin/localizedFormat";
 Vue.component('zondicon', Zondicon);
 
 initLocalStorage('darkMode', false);
+dayjs.extend(require('dayjs/plugin/utc'))
 
 dayjs.extend(relativeTime)
 dayjs.extend(locale)

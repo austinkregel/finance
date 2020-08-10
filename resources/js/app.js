@@ -13,6 +13,7 @@ import locale from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
 window.buildUrl = buildUrl
 
+dayjs.extend(require('dayjs/plugin/utc'))
 dayjs.extend(relativeTime)
 dayjs.extend(locale)
 dayjs.extend(require('./FormatToLocaleTimezone').default)
@@ -84,6 +85,11 @@ const router = new VueRouter({
                     props: true,
                 },
                 {
+                    path: '/budgets',
+                    component: require('./routes/Budgets').default,
+                    props: true,
+                },
+                {
                     path: '*',
                     component: require('./routes/404').default,
                     props: true,
@@ -108,6 +114,7 @@ const start = async () => {
                 await store.dispatch('fetchAccounts');
                 store.dispatch('fetchGroups');
                 store.dispatch('fetchAlerts');
+                store.dispatch('fetchBudgets');
             } catch (e) {
                 console.error(e)
             }

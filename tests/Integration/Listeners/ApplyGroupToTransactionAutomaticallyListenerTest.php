@@ -6,7 +6,7 @@ use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\ApplyGroupToTransactionAutomaticallyListener;
-use App\Listeners\TriggerAlertIfConditionsPassListener;
+use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
 use App\Models\Alert;
 use App\Models\Category;
 use App\Models\Transaction;

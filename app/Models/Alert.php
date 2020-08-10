@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Budget;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
 use App\Notifications\AlertNotiffication;
+use App\Notifications\BudgetBreachedEstablishedAmountNotification;
 use App\Notifications\TransactionAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
 use App\Tag;
@@ -116,6 +118,12 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         return ['user_id', 'name', 'order_column', 'type'];
     }
 
+    protected function notifyAbout($notification)
+    {
+        $this->load('user');
+        $this->user->notify($notification);
+    }
+
     public function createNotification(Transaction $transaction)
     {
         /** @var AlertLog $log */
@@ -125,9 +133,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         // do the same thing as create notification, but give access to the tag variab
         $notification = new TransactionTagAlertNotification($log);
 
-        foreach ($this->channels as $channel) {
-            $this->user->notify($notification);
-        }
+        $this->notifyAbout($notification);
     }
 
     public function createNotificationWithTag(Transaction $transaction, Tag $tag)
@@ -140,9 +146,15 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         // do the same thing as create notification, but give access to the tag variab
         $notification = new TransactionTagAlertNotification($log);
 
-        foreach ($this->channels as $channel) {
-            $this->user->notify($notification);
-//            \Notification::channel($channel)->send($this->user, $notification);
-        }
+        $this->notifyAbout($notification);
+    }
+
+    public function createBudgetBreachNotification(Budget $budget)
+    {
+        $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
+            'triggered_by_budget_id' => $budget->id,
+        ]));
+
+        $this->notifyAbout($notification);
     }
 }

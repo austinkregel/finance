@@ -8,6 +8,7 @@ use App\Http\Requests\Tag\ConditionalsRequest;
 use App\Http\Requests\Tag\ConditionalUpdateRequest;
 use App\Http\Requests\Tag\DestroyRequest;
 use App\Jobs\SyncTagsWithTransactionsInDatabase;
+use App\Models\Transaction;
 use App\Tag;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

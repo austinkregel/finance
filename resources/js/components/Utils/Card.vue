@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <div class="bg-white shadow rounded-lg m-4 p-4 ">
+        <div class="shadow rounded-lg m-4 p-4" v-dark-mode-white-background>
             <slot></slot>
         </div>
     </div>
