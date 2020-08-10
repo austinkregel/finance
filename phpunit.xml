@@ -22,7 +22,7 @@
         <server name="BCRYPT_ROUNDS" value="4"  force="true"/>
         <server name="CACHE_DRIVER" value="array"  force="true"/>
         <server name="DB_CONNECTION" value="mysql" force="true"/>
-        <server name="DB_DATABASE" value="homestead"  force="true"/>
+        <server name="DB_DATABASE" value="testing"  force="true"/>
         <server name="MAIL_MAILER" value="array"  force="true"/>
         <server name="QUEUE_CONNECTION" value="sync"  force="true"/>
         <server name="CACHE_DRIVER" value="array" force="true"/>
