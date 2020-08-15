@@ -4,7 +4,6 @@ namespace App;
 
 use App\Models\AccessToken;
 use App\Models\Account;
-use App\Models\Scopes\SummedTransactionsForBudget;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +13,6 @@ use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\FiltersScope;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -74,16 +72,17 @@ class Budget extends Model implements AbstractEloquentModel
         });
     }
 
-    public function scopeTotalSpends(Builder $query, Carbon $startingPeriod)
+    public function scopeTotalSpends(Builder $query, Carbon $startingPeriod, int $userId)
     {
         $query->addSelect([
-            'total_spend' => Transaction::crossJoin('taggables', 'taggables.tag_id', 'in', [1])
+            'total_spend' => Transaction::crossJoin('taggables', 'taggables.tag_id', 1)
                 ->selectRaw('sum(amount) as amount')
                 ->where('taggables.taggable_id', '=', 'transactions.id')
                 ->where('taggables.taggable_type', '=', Transaction::class)
                 ->where('transactions.date', '>=', $startingPeriod)
                 ->whereIn('transactions.account_id', Account::select('account_id')
-                    ->whereIn('access_token_id', AccessToken::select('id')->where('user_id', $this->user_id))
+                    ->whereIn('access_token_id', AccessToken::select('id')
+                        ->where('user_id', $userId))
                 )
         ]);
     }
