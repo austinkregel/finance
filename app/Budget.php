@@ -156,12 +156,12 @@ class Budget extends Model implements AbstractEloquentModel
 
     public function getStartOfCurrentPeriod(): Carbon
     {
-        return $this->getRule()->getOccurrencesBefore(now(), true, 1)[0];
+        return Carbon::parse($this->getRule()->getOccurrencesBefore(now(), true, 1)[0]);
     }
 
     public function getEndOfCurrentPeriod(): Carbon
     {
-        return $this->getRule()->getOccurrencesAfter(now(), true, 1)[0];
+        return Carbon::parse($this->getRule()->getOccurrencesAfter(now(), true, 1)[0]);
     }
 
     public function user()
