@@ -16,7 +16,7 @@ class BudgetTest extends  TestCase
         $budget = new Budget([
             'frequency' => 'MONTHLY',
             'interval' => 1,
-            'started_at' => Carbon::create(2020, 1, 11, 0, 0, 0),
+            'started_at' => Carbon::create(2020, 1, 1, 0, 0, 0),
         ]);
 
         $this->assertSame('2020-01-01', $budget->getStartOfCurrentPeriod()->format('Y-m-d'));
