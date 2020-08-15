@@ -78,6 +78,7 @@ class Budget extends Model implements AbstractEloquentModel
     {
         $query->addSelect([
             'total_spend' => Transaction::crossJoin('taggables', 'taggables.tag_id', 'in', [1])
+                ->selectRaw('sum(amount) as amount')
                 ->where('taggables.taggable_id', '=', 'transactions.id')
                 ->where('taggables.taggable_type', '=', Transaction::class)
                 ->where('transactions.date', '>=', $startingPeriod)
