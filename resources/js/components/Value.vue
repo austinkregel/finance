@@ -23,7 +23,7 @@
         props: ['data', 'item'],
         methods: {
             format(value) {
-                return Math.round(value * 100) / 100;
+                return this.abs(Math.round(value * 100) / 100);
             },
             abs(value) {
                 return Math.abs(value)
