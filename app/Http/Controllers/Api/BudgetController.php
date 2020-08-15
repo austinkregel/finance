@@ -87,7 +87,6 @@ class BudgetController extends Controller
 
     public function totalSpends(Request $request, Budget $budget)
     {
-
-        return $budget->totalSpends($budget->getStartOfCurrentPeriod(), $budget->user_id)->first()->total_spend;
+        return abs($budget->totalSpends($budget->getStartOfCurrentPeriod(), $budget->user_id)->find($budget->id)->total_spend);
     }
 }

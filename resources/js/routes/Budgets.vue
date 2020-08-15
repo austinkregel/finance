@@ -17,13 +17,13 @@
                    </div>
                </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end mr-2">
                     <budget-modal />
                 </div>
             </div>
         </div>
         <div class="rounded-lg flex flex-wrap" v-if="!loading">
-            <div v-for="budget in data" class="flex-1 max-w-1/2">
+            <div v-for="budget in data" class="w-full lg:w-1/2 xl:w-1/3">
                 <div v-dark-mode-white-background class="mx-4 rounded shadow">
 
                     <div class="pt-4 px-2 mt-4 mx-2  relative">
