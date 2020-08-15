@@ -83,7 +83,7 @@ class Budget extends Model implements AbstractEloquentModel
                     ->whereIn('access_token_id', AccessToken::select('id')
                         ->where('user_id', $userId))
                 )
-            // Need to
+                ->where('date', '>=', $startingPeriod)
         ]);
     }
 
