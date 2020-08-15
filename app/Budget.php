@@ -2,7 +2,8 @@
 
 namespace App;
 
-use App\Models\Scopes\SummedTransactionsForBudget;
+use App\Models\AccessToken;
+use App\Models\Account;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +13,6 @@ use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\FiltersScope;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -72,55 +72,18 @@ class Budget extends Model implements AbstractEloquentModel
         });
     }
 
-    public function scopeTotalSpends(Builder $query)
+    public function scopeTotalSpends(Builder $query, Carbon $startingPeriod, int $userId)
     {
         $query->addSelect([
-            'budgets.*',
-            \DB::raw("CASE
-           WHEN frequency='YEARLY' THEN @diff:=(YEAR(now()) - YEAR(started_at))
-           WHEN frequency='MONTHLY' THEN @diff:=PERIOD_DIFF(DATE_FORMAT(now(), \"%Y%m\"), DATE_FORMAT(started_at, \"%Y%m\"))
-           WHEN frequency='DAILY' THEN @diff:=DATEDIFF(now(), started_at)
-           WHEN frequency='WEEKLY' THEN @diff:=ROUND(DATEDIFF(now(), started_at)/7, 0)
-       END as diff"),
-            \DB::raw("CASE
-           WHEN frequency='YEARLY' THEN @periodStart:=if(DATE_ADD(started_at, INTERVAL @diff YEAR) < now(), DATE_ADD(started_at, INTERVAL @diff YEAR), DATE_ADD(started_at, INTERVAL @diff-1 YEAR))
-           WHEN frequency='MONTHLY' THEN @periodStart:=if(DATE_ADD(started_at, INTERVAL @diff MONTH) < now(), DATE_ADD(started_at, INTERVAL @diff MONTH), DATE_ADD(started_at, INTERVAL @diff-1 MONTH))
-           WHEN frequency='DAILY' THEN @periodStart:=if(DATE_ADD(started_at, INTERVAL @diff DAY) < now(), DATE_ADD(started_at, INTERVAL @diff DAY), DATE_ADD(started_at, INTERVAL @diff-1 DAY))
-           WHEN frequency='WEEKLY' THEN @periodStart:=if(DATE_ADD(started_at, INTERVAL @diff WEEK) < now(), DATE_ADD(started_at, INTERVAL @diff WEEK), DATE_ADD(started_at, INTERVAL @diff-1 WEEK))
-       END as period_started_at"),
-            \DB::raw("CASE
-           WHEN frequency='YEARLY' THEN if(DATE_ADD(started_at, INTERVAL @diff YEAR) < now(), DATE_ADD(started_at, INTERVAL @diff+1 YEAR), DATE_ADD(started_at, INTERVAL @diff YEAR))
-           WHEN frequency='MONTHLY' THEN if(DATE_ADD(started_at, INTERVAL @diff MONTH) < now(), DATE_ADD(started_at, INTERVAL @diff+1 MONTH), DATE_ADD(started_at, INTERVAL @diff MONTH))
-           WHEN frequency='DAILY' THEN if(DATE_ADD(started_at, INTERVAL @diff DAY) < now(), DATE_ADD(started_at, INTERVAL @diff+1 DAY), DATE_ADD(started_at, INTERVAL @diff DAY))
-           WHEN frequency='WEEKLY' THEN if(DATE_ADD(started_at, INTERVAL @diff WEEK) < now(), DATE_ADD(started_at, INTERVAL @diff+1 WEEK), DATE_ADD(started_at, INTERVAL @diff WEEK))
-       END as next_period"),
-            \DB::raw('@userId:=user_id as user_id'),
-            \DB::raw('(
-           select sum(amount)
-           from transactions
-                    cross join taggables on taggables.tag_id in (
-               select distinct taggables.tag_id
-               from taggables
-                        cross join tags tag
-                                   on taggables.taggable_type = \'App\\\\Budget\'
-                        cross join budgets b
-                                   on b.id = taggables.taggable_id
-               where tag.user_id = b.user_id
-                        and b.user_id = cast(@userId as UNSIGNED)
-           )
-               and taggables.taggable_id = transactions.id
-               and taggables.taggable_type = \'App\\\\Models\\\\Transaction\'
-               and transactions.date >= date_format(@periodStart, "%Y-%m-%d")
-               and transactions.account_id in (
-                   select account_id
-                   from accounts
-                   where access_token_id in (
-                       select id
-                       from access_tokens
-                       where access_tokens.user_id = cast(@userId as UNSIGNED)
-                   )
-               )
-       ) as total_spend')
+            'total_spend' => Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
+                ->whereIn('taggables.tag_id', $this->tags()->select('id'))
+                ->selectRaw('sum(amount) as amount')
+                ->where('taggables.taggable_type', '=', Transaction::class)
+                ->where('transactions.date', '>=', $startingPeriod)
+                ->whereIn('transactions.account_id', Account::select('account_id')
+                    ->whereIn('access_token_id', AccessToken::select('id')
+                        ->where('user_id', $userId))
+                )
         ]);
     }
 
@@ -189,6 +152,16 @@ class Budget extends Model implements AbstractEloquentModel
         ], $this->count ? [
             'COUNT' => $this->count,
         ] : []));
+    }
+
+    public function getStartOfCurrentPeriod(): Carbon
+    {
+        return Carbon::parse($this->getRule()->getOccurrencesBefore(now(), true, 1)[0]);
+    }
+
+    public function getEndOfCurrentPeriod(): Carbon
+    {
+        return Carbon::parse($this->getRule()->getOccurrencesAfter(now(), false, 1)[0]);
     }
 
     public function user()
