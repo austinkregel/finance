@@ -20,7 +20,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
     {
         do {
             /** @var Paginator $budgets */
-            $budgets = Budget::totalSpends()->paginate(50, [], 'page', $page++);
+            $budgets = Budget::totalSpends(now()->subMonths(2))->paginate(50, [], 'page', $page++);
 
             /** @var Budget $budget */
             foreach ($budgets->items() as $budget) {
