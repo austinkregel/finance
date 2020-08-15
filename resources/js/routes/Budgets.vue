@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="rounded-lg flex flex-wrap">
+        <div class="rounded-lg flex flex-wrap" v-if="!loading">
             <div v-for="budget in data" class="flex-1 max-w-1/2">
                 <div v-dark-mode-white-background class="mx-4 rounded shadow">
 
@@ -54,6 +54,9 @@
                 </div>
             </div>
         </div>
+        <div v-else class="flex w-full items-center justify-center">
+            <loading-animation :loading="loading" description="Loading budgets..."/>
+        </div>
     </div>
 </template>
 
@@ -61,8 +64,10 @@
     import InfiniteLoading from 'vue-infinite-loading';
     import Kpi from "../components/Utils/Kpi";
     import BudgetModal from "../components/BudgetModal";
+    import LoadingAnimation from "../components/Utils/LoadingAnimation";
     export default {
         components: {
+            LoadingAnimation,
             BudgetModal,
             Kpi,
             InfiniteLoading,
@@ -72,12 +77,14 @@
                 modals: {
                     group: false,
                 },
-                loading: false,
             }
         },
         computed: {
             data() {
                 return this.$store.getters.budgets.data;
+            },
+            loading() {
+                return this.$store.getters.budgets.loading;
             }
         },
         methods: {

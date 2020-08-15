@@ -72,18 +72,18 @@ class Budget extends Model implements AbstractEloquentModel
         });
     }
 
-    public function scopeTotalSpends(Builder $query, Carbon $startingPeriod, int $userId)
+    public function scopeTotalSpends(Builder $query, $startingPeriod, int $userId)
     {
         $query->addSelect([
             'total_spend' => Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
                 ->whereIn('taggables.tag_id', $this->tags()->select('id'))
                 ->selectRaw('sum(amount) as amount')
                 ->where('taggables.taggable_type', '=', Transaction::class)
-                ->where('transactions.date', '>=', $startingPeriod)
                 ->whereIn('transactions.account_id', Account::select('account_id')
                     ->whereIn('access_token_id', AccessToken::select('id')
                         ->where('user_id', $userId))
                 )
+            // Need to
         ]);
     }
 
