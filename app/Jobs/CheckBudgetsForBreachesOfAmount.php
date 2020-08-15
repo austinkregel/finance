@@ -25,7 +25,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
             /** @var Budget $budget */
             foreach ($budgets->items() as $budget) {
                 // The last time the budget started it's current period.
-                $startOfTheLastBudgetPeriod = Carbon::parse($budget->getRule()->getOccurrencesBefore(now(), true ,1)[0]);
+                $startOfTheLastBudgetPeriod = $budget->getStartOfCurrentPeriod();
                 // 80 minutes should give the system time to catch in-consistent runs.
                 // The cron should run every hour, so things will only trigger once.
                 if (!empty($budget->breached_at) && $startOfTheLastBudgetPeriod->diffInMinutes($budget->breached_at) > 80) {
