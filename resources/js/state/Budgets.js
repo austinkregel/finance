@@ -18,11 +18,17 @@ export default {
     },
     actions: {
         async fetchBudgets({ dispatch, state, commit }) {
+            state.budgets = {
+                loading: true,
+            };
             const { data: budgets } = await axios.get(buildUrl('/abstract-api/budgets', {
                 include: 'tags',
-                filter: {
-                    totalSpends: true,
-                }
+            }));
+
+            budgets.data = await Promise.all(budgets.data.map(async (budget) => {
+                let { data } = await axios.get(buildUrl('/api/budgets/'+budget.id+'/total_spends'));
+                budget.total_spend = data;
+                return budget;
             }));
 
             state.budgets = {
