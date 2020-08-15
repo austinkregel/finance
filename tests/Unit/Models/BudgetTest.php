@@ -32,7 +32,8 @@ class BudgetTest extends  TestCase
             [1, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-01-31'],
             [2, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-02-29'],
             [1, 'YEARLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-12-31'],
-            [2, 'WEEKLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-01-15'],
+            // Technically this is a new period since the test now is the 15th.
+            [2, 'WEEKLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-15', '2020-01-30'],
         ];
     }
 }
