@@ -161,8 +161,7 @@ class Budget extends Model implements AbstractEloquentModel
 
     public function getEndOfCurrentPeriod(): Carbon
     {
-        // I think sub day should work here :thinking:
-        return Carbon::parse($this->getRule()->getOccurrencesAfter(now(), false, 1)[0])->subDay();
+        return Carbon::parse($this->getRule()->getOccurrencesAfter(now(), false, 1)[0]);
     }
 
     public function user()

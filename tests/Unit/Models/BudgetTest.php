@@ -29,11 +29,11 @@ class BudgetTest extends  TestCase
     public function dateDataProvider()
     {
         return [
-            [1, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-01-31'],
-            [2, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-02-29'],
-            [1, 'YEARLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-12-31'],
+            [1, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-02-01'],
+            [2, 'MONTHLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2020-03-01'],
+            [1, 'YEARLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-01', '2021-01-01'],
             // Technically this is a new period since the test now is the 15th.
-            [2, 'WEEKLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-15', '2020-01-30'],
+            [2, 'WEEKLY', Carbon::create(2020, 1, 1, 0, 0, 0), '2020-01-15', '2020-01-29'],
         ];
     }
 }
