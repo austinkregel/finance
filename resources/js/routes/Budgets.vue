@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="rounded-lg flex flex-wrap" v-if="!loading">
-            <div v-for="budget in data" class="w-full">
+            <div v-for="budget in data" class="w-full xl:w-1/2">
                 <div v-dark-mode-white-background class="mx-4 rounded shadow">
 
                     <div class="pt-4 px-2 mt-4 mx-4  relative">
