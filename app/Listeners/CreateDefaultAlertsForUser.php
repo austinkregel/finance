@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Condition;
+use App\Events\BudgetBreachedEstablishedAmount;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Models\Alert;
@@ -30,8 +31,8 @@ class CreateDefaultAlertsForUser
                 TransactionCreated::class,
             ],
             'channels' => [
-                MailChannel::class,
                 DatabaseChannel::class,
+                MailChannel::class,
             ]
         ],
         [
@@ -49,6 +50,7 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
+                DatabaseChannel::class,
                 MailChannel::class,
             ]
         ],
@@ -67,9 +69,23 @@ class CreateDefaultAlertsForUser
                 TransactionGroupedEvent::class,
             ],
             'channels' => [
+                DatabaseChannel::class,
                 MailChannel::class,
             ]
-        ]
+        ],
+        [
+            'name' => 'Budget spends exceeded amount!',
+            'title' => 'You budget just exceeded your amount ${{ budget.amount }}!',
+            'body' => 'In total you have spent ${{ budget.total_spend }}.',
+            'conditions' => [],
+            'events' => [
+                BudgetBreachedEstablishedAmount::class,
+            ],
+            'channels' => [
+                DatabaseChannel::class,
+                MailChannel::class,
+            ]
+        ],
     ];
 
     /**

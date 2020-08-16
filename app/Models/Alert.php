@@ -8,6 +8,7 @@ use App\Models\Traits\Conditionable;
 use App\Notifications\AlertNotiffication;
 use App\Notifications\BudgetBreachedEstablishedAmountNotification;
 use App\Notifications\TransactionAlertNotification;
+use App\Notifications\TransactionBudgetAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
 use App\Tag;
 use App\User;
@@ -145,6 +146,18 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         ]);
         // do the same thing as create notification, but give access to the tag variab
         $notification = new TransactionTagAlertNotification($log);
+
+        $this->notifyAbout($notification);
+    }
+    public function createNotificationWithBudget(Transaction $transaction, Budget $budget)
+    {
+        /** @var AlertLog $log */
+        $log = $this->logs()->create([
+            'triggered_by_transaction_id' => $transaction->id,
+            'triggered_by_budget_id' => $budget->id,
+        ]);
+        // do the same thing as create notification, but give access to the budget variable
+        $notification = new TransactionBudgetAlertNotification($log);
 
         $this->notifyAbout($notification);
     }
