@@ -23,10 +23,10 @@
             </div>
         </div>
         <div class="rounded-lg flex flex-wrap" v-if="!loading">
-            <div v-for="budget in data" class="w-full lg:w-1/2 xl:w-1/3">
+            <div v-for="budget in data" class="w-full">
                 <div v-dark-mode-white-background class="mx-4 rounded shadow">
 
-                    <div class="pt-4 px-2 mt-4 mx-2  relative">
+                    <div class="pt-4 px-2 mt-4 mx-4  relative">
                         <budget-modal :budget="budget" class="flex"/>
                         <div class="font-bold text-2xl tracking-wide">
                             ${{ (Math.round(budget.total_spend * 100)/ 100).toLocaleString() }}
@@ -46,8 +46,20 @@
                     </div>
                     <div class="w-full overflow-hidden">
                         <div class="flex flex-wrap pb-4 rounded-b">
-                            <div v-for="(tag, $i) in budget.tags" class="px-2 py-1 rounded mt-4 text-center ml-4" v-dark-mode-input>
-                                {{ tag.name.en }}
+                            <div v-for="(tag, $i) in budget.tags" class="w-full rounded mt-4 mx-4" v-dark-mode-input>
+                                <div class="px-4 py-2">
+                                    <span class="font-bold">{{ tag.name.en }}</span>
+                                    <div class="flex flex-col w-full">
+                                        <div v-for="transaction in tag.transactions" class="flex justify-between w-full items-center border-t border-gray-400">
+                                            <div class="font-thin">{{ transaction.name }}</div>
+                                            <div class="flex flex-col text-right">
+                                                <div class="font-bold">${{ transaction.amount | absolute }}</div>
+                                                <div class="text-xs">{{ dateFormat(transaction.date) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,6 +115,9 @@
             },
             budgetSpendsFormat(budget) {
                 return Math.round((budget.total_spend/budget.amount) * 100)
+            },
+            dateFormat(date) {
+                return dayjs(date).format('MM/DD')
             }
         },
     }

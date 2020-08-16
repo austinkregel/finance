@@ -21,8 +21,8 @@ export default {
             state.budgets = {
                 loading: true,
             };
-            const { data: budgets } = await axios.get(buildUrl('/abstract-api/budgets', {
-                include: 'tags',
+            const { data: budgets } = await axios.get(buildUrl('/api/budgets', {
+                include: 'tags.transactions',
             }));
 
             budgets.data = await Promise.all(budgets.data.map(async (budget) => {
