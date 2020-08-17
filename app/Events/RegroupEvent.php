@@ -7,24 +7,27 @@ use App\Models\Transaction;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RegroupEvent  implements TransactionEventContract
+class RegroupEvent implements TransactionEventContract
 {
     use Dispatchable, SerializesModels;
 
     public $transaction;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(Transaction $transaction)
+    public $shouldSendAlerts = true;
+
+    public function __construct(Transaction $transaction, ?bool $shouldSendAlerts = true)
     {
         $this->transaction = $transaction;
+        $this->shouldSendAlerts = $shouldSendAlerts;
     }
 
     public function getTransaction() :Transaction
     {
         return $this->transaction;
+    }
+
+    public function getShouldSendAlerts(): bool
+    {
+        return $this->shouldSendAlerts;
     }
 }
