@@ -43,16 +43,19 @@ class SyncPlaidTransactionsJob implements ShouldQueue
 
     private $repository;
 
+    protected $shouldSendAlerts;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(AccessToken $access, Carbon $startDate, Carbon $endDate)
+    public function __construct(AccessToken $access, Carbon $startDate, Carbon $endDate, ?bool $shouldSendAlerts = true)
     {
         $this->accessToken = $access;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->shouldSendAlerts = $shouldSendAlerts;
     }
 
     /**
@@ -63,7 +66,11 @@ class SyncPlaidTransactionsJob implements ShouldQueue
     public function handle(PlaidServiceContract $plaid, GenericRepository $repository)
     {
         $this->repository = $repository;
-        sleep(5);
+
+        if ($this->attempts() > 1) {
+            sleep(5);
+        }
+
         $transactionsResponse = $this->tryCatch(fn() => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
 
         if (!$transactionsResponse) {
@@ -99,13 +106,9 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'date' => Carbon::parse($transaction->date),
                     'name' => $transaction->name,
                     'pending' => $transaction->pending,
-//                    'pending_transaction_id' => $transaction->pending_transaction_id,
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
                 ]);
-
-                $this->syncTransactions($transaction, $localTransaction);
-                event(new TransactionCreated($localTransaction));
             } else {
                 $localTransaction->update([
                     'account_id' => $transaction->account_id,
@@ -114,14 +117,13 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'date' => Carbon::parse($transaction->date),
                     'name' => $transaction->name,
                     'pending' => $transaction->pending,
-                    //                    'pending_transaction_id' => $transaction->pending_transaction_id,
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
                 ]);
-
-                $this->syncTransactions($transaction, $localTransaction);
-                event(new TransactionUpdated($localTransaction));
             }
+
+            $this->syncTransactions($transaction, $localTransaction);
+            event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
         }
     }
 

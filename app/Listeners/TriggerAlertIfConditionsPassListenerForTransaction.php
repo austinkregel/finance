@@ -26,6 +26,11 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
      */
     public function handle($event)
     {
+        if ($event->getShouldSendAlerts() === false) {
+            // In other words, we should not send alerts.
+            return;
+        }
+
         $this->filter = new TransactionsConditionFilter;
         $user = $event->getTransaction()->account->owner;
         $user->load('alerts.conditionals');

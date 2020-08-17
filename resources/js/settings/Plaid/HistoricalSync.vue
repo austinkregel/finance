@@ -102,8 +102,8 @@
             Bus.$on('fetchAccessTokens', () => this.getAccessTokens());
             Bus.$emit('fetchAccessTokens')
 
-            Bus.$off('choseDate');
-            Bus.$on('choseDate', (value) => this.date = value)
+            Bus.$off('chosenDate');
+            Bus.$on('chosenDate', (value) => this.date = value)
         }
     }
 </script>

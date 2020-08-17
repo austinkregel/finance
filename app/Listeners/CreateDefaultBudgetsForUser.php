@@ -53,9 +53,12 @@ class CreateDefaultBudgetsForUser
             unset($budget['tags']);
             /** @var Budget $budget */
             $budget = $user->budgets()->create($budget);
-            foreach ($tags as $tag) {
-                $budget->attachTag($tag);
-            }
+
+            $tags = array_map(function ($tagName) {
+                return Tag::findFromString($tagName, 'automatic')->id;
+            }, $tags);
+
+            $budget->tags()->syncWithoutDetaching($tags);
         }
     }
 }
