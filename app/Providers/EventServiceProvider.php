@@ -9,6 +9,7 @@ use App\Events\TransactionGroupedEvent;
 use App\Events\TransactionUpdated;
 use App\Listeners\ApplyGroupToTransactionAutomaticallyListener;
 use App\Listeners\CreateDefaultAlertsForUser;
+use App\Listeners\CreateDefaultBudgetsForUser;
 use App\Listeners\CreateDefaultTagsForUser;
 use App\Listeners\TriggerAlertForBreachedBudget;
 use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
@@ -18,16 +19,12 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
             CreateDefaultTagsForUser::class,
             CreateDefaultAlertsForUser::class,
+            CreateDefaultBudgetsForUser::class,
         ],
 
         TransactionUpdated::class => [
@@ -53,14 +50,4 @@ class EventServiceProvider extends ServiceProvider
             TriggerAlertIfConditionsPassListenerForTransaction::class
         ],
     ];
-
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
 }
