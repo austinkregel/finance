@@ -65,12 +65,11 @@ export default {
             }, []);
 
             try {
-                if (updateName) {
-                    const { conditionals, ... updatedData } = updated;
-                    await axios.put('/api/alerts/' + original.id, {
-                        ...updatedData
-                    })
-                }
+                const { conditionals, ...updatedData } = updated;
+                await axios.put('/api/alerts/' + original.id, {
+                    ...updatedData
+                })
+
 
                 await Promise.all(tagsToUpdate.map(async ({ id, parameter, comparator, value }) => {
                     await axios.put('/api/alerts/' + original.id + '/conditionals/'+ id, {
