@@ -26,7 +26,7 @@ class HistoricalSync extends Action
 
             /** @var AccessToken $accessToken */
             foreach ($accessTokens as $accessToken) {
-                dispatch(new SyncPlaidTransactionsJob($accessToken, $dateChunk, $dateChunk->copy()->endOfMonth()));
+                dispatch(new SyncPlaidTransactionsJob($accessToken, $dateChunk, $dateChunk->copy()->endOfMonth(), false));
             }
         }
     }

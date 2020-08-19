@@ -54,7 +54,9 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Budget extends Model implements AbstractEloquentModel
 {
-    use AbstractModelTrait, BelongsToThrough, HasTags;
+    use AbstractModelTrait, BelongsToThrough, HasTags {
+        getTagClassName as oldTagName;
+    }
 
     public $guarded = [];
 
@@ -70,6 +72,11 @@ class Budget extends Model implements AbstractEloquentModel
                 $budget->user_id = auth()->id();
             }
         });
+    }
+
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
     }
 
     public function scopeTotalSpends(Builder $query, $startingPeriod, int $userId)
@@ -125,7 +132,7 @@ class Budget extends Model implements AbstractEloquentModel
 
     public function getAbstractAllowedRelationships (): array
     {
-        return ['tags'];
+        return ['tags.transactions'];
     }
 
     public function getAbstractAllowedSorts (): array

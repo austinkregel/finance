@@ -10,7 +10,11 @@ use App\Http\Requests\Budget\StoreRequest;
 use App\Http\Requests\Budget\UpdateRequest;
 use App\Http\Requests\Budget\ViewRequest;
 use App\Budget;
+use App\Models\AccessToken;
+use App\Models\Account;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Filters\ActionFilter;
 use Spatie\QueryBuilder\AllowedFilter as Filter;
@@ -32,7 +36,28 @@ class BudgetController extends Controller
             ->allowedSorts($model->getAbstractAllowedSorts())
             ->where('user_id', auth()->id());
 
-        return $this->json($action->execute($query));
+        /** @var Paginator $items */
+        $items = $action->execute($query);
+
+        if ($action->getMethod() === 'paginate') {
+            $items->setCollection(
+                // So this does technically introduce an n + 1 problem since we'll need to query
+                // the database for every budget to load the transactions; I do think it's more
+                // of an acceptable use case since we need to calculate the start of the next period.
+                $items->map(function (Budget $budget) {
+                    $budget->load([
+                        'tags.transactions' => function ($query) use ($budget) {
+                            $query->where('date', '>=', $budget->getStartOfCurrentPeriod())
+                                ->orderBy('date', 'desc');
+                        }
+                    ]);
+
+                    return $budget;
+                })
+            );
+        }
+
+        return $this->json($items);
     }
 
     public function store(StoreRequest $request)

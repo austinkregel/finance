@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Contracts\Events\TransactionEventContract;
+use App\Events\BudgetBreachedEstablishedAmount;
 use App\Events\TransactionGroupedEvent;
 use App\Filters\TransactionsConditionFilter;
 use App\Models\Alert;
@@ -25,6 +26,11 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
      */
     public function handle($event)
     {
+        if ($event->getShouldSendAlerts() === false) {
+            // In other words, we should not send alerts.
+            return;
+        }
+
         $this->filter = new TransactionsConditionFilter;
         $user = $event->getTransaction()->account->owner;
         $user->load('alerts.conditionals');
@@ -41,6 +47,11 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         // Obvs we should send the alert, but does it need a tag?
         if ($event instanceof TransactionGroupedEvent) {
             return $this->handleGroupedEvent($event, $user);
+        }
+        // So in the future, to add new event types this should probably get refactored...
+        // but for now, doing this one final time.
+        if ($event instanceof BudgetBreachedEstablishedAmount) {
+            return $this->handleBudgetEvent($event, $user);
         }
 
         return $this->handleTransactionEvent($event, $user);
@@ -107,5 +118,23 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
 
         // False here basically means we're going to notify someone about something.
         return $shouldNotAlertMe;
+    }
+
+    protected function handleBudgetEvent (BudgetBreachedEstablishedAmount $event, $user) {
+        $budget = $event->getBudget();
+
+        /** @var Collection $alerts */
+        $alerts = $user->alerts;
+
+        $transaction = $event->getTransaction();
+        $transaction->load(['tags', 'category', 'account']);
+        /** @var Collection|Alert $alertsToTrigger */
+        $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
+            // Should be empty if the transaction fails the alert's conditionals.
+            return !empty($this->filter->handle($alert, $transaction));
+        });
+
+        $alertsToTrigger->map->createNotificationWithBudget($transaction, $budget);
+
     }
 }

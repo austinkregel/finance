@@ -54,7 +54,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
-
+Vue.filter('absolute', (value) => Math.abs(value))
 const store = new Vuex.Store(require('./store').default)
 
 const router = new VueRouter({

@@ -41,4 +41,9 @@ class TransactionGroupedEvent implements TransactionEventContract
     {
         return $this->tag;
     }
+
+    public function getShouldSendAlerts (): bool
+    {
+        return true;
+    }
 }

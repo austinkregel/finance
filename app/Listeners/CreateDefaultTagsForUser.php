@@ -18,11 +18,6 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'netflix'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'hulu'
                 ],
                 [
@@ -34,11 +29,6 @@ class CreateDefaultTagsForUser
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'HBO'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'mixer'
                 ],
                 [
                     'parameter' => 'name',
@@ -66,21 +56,49 @@ class CreateDefaultTagsForUser
                     'value' => 'youtube'
                 ],
                 [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'spotify'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'patreon'
-                ],
-                [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'Subscription'
                 ],
             ],
+        ],
+
+        [
+            'name' => 'games',
+            'type' => 'automatic',
+            'must_all_conditions_pass' => false,
+            'conditions' => [
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'ORIGIN'
+                ],
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Steampowered'
+                ],
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'UBISOFT'
+                ],
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'gamestop'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Video Games'
+                ],
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'game store'
+                ],
+            ]
         ],
         [
             'name' => 'bills',
@@ -88,25 +106,28 @@ class CreateDefaultTagsForUser
             'must_all_conditions_pass' => false,
             'conditions' => [
                 [
-                    'parameter' => 'category.name',
-                    'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Utilities'
+                    'parameter' => 'tag.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    // anything that's a utility should automatically be a bill
+                    'value' => 'utilities'
                 ],
                 [
                     'parameter' => 'category.name',
-                    'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Insurance'
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Loans and Mortgages'
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Billpay'
                 ],
-                [
-                    'parameter' => 'category.name',
-                    'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Loans and Mortgages'
-                ],
+            ],
+        ],
+        [
+            'name' => 'utilities',
+            'type' => 'automatic',
+            'must_all_conditions_pass' => false,
+            'conditions' => [
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
@@ -116,43 +137,34 @@ class CreateDefaultTagsForUser
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Telecommunication Services'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Utilities'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Sanitary and Waste Management'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    // This is for people who get their power/water from the city (like those in petoskey)
+                    'value' => 'Government Departments and Agencies'
                 ]
             ],
         ],
         [
-            'name' => 'fast food',
+            'name' => 'fast food/restaurants',
             'type' => 'automatic',
             'must_all_conditions_pass' => false,
             'conditions' => [
                 [
-                    'parameter' => 'name',
+                    'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Wendy\'s'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Arby\'s'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Taco Bell'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'McDonald\'s'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Burger King'
-                ],
-                [
-                    'parameter' => 'name',
-                    'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Subway'
+                    'value' => 'Restaurants'
                 ],
                 [
                     'parameter' => 'category.name',
