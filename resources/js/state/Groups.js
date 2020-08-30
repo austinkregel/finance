@@ -27,10 +27,11 @@ export default {
                 loading: false,
             };
         },
-        async saveGroup({ state, dispatch }, { name, conditions}) {
+        async saveGroup({ state, dispatch }, { name, conditions, must_all_conditions_pass }) {
             try {
                 const {data: group} = await axios.post('/api/tags', {
-                    name
+                    name,
+                    must_all_conditions_pass
                 })
 
                 await Promise.all(conditions.map(async ({parameter, value, comparator}) => {
