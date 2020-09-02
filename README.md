@@ -32,7 +32,7 @@ And then fill in your plaid values.
 
 ### Requirements
   - MySql
-  - PHP >7.4
+  - PHP >=7.4
   - Redis (for queues and caching)
 ### Using Docker "Quick Setup"
 ```bash
