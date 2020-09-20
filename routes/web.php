@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\SubscriptionAsEventController;
 use App\Http\Controllers\Api\SubscriptionsController;
 use App\Http\Controllers\DynamicViewController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Plaid\CreateLinkTokenController;
 use App\Http\Controllers\Plaid\TokenController;
 
 /*
@@ -49,7 +50,8 @@ Route::group(['middleware' => 'auth'], static function () {
         });
 
         Route::post('actions/{action}', ActionController::class);
-        Route::post('plaid/exchange_token', TokenController::class);
+        Route::post('plaid/create-link-token', CreateLinkTokenController::class);
+        Route::post('plaid/exchange-token', TokenController::class);
         Route::post('cache-clear', App\Http\Controllers\Api\CacheController::class);
 
         Route::apiResource('alerts', App\Http\Controllers\Api\AlertController::class);

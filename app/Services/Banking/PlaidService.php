@@ -231,4 +231,22 @@ class PlaidService implements PlaidServiceContract
 
         return new LengthAwarePaginator($items['institutions'], $items['total'], $count, $page);
     }
+
+    public function createLinkToken(string $userId): array
+    {
+        return $this->http
+            ->{config('services.plaid.env')}()
+            ->post('/link/token/create', [
+                'client_id' => config('services.plaid.client_id'),
+                'secret' => config('services.plaid.secret_key'),
+                'client_name' => config('services.plaid.client_name'),
+                'user' => [
+                    'client_user_id' => $userId
+                ],
+                'products' => config('services.plaid.products'),
+                'country_codes' => config('services.plaid.country_codes'),
+                'language' => config('services.plaid.language'),
+            ])
+            ->toArray();
+    }
 }

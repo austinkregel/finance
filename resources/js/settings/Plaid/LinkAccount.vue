@@ -41,29 +41,35 @@
                 return dayjs(date);
             },
         },
-        mounted() {
-            const that = this;
-            var handler = Plaid.create({
-                clientName: 'Kregel API',
-                env: process.env.MIX_PLAID_ENV,
-                key: process.env.MIX_PLAID_KEY,
-                product: ['transactions'],
-                // webhook: this.url,
-                selectAccount: false,
-                onSuccess: (public_token, metadata) => {
-                    axios.post('/api/plaid/exchange_token', {
-                        public_token: public_token,
-                        institution: metadata.institution.institution_id
-                    })
-                        .then((res) => {
-                            Bus.$emit('fetchAccounts')
-                        })
-                }
-            });
+        async mounted() {
+            const fetchLinkToken = async () => {
+                const { data } = await axios.post('/api/plaid/create-link-token');
+                return data.link_token;
+            };
+
+            const configs = {
+                token: await fetchLinkToken(),
+                onSuccess: async function(public_token, { institution: { institution_id } }) {
+                    await axios.post('/api/plaid/exchange-token', { public_token: public_token, institution: institution_id });
+                },
+                onExit: async function(err, metadata) {
+                    if (err != null && err.error_code === 'INVALID_LINK_TOKEN') {
+                        handler.destroy();
+                        handler = Plaid.create({
+                            ...configs,
+                            token: await fetchLinkToken(),
+                        });
+                    }
+                    if (err != null) {
+                        this.$toasted.error(err.message || err.error_code);
+                        return;
+                    }
+                },
+            };
+            var handler = Plaid.create(configs)
 
             Bus.$on('fetchAccounts', () => this.getAccounts());
             Bus.$emit('fetchAccounts')
-
 
             $('#link-button').on('click', function(e) {
                 handler.open();
