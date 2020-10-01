@@ -49,7 +49,6 @@ export default {
         async updateGroup({ state, dispatch }, { original, updated }) {
             // Find the diff, update what's needed.
             // Not everything may have changed.
-            const updateName = original.name === updated.name;
 
             const originalConditionsById = original.conditionals.reduce((conditions, condition) => ({
                 ...conditions,
@@ -74,11 +73,10 @@ export default {
             }, []);
 
             try {
-                if (updateName) {
-                    await axios.post('/api/tags/' + original.id, {
-                        name: updated.name
-                    })
-                }
+                await axios.patch('/api/tags/' + original.id, {
+                    name: updated.name,
+                    must_all_conditions_pass: updated.must_all_conditions_pass
+                })
 
                 await Promise.all(tagsToUpdate.map(async ({ id, parameter, comparator, value }) => {
                     await axios.put('/api/tags/' + original.id + '/conditionals/'+ id, {
