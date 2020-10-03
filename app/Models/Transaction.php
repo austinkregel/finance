@@ -115,6 +115,11 @@ class Transaction extends Model implements AbstractEloquentModel
         return Tag::class;
     }
 
+    public function scopeAccountsIn(Builder $query, ...$accounts): Builder
+    {
+        return $query->whereIn('account_id', $accounts);
+    }
+
     public function scopeAfter(Builder $query, $start): Builder
     {
         return $query->where('date', '>=', Carbon::parse($start));
@@ -205,6 +210,7 @@ class Transaction extends Model implements AbstractEloquentModel
             AllowedFilter::scope('has'),
             AllowedFilter::scope('null'),
             AllowedFilter::scope('withFeesAndTransfers'),
+            AllowedFilter::scope('accountsIn')
         ];
     }
 
