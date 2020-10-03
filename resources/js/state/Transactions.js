@@ -23,7 +23,7 @@ export default {
 
             const { data: transactions } = await axios.get(buildUrl('/abstract-api/transactions', {
                 filter: Object.assign({
-                    account_id: 'in:' + getters.accounts.data.map(account => account.account_id).join(',')
+                    accountsIn: getters.accounts.data.map(account => account.account_id).join(',')
                 }, name ? {
                     name
                 } : {}),
