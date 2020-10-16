@@ -12,6 +12,6 @@ class StartsWith implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return Str::startsWith(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue()) ;
+        return Str::startsWith(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue());
     }
 }

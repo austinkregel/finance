@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Budget;
 use App\Events\BudgetBreachedEstablishedAmount;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +15,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function handle($page = 1)
+    public function handle($page = 1): void
     {
         do {
             /** @var Paginator $budgets */

@@ -3,8 +3,6 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\ConditionalsContract;
-use App\Contracts\ConditionContract;
 use App\Filters\Conditions\LessThanEqualFilter;
 use Tests\TestCase;
 
@@ -13,7 +11,7 @@ class LessThanEqualFilterTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';
@@ -35,4 +33,3 @@ class LessThanEqualFilterTest extends TestCase
         ];
     }
 }
-

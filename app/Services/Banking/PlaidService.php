@@ -107,8 +107,8 @@ class PlaidService implements PlaidServiceContract
         ]);
     }
 
-    protected function getPaginator(string $accessToken, Carbon $startDate, Carbon $endDate, int $page = 1) {
-
+    protected function getPaginator(string $accessToken, Carbon $startDate, Carbon $endDate, int $page = 1)
+    {
         /** @var Collection $paginator */
         try {
             return $this->http
@@ -129,6 +129,7 @@ class PlaidService implements PlaidServiceContract
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
                 echo $exception->getMessage();
+
                 return new Collection([
                     'transactions' => [],
                     'total_transactions' => 0,
@@ -136,8 +137,9 @@ class PlaidService implements PlaidServiceContract
             }
 
             echo $exception->getMessage();
-            echo "We got an exception. Sleeping for 60 seconds";
+            echo 'We got an exception. Sleeping for 60 seconds';
             sleep(60);
+
             return $this->getPaginator($accessToken, $startDate, $endDate, $page);
         }
     }

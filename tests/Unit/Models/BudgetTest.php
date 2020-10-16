@@ -6,12 +6,12 @@ use App\Budget;
 use Carbon\Carbon;
 use Tests\TestCase;
 
-class BudgetTest extends  TestCase
+class BudgetTest extends TestCase
 {
     /**
      * @dataProvider dateDataProvider
      */
-    public function testGetStartOfCurrentPeriod($interval, $freq, $startedAt, $startOfPeriod, $endOfPeriod)
+    public function testGetStartOfCurrentPeriod($interval, $freq, $startedAt, $startOfPeriod, $endOfPeriod): void
     {
         Carbon::setTestNow(
             Carbon::create(2020, 1, 15, 0, 0, 0)

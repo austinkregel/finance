@@ -6,21 +6,17 @@ use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\ApplyGroupToTransactionAutomaticallyListener;
-use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
-use App\Models\Alert;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Notifications\Channels\DatabaseChannel;
-use Illuminate\Notifications\Notification;
 use Tests\TestCase;
 
 class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHandleSuccess()
+    public function testHandleSuccess(): void
     {
         $this->expectsEvents([
             TransactionGroupedEvent::class
@@ -41,9 +37,8 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessNotApplyBecauseTransactionIsFilteredOut()
+    public function testHandleSuccessNotApplyBecauseTransactionIsFilteredOut(): void
     {
-
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -68,9 +63,8 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessNotApplyBecauseTransactionIsNotGettingDoubleTagged()
+    public function testHandleSuccessNotApplyBecauseTransactionIsNotGettingDoubleTagged(): void
     {
-
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -97,9 +91,8 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessLastAttachTag()
+    public function testHandleSuccessLastAttachTag(): void
     {
-
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -126,7 +119,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessAttachTagWithRelationInConditional()
+    public function testHandleSuccessAttachTagWithRelationInConditional(): void
     {
         $this->expectsEvents([
             TransactionGroupedEvent::class
@@ -157,7 +150,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessAttachTagWhereAmountGreaterThan()
+    public function testHandleSuccessAttachTagWhereAmountGreaterThan(): void
     {
         $this->expectsEvents([
             TransactionGroupedEvent::class
@@ -222,7 +215,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->assertSame($tag->id, $tags->first()->id);
     }
 
-    public function testHandleSuccessAttachTagWithAllConditionsPassSetToFalse()
+    public function testHandleSuccessAttachTagWithAllConditionsPassSetToFalse(): void
     {
         $this->expectsEvents([
             TransactionGroupedEvent::class

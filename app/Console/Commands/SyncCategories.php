@@ -11,7 +11,6 @@ use Psr\Log\LoggerInterface;
 
 class SyncCategories extends Command
 {
-
     /**
      * The name and signature of the console command.
      *
@@ -98,7 +97,6 @@ class SyncCategories extends Command
                 'category_id' => $category->category_id,
             ]);
         }
-
 
         $bar->finish();
     }

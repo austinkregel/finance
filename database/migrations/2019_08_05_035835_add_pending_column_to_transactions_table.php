@@ -11,9 +11,9 @@ class AddPendingColumnToTransactionsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
+        Schema::table('transactions', function (Blueprint $table): void {
             $table->boolean('is_subscription')->default(null)->nullable()->after('name')->index();
             $table->boolean('is_possible_subscription')->default(null)->nullable()->after('name')->index();
             $table->index([
@@ -28,9 +28,9 @@ class AddPendingColumnToTransactionsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
+        Schema::table('transactions', function (Blueprint $table): void {
             $table->float('amount')->change();
             $table->dropColumn(['is_subscription', 'is_possible_subscription']);
             $table->dropIndex([

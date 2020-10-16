@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\AccountKpi;
 use App\Models\Account;
 use Illuminate\Console\Command;
-use Kregel\LaravelAbstract\Repositories\GenericRepository;
 
 class GenerateAccountKpis extends Command
 {
@@ -56,19 +55,19 @@ class GenerateAccountKpis extends Command
                         ->where('date', $nowTime->format('Y-m-d'))
                         ->count(),
                     'total_subscriptions_today' => $account->transactions()
-                        ->whereHas('subscription', function ($query) {
+                        ->whereHas('subscription', function ($query): void {
                             $query->where('type', 'subscription');
                         })
                         ->where('date', $nowTime->format('Y-m-d'))
                         ->sum('amount'),
                     'total_bills_today' => $account->transactions()
-                        ->whereHas('subscription', function ($query) {
+                        ->whereHas('subscription', function ($query): void {
                             $query->where('type', 'bill');
                         })
                         ->where('date', $nowTime->format('Y-m-d'))
                         ->sum('amount'),
                     'total_spends_today' => $account->transactions()
-                        ->whereHas('subscription', function ($query) {
+                        ->whereHas('subscription', function ($query): void {
                             $query->where('type', 'subscription');
                         })
                         ->where('date', $nowTime->format('Y-m-d'))
@@ -85,19 +84,19 @@ class GenerateAccountKpis extends Command
                     ->where('date', $nowTime->format('Y-m-d'))
                     ->count(),
                 'total_subscriptions_today' => $account->transactions()
-                    ->whereHas('subscription', function ($query) {
+                    ->whereHas('subscription', function ($query): void {
                         $query->where('type', 'subscription');
                     })
                     ->where('date', $nowTime->format('Y-m-d'))
                     ->sum('amount'),
                 'total_bills_today' => $account->transactions()
-                    ->whereHas('subscription', function ($query) {
+                    ->whereHas('subscription', function ($query): void {
                         $query->where('type', 'bill');
                     })
                     ->where('date', $nowTime->format('Y-m-d'))
                     ->sum('amount'),
                 'total_spends_today' => $account->transactions()
-                    ->whereHas('subscription', function ($query) {
+                    ->whereHas('subscription', function ($query): void {
                         $query->where('type', 'subscription');
                     })
                     ->where('date', $nowTime->format('Y-m-d'))

@@ -11,9 +11,9 @@ class CreateTransactionsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->string('name')->nullable()->index();
             $table->double('amount', 13, 2)->nullable();
@@ -32,7 +32,7 @@ class CreateTransactionsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('transactions');
     }

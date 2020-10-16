@@ -42,7 +42,8 @@ class AlertNotiffication extends Notification
     protected function renderField($field)
     {
         if (Str::contains($field, ['{{', '}}'])) {
-            return $this->render($field, array_merge($this->alertLog->transaction ? [
+            return $this->render($field, array_merge(
+                $this->alertLog->transaction ? [
                 'transaction' => $this->alertLog->transaction->toArray(),
             ] : [],
                 $this->alertLog->tag ? [
@@ -50,7 +51,8 @@ class AlertNotiffication extends Notification
                 ] : [],
                 $this->alertLog->budget ? [
                     'budget' => $this->alertLog->budget->toArray(),
-                ] : []));
+                ] : []
+            ));
         }
 
         return $field;

@@ -3,8 +3,6 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\ConditionalsContract;
-use App\Contracts\ConditionContract;
 use App\Filters\Conditions\NotEqualFilter;
 use Tests\TestCase;
 
@@ -13,7 +11,7 @@ class NotEqualFilterTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';
@@ -28,8 +26,8 @@ class NotEqualFilterTest extends TestCase
     public function dataProvider()
     {
         return [
-            [true, "dog", "Hello dog, how are you?"],
-            [false, "nope", "nope"],
+            [true, 'dog', 'Hello dog, how are you?'],
+            [false, 'nope', 'nope'],
         ];
     }
 }

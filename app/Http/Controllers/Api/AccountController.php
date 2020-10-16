@@ -47,6 +47,7 @@ class AccountController extends Controller
         $resource = new Account;
         $resource->fill($request->validated());
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 

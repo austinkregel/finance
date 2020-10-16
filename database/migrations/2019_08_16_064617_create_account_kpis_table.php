@@ -11,9 +11,9 @@ class CreateAccountKpisTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('account_kpis', function (Blueprint $table) {
+        Schema::create('account_kpis', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->date('date');
             $table->string('account_id')->index();
@@ -32,7 +32,7 @@ class CreateAccountKpisTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('account_kpis');
     }

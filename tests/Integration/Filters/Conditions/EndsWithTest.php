@@ -3,9 +3,7 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\ConditionalsContract;
 use App\Filters\Conditions\EndsWith;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class EndsWithTest extends TestCase
@@ -13,7 +11,7 @@ class EndsWithTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';

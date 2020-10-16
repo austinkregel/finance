@@ -5,15 +5,12 @@ namespace App\Models;
 use App\Budget;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
-use App\Notifications\AlertNotiffication;
 use App\Notifications\BudgetBreachedEstablishedAmountNotification;
-use App\Notifications\TransactionAlertNotification;
 use App\Notifications\TransactionBudgetAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
 use App\Tag;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\ChannelManager;
 use Illuminate\Notifications\Notifiable;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
@@ -119,13 +116,13 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         return ['user_id', 'name', 'order_column', 'type'];
     }
 
-    protected function notifyAbout($notification)
+    protected function notifyAbout($notification): void
     {
         $this->load('user');
         $this->user->notify($notification);
     }
 
-    public function createNotification(Transaction $transaction)
+    public function createNotification(Transaction $transaction): void
     {
         /** @var AlertLog $log */
         $log = $this->logs()->create([
@@ -137,7 +134,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         $this->notifyAbout($notification);
     }
 
-    public function createNotificationWithTag(Transaction $transaction, Tag $tag)
+    public function createNotificationWithTag(Transaction $transaction, Tag $tag): void
     {
         /** @var AlertLog $log */
         $log = $this->logs()->create([
@@ -149,7 +146,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
 
         $this->notifyAbout($notification);
     }
-    public function createNotificationWithBudget(Transaction $transaction, Budget $budget)
+    public function createNotificationWithBudget(Transaction $transaction, Budget $budget): void
     {
         /** @var AlertLog $log */
         $log = $this->logs()->create([
@@ -162,7 +159,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         $this->notifyAbout($notification);
     }
 
-    public function createBudgetBreachNotification(Budget $budget)
+    public function createBudgetBreachNotification(Budget $budget): void
     {
         $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
             'triggered_by_budget_id' => $budget->id,

@@ -33,5 +33,4 @@ interface AbstractStatsRepository
      * @return Collection
      */
     public function findAllByAccountIdsForDate(array $accountIds, Carbon $date): Collection;
-
 }

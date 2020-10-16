@@ -19,7 +19,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHandleNoBudgets()
+    public function testHandleNoBudgets(): void
     {
         $job = new CheckBudgetsForBreachesOfAmount;
 
@@ -30,7 +30,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         ]);
     }
 
-    public function testHandleBudgets()
+    public function testHandleBudgets(): void
     {
         Carbon::setTestNow($now = Carbon::create(2020, 1, 1, 0, 0, 0));
 

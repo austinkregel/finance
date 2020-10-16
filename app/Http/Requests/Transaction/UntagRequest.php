@@ -24,7 +24,6 @@ class UntagRequest extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

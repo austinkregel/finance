@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filter;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
@@ -75,7 +74,7 @@ class Account extends Model implements AbstractEloquentModel
 
     public function scopeCurrentUser(Builder $query)
     {
-        return $query->whereHas('user', function ($query) {
+        return $query->whereHas('user', function ($query): void {
             $query->where('id', auth()->id());
         });
     }

@@ -3,12 +3,8 @@
 namespace App\Listeners;
 
 use App\Budget;
-use App\Contracts\Events\TransactionEventContract;
 use App\Events\BudgetBreachedEstablishedAmount;
-use App\Events\TransactionGroupedEvent;
 use App\Filters\TransactionsConditionFilter;
-use App\Models\Alert;
-use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -19,7 +15,7 @@ class TriggerAlertForBreachedBudget implements ShouldQueue
 
     protected TransactionsConditionFilter $filter;
 
-    public function handle($event)
+    public function handle($event): void
     {
         $budget = $event->getBudget();
 

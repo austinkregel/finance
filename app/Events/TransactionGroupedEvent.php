@@ -5,11 +5,6 @@ namespace App\Events;
 use App\Contracts\Events\TransactionEventContract;
 use App\Models\Transaction;
 use App\Tag;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -42,7 +37,7 @@ class TransactionGroupedEvent implements TransactionEventContract
         return $this->tag;
     }
 
-    public function getShouldSendAlerts (): bool
+    public function getShouldSendAlerts(): bool
     {
         return true;
     }

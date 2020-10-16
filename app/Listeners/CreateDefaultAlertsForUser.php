@@ -7,7 +7,6 @@ use App\Events\BudgetBreachedEstablishedAmount;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Models\Alert;
-use App\Tag;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Notifications\Channels\DatabaseChannel;
@@ -94,7 +93,7 @@ class CreateDefaultAlertsForUser
      * @param  object  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(Registered $event): void
     {
         /** @var User $user */
         $user = $event->user;

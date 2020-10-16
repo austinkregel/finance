@@ -6,10 +6,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Collection;
 
 /**
@@ -66,6 +64,7 @@ class HttpService
         if (empty(self::$instance)) {
             self::$instance = new static;
         }
+
         return call_user_func_array([self::$instance, $method], $arguments);
     }
 
@@ -97,6 +96,7 @@ class HttpService
     {
         $this->path = $path;
         $this->client = new Client(array_merge(['base_uri' => $this->url], $data));
+
         return $this;
     }
 
@@ -137,6 +137,7 @@ class HttpService
         } catch (ClientException $exception) {
             throw new \Exception($exception->getResponse()->getBody()->getContents());
         }
+
         return $this->response = collect(json_decode($json));
     }
 
@@ -148,6 +149,7 @@ class HttpService
     public function get($path, $data = null)
     {
         $this->path = $path;
+
         return $this->request('get', $data);
     }
 
@@ -159,6 +161,7 @@ class HttpService
     public function post($path, $data = null)
     {
         $this->path = $path;
+
         return $this->request('post', $data);
     }
 
@@ -170,6 +173,7 @@ class HttpService
     public function patch($path, $data = null)
     {
         $this->path = $path;
+
         return $this->request('patch', $data);
     }
 
@@ -181,6 +185,7 @@ class HttpService
     public function delete($path, $data = null)
     {
         $this->path = $path;
+
         return $this->request('delete', $data);
     }
 
@@ -192,6 +197,7 @@ class HttpService
     public function put($path, $data = null)
     {
         $this->path = $path;
+
         return $this->request('put', $data);
     }
 }

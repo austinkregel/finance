@@ -11,7 +11,7 @@ class GreaterThanEqualTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';
@@ -31,7 +31,6 @@ class GreaterThanEqualTest extends TestCase
             [true, 312, 500],
             [true, '312', '500'],
             [true, 312, '500'],
-
         ];
     }
 }

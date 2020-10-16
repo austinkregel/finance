@@ -17,8 +17,13 @@ class TokenRepository
         ], config('app.key'));
 
         return cookie(
-            AccessTokenGuard::COOKIE_NAME, $token, 30, null,
-            config('session.domain'), config('session.secure'), true
+            AccessTokenGuard::COOKIE_NAME,
+            $token,
+            30,
+            null,
+            config('session.domain'),
+            config('session.secure'),
+            true
         );
     }
 }

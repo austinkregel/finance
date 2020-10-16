@@ -6,9 +6,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Plaid;
 
-use App\Events\UpdateAccountsEvent;
 use App\Http\Controllers\Controller;
-use App\Models\Institution;
 use App\Services\Banking\PlaidService;
 use App\User;
 use Illuminate\Http\Request;
