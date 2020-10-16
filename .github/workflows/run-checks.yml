@@ -10,6 +10,8 @@ jobs:
         run: sudo systemctl start mysql.service
       - name: create database
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
+      - name: update
+        run: sudo apt update
       - name: install mysql
         run: sudo apt install -y php-mysql
 
