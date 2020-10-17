@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Condition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Budget\DestroyRequest;
 use App\Http\Requests\Budget\IndexRequest;
@@ -10,9 +9,6 @@ use App\Http\Requests\Budget\StoreRequest;
 use App\Http\Requests\Budget\UpdateRequest;
 use App\Http\Requests\Budget\ViewRequest;
 use App\Budget;
-use App\Models\AccessToken;
-use App\Models\Account;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -46,7 +42,7 @@ class BudgetController extends Controller
                 // of an acceptable use case since we need to calculate the start of the next period.
                 $items->map(function (Budget $budget) {
                     $budget->load([
-                        'tags.transactions' => function ($query) use ($budget) {
+                        'tags.transactions' => function ($query) use ($budget): void {
                             $query->where('date', '>=', $budget->getStartOfCurrentPeriod())
                                 ->orderBy('date', 'desc');
                         }
@@ -68,6 +64,7 @@ class BudgetController extends Controller
             'user_id' => auth()->id(),
         ]);
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 
@@ -107,6 +104,7 @@ class BudgetController extends Controller
     public function tags(Request $request, Budget $budget)
     {
         $budget->tags()->sync($request->json()->all());
+
         return $this->json($budget->refresh());
     }
 

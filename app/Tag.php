@@ -50,9 +50,9 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
     use Conditionable, AbstractModelTrait;
     public $guarded = [];
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::creating(function ($tag) {
+        static::creating(function ($tag): void {
             if (empty($tag->user_id)) {
                 $tag->user_id = auth()->check() ? auth()->id() : 1;
             }

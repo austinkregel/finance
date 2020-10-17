@@ -138,7 +138,8 @@ class AccessTokenGuard
         // AccessToken which allows all operations since the user is physically logged into a
         // screen of the application. We'll check the expiration date then return it.
         $token = $this->createTransientToken(
-            $token['sub'], Carbon::createFromTimestamp($token['expiry'])
+            $token['sub'],
+            Carbon::createFromTimestamp($token['expiry'])
         );
 
         return $token->isExpired() ? null : $token;
@@ -170,7 +171,8 @@ class AccessTokenGuard
     protected function validXsrf($token, $request)
     {
         return isset($token['xsrf']) && hash_equals(
-            $token['xsrf'], (string) $this->decryptXsrfHeader($request)
+            $token['xsrf'],
+            (string) $this->decryptXsrfHeader($request)
         );
     }
 

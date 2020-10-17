@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\ActionController;
-use App\Http\Controllers\Api\SubscriptionAsEventController;
-use App\Http\Controllers\Api\SubscriptionsController;
 use App\Http\Controllers\DynamicViewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Plaid\CreateLinkTokenController;
@@ -19,22 +17,21 @@ use App\Http\Controllers\Plaid\TokenController;
 |
 */
 
-Route::get('/', static function () {
-    return view('welcome');
-})->middleware('auth');
+Route::get('/', static fn () => view('welcome'))->middleware('auth');
 
-Route::group(['namespace' => 'App\\Http\\Controllers'], static function () {
+Route::group(['namespace' => 'App\\Http\\Controllers'], static function (): void {
     Auth::routes(['register' => true]);
 });
 
-Route::group(['middleware' => 'auth'], static function () {
+Route::group(['middleware' => 'auth'], static function (): void {
     Route::get('/home', HomeController::class.'@index')->name('home');
     Route::get('/{view}', DynamicViewController::class.'@index')->middleware('auth');
 
-    Route::group(['prefix' => 'api', 'middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'api', 'middleware' => ['auth']], function (): void {
         Route::get('user', function () {
             $user = auth()->user();
             $user->load(['accessTokens', 'unreadNotifications' ]);
+
             return $user;
         });
         Route::put('user', function () {
@@ -42,10 +39,12 @@ Route::group(['middleware' => 'auth'], static function () {
             $user->update([
                 'alert_channels' => request()->get('alert_channels', [])
             ]);
+
             return $user;
         });
         Route::put('read-notification/{notification}', function (\Illuminate\Http\Request $request, \App\Models\DatabaseNotification $notification) {
             $notification->markAsRead();
+
             return response('', 204);
         });
 
@@ -59,7 +58,6 @@ Route::group(['middleware' => 'auth'], static function () {
         Route::put('alerts/{alert}/conditionals/{condition}', [App\Http\Controllers\Api\AlertController::class, 'updateConditional']);
         Route::patch('alerts/{alert}/conditionals/{condition}', [App\Http\Controllers\Api\AlertController::class, 'updateConditional']);
         Route::delete('alerts/{alert}/conditionals/{condition}', [\App\Http\Controllers\Api\AlertController::class, 'deleteConditional']);
-
 
         Route::apiResource('tags', App\Http\Controllers\Api\TagController::class);
 

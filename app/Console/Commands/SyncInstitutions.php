@@ -9,7 +9,6 @@ use Psr\Log\LoggerInterface;
 
 class SyncInstitutions extends Command
 {
-
     /**
      * The name and signature of the console command.
      *

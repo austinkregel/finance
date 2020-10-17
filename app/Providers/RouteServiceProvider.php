@@ -23,15 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Route::bind('action', function ($value) {
-            return app(ActionService::class)->build($value);
-        });
+        Route::bind('action', fn ($value) => app(ActionService::class)->build($value));
 
-        Route::bind('alert', function ($value) {
-            return Alert::findOrFail($value);
-        });
+        Route::bind('alert', fn ($value) => Alert::findOrFail($value));
 
         parent::boot();
     }
@@ -41,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
+    public function map(): void
     {
         $this->mapWebRoutes();
     }
@@ -53,7 +49,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoutes(): void
     {
         Route::middleware('web')->group(base_path('routes/web.php'));
     }

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Alert;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use NotificationChannels\Discord\DiscordMessage;
 

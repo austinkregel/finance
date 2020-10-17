@@ -45,6 +45,7 @@ class AlertController extends Controller
             'user_id' => auth()->id(),
         ]);
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 

@@ -6,27 +6,20 @@ use App\AccountKpi;
 use App\Budget;
 use App\FailedJob;
 use App\Models\Alert;
-use App\Models\DatabaseNotification;
 use App\Tag;
 use App\Http\Controllers\Api\AbstractResourceController;
-use App\Http\Controllers\Api\AfterRequestSortController;
 use App\Models\AccessToken;
 use App\Models\Account;
-use App\Models\Action;
 use App\Models\Category;
-use App\Models\Institution;
 use App\Models\Transaction;
-use App\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Route;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Exceptions\ModelNotInstanceOfAbstractEloquentModel;
-use Kregel\LaravelAbstract\LaravelAbstract;
 
 class AbstractRouteServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -66,17 +59,17 @@ class AbstractRouteServiceProvider extends ServiceProvider
         });
     }
 
-    public function map()
+    public function map(): void
     {
         if (abstracted()->usingRoutes) {
             $this->mapRoutes();
         }
     }
 
-    protected function mapRoutes()
+    protected function mapRoutes(): void
     {
         Route::middleware(abstracted()->middlewareGroup)
-            ->group(function () {
+            ->group(function (): void {
                 Route::get('abstract-api/{abstract_model}', [AbstractResourceController::class, 'index']);
                 Route::post('abstract-api/{abstract_model}', [AbstractResourceController::class, 'store']);
                 Route::get('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'show']);

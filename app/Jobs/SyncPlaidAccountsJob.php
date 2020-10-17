@@ -36,9 +36,9 @@ class SyncPlaidAccountsJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(PlaidServiceContract $plaid)
+    public function handle(PlaidServiceContract $plaid): void
     {
-        $response = $this->tryCatch(fn() => $plaid->getAccounts($this->accessToken->token), $this->accessToken);
+        $response = $this->tryCatch(fn () => $plaid->getAccounts($this->accessToken->token), $this->accessToken);
 
         if (!$response) {
             return;

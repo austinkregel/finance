@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * Class AbstractRepository
  * @package App\Repositories
  */
-abstract class AbstractRepository  implements AbstractRepositoryInterface
+abstract class AbstractRepository implements AbstractRepositoryInterface
 {
     /**
      * @return string|Model
@@ -95,6 +95,7 @@ abstract class AbstractRepository  implements AbstractRepositoryInterface
     public function findAllWithoutPagination(array $where = [], array $with = []): Collection
     {
         $query = $this->model()::with($with);
+
         return $this->figureOutTheWheres($query, $where)->get();
     }
 
@@ -132,11 +133,16 @@ abstract class AbstractRepository  implements AbstractRepositoryInterface
         $relationships = [];
 
         foreach ((new \ReflectionClass($createdModel))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->class != get_class($createdModel) || !empty($method->getParameters()) || $method->getName() == __FUNCTION__) continue;
+            if ($method->class != get_class($createdModel) || !empty($method->getParameters()) || $method->getName() == __FUNCTION__) {
+                continue;
+            }
             try {
                 $return = $method->invoke($createdModel);
-                if ($return instanceof Relation) $relationships[] = $method->getName();
-            } catch (\ErrorException $e) {}
+                if ($return instanceof Relation) {
+                    $relationships[] = $method->getName();
+                }
+            } catch (\ErrorException $e) {
+            }
         }
 
         foreach ($relationships as $relationshipName) {
@@ -149,7 +155,7 @@ abstract class AbstractRepository  implements AbstractRepositoryInterface
                     $relationIdKey = $relationship->getOwnerKey();
                     $createdModel->$relationKey = $relation->$relationIdKey;
                 } elseif ($relationship instanceof BelongsToMany) {
-                    if (!$createdModel->wasRecentlyCreated){
+                    if (!$createdModel->wasRecentlyCreated) {
                         $createdModel = static::create($createdModel->toArray());
                     } else {
                         $createdModel->save();
@@ -162,7 +168,7 @@ abstract class AbstractRepository  implements AbstractRepositoryInterface
             }
         }
 
-        if (!$createdModel->wasRecentlyCreated){
+        if (!$createdModel->wasRecentlyCreated) {
             return static::create($createdModel->toArray());
         }
 
@@ -183,23 +189,17 @@ abstract class AbstractRepository  implements AbstractRepositoryInterface
             }
         }
 
-        $whereIns = array_filter($where, function (array $whereDeclaration) {
-            return $whereDeclaration[1] == 'in';
-        });
+        $whereIns = array_filter($where, fn (array $whereDeclaration) => $whereDeclaration[1] == 'in');
         foreach ($whereIns as $whereIn) {
             $query->whereIn($whereIn[0], $whereIn[2]);
         }
 
-        $whereNotIns = array_filter($where, function (array $whereDeclaration) {
-            return $whereDeclaration[1] == 'not in';
-        });
+        $whereNotIns = array_filter($where, fn (array $whereDeclaration) => $whereDeclaration[1] == 'not in');
         foreach ($whereNotIns as $whereNotIn) {
             $query->whereNotIn($whereNotIn[0], $whereNotIn[2]);
         }
 
-        $wheres = array_filter($where, function (array $whereDeclaration) {
-            return $whereDeclaration[1] != 'in' && $whereDeclaration[1] != 'not in';
-        });
+        $wheres = array_filter($where, fn (array $whereDeclaration) => $whereDeclaration[1] != 'in' && $whereDeclaration[1] != 'not in');
         $query->where($wheres);
 
         return $query;

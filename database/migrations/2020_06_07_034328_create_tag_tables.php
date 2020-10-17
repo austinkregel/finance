@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTagTables extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table): void {
             $table->increments('id');
             $table->json('name');
             $table->json('slug');
@@ -19,7 +19,7 @@ class CreateTagTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('taggables', function (Blueprint $table) {
+        Schema::create('taggables', function (Blueprint $table): void {
             $table->integer('tag_id')->unsigned();
             $table->morphs('taggable');
 
@@ -29,7 +29,7 @@ class CreateTagTables extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::drop('taggables');
         Schema::drop('tags');

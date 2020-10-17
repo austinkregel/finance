@@ -1,10 +1,8 @@
 <?php
+
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class AbstractResourceCollection extends ResourceCollection
 {

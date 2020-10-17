@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\Jobs\SyncPlaidAccountsJob;
-use App\Models\AccessToken;
 
 class RefreshAccountsFor extends Action
 {

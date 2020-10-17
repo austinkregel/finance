@@ -11,9 +11,9 @@ class CreateCategoryTransactionTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('category_transaction', function (Blueprint $table) {
+        Schema::create('category_transaction', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('transaction_id')->index();
@@ -26,7 +26,7 @@ class CreateCategoryTransactionTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('category_transaction');
     }

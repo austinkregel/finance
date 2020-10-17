@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Http\Guards\AccessTokenGuard;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -23,13 +22,10 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
 
-        Auth::viaRequest('magic', function ($request) {
-            return app(AccessTokenGuard::class)->user($request);
-        });
-        //
+        Auth::viaRequest('magic', fn ($request) => app(AccessTokenGuard::class)->user($request));
     }
 }

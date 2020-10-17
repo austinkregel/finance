@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Plaid;
 
 use App\Contracts\Services\PlaidServiceContract;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Carbon\Carbon;
@@ -50,7 +51,7 @@ class FilterMiddleware
         return $this->wheres;
     }
 
-    protected function buildWhere($column, $operator, array $value)
+    protected function buildWhere($column, $operator, array $value): void
     {
         if ($operator === 'between') {
             $this->wheres[] = [$column, '>=', $value[0]];
@@ -103,7 +104,7 @@ class FilterMiddleware
 
         $queryValues = array_map('trim', explode(',', $queryString));
 
-        return array_map([$this, 'parseValueToNative'],  $queryValues);
+        return array_map([$this, 'parseValueToNative'], $queryValues);
     }
 
     protected function parseValueToNative($value)

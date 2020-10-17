@@ -27,7 +27,7 @@ class Account
             $iterable = $account;
         }
 
-        foreach($iterable as $key => $value) {
+        foreach ($iterable as $key => $value) {
             $this->$key = $value;
         }
     }

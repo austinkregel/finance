@@ -2,20 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\AccountKpi;
 use App\Condition;
 use App\Events\BudgetBreachedEstablishedAmount;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Events\TransactionUpdated;
-use App\Models\Account;
 use Illuminate\Console\Command;
-use Illuminate\Notifications\Channels\BroadcastChannel;
 use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Notifications\Channels\MailChannel;
 use Illuminate\Notifications\Channels\NexmoSmsChannel;
 use Illuminate\Notifications\Channels\SlackWebhookChannel;
-use Kregel\LaravelAbstract\Repositories\GenericRepository;
 use NotificationChannels\Discord\DiscordChannel;
 use NotificationChannels\Webhook\WebhookChannel;
 
@@ -35,7 +31,7 @@ class GenerateChannelsAndAlertsFile extends Command
      */
     protected $description = 'Build channels and alerts.';
 
-    public function handle()
+    public function handle(): void
     {
         $this->writeToDisk('js/channels.js', [
             [
@@ -120,10 +116,9 @@ class GenerateChannelsAndAlertsFile extends Command
                 'name' => $comparator,
             ];
         }, Condition::ALL_COMPARATORS));
-
     }
 
-    protected function writeToDisk(string $file, array $data)
+    protected function writeToDisk(string $file, array $data): void
     {
         file_put_contents(resource_path($file), sprintf('module.exports = %s', json_encode($data, JSON_PRETTY_PRINT)));
     }

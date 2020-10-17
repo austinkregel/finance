@@ -65,9 +65,9 @@ class Budget extends Model implements AbstractEloquentModel
         'breached_at' => 'datetime',
     ];
 
-    public static function booted()
+    public static function booted(): void
     {
-        static::creating(function ($budget) {
+        static::creating(function ($budget): void {
             if (empty($budget->user_id) && auth()->check()) {
                 $budget->user_id = auth()->id();
             }
@@ -79,14 +79,16 @@ class Budget extends Model implements AbstractEloquentModel
         return Tag::class;
     }
 
-    public function scopeTotalSpends(Builder $query, $startingPeriod, int $userId)
+    public function scopeTotalSpends(Builder $query, $startingPeriod, int $userId): void
     {
         $query->addSelect([
             'total_spend' => Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
                 ->whereIn('taggables.tag_id', $this->tags()->select('id'))
                 ->selectRaw('sum(amount) as amount')
                 ->where('taggables.taggable_type', '=', Transaction::class)
-                ->whereIn('transactions.account_id', Account::select('account_id')
+                ->whereIn(
+                    'transactions.account_id',
+                    Account::select('account_id')
                     ->whereIn('access_token_id', AccessToken::select('id')
                         ->where('user_id', $userId))
                 )
@@ -94,7 +96,7 @@ class Budget extends Model implements AbstractEloquentModel
         ]);
     }
 
-    public function getValidationCreateRules (): array
+    public function getValidationCreateRules(): array
     {
         return [
             'name' => 'required',
@@ -106,7 +108,7 @@ class Budget extends Model implements AbstractEloquentModel
         ];
     }
 
-    public function getValidationUpdateRules (): array
+    public function getValidationUpdateRules(): array
     {
         return [
             'name' => 'string',
@@ -123,29 +125,29 @@ class Budget extends Model implements AbstractEloquentModel
         ];
     }
 
-    public function getAbstractAllowedFilters (): array
+    public function getAbstractAllowedFilters(): array
     {
         return [
             AllowedFilter::scope('totalSpends'),
         ];
     }
 
-    public function getAbstractAllowedRelationships (): array
+    public function getAbstractAllowedRelationships(): array
     {
         return ['tags.transactions'];
     }
 
-    public function getAbstractAllowedSorts (): array
+    public function getAbstractAllowedSorts(): array
     {
         return [];
     }
 
-    public function getAbstractAllowedFields (): array
+    public function getAbstractAllowedFields(): array
     {
         return [];
     }
 
-    public function getAbstractSearchableFields (): array
+    public function getAbstractSearchableFields(): array
     {
         return [];
     }

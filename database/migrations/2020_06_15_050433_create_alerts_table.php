@@ -11,9 +11,9 @@ class CreateAlertsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('alerts', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->string('title', 180)->nullable();
@@ -40,7 +40,7 @@ class CreateAlertsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('alerts');
     }
