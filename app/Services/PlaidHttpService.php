@@ -6,15 +6,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-
-use GuzzleHttp\Client;
-use Illuminate\Support\Collection;
-
 /**
  * Class PlaidHttpService
  * @package App\Services
  */
-class  PlaidHttpService extends HttpService
+class PlaidHttpService extends HttpService
 {
     /**
      * @var string
@@ -47,6 +43,7 @@ class  PlaidHttpService extends HttpService
     {
         $this->url = sprintf($this->baseUrl, 'sandbox');
         $this->new($this->url, []);
+
         return $this;
     }
 
@@ -57,6 +54,7 @@ class  PlaidHttpService extends HttpService
     {
         $this->url = sprintf($this->baseUrl, 'development');
         $this->new($this->url, []);
+
         return $this;
     }
 
@@ -67,6 +65,7 @@ class  PlaidHttpService extends HttpService
     public function auth($data): HttpService
     {
         $this->authBits = $data;
+
         return $this;
     }
 

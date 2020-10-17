@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(AccountRepository::class, AccountRepositoryEloquent::class);
         $this->app->bind(PlaidServiceContract::class, PlaidService::class);
@@ -43,8 +43,7 @@ class AppServiceProvider extends ServiceProvider
                 // Closure there, so that we can treat them all the same.
                 if (is_numeric($name)) {
                     $name = $constraints;
-                    $constraints = static function () {
-                        //
+                    $constraints = static function (): void {
                     };
                 }
 
@@ -99,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
     }
 }

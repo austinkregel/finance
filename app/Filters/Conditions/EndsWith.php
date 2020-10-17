@@ -12,6 +12,6 @@ class EndsWith implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return Str::endsWith(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue()) ;
+        return Str::endsWith(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue());
     }
 }

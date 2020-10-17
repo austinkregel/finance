@@ -11,9 +11,9 @@ class AddErrorAndShouldSyncFieldToAccessTokens extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('access_tokens', function (Blueprint $table) {
+        Schema::table('access_tokens', function (Blueprint $table): void {
             $table->boolean('should_sync')->after('token')->default(1);
             $table->text('error')->after('token')->nullable();
         });
@@ -24,10 +24,9 @@ class AddErrorAndShouldSyncFieldToAccessTokens extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('access_tokens', function (Blueprint $table) {
-            //
+        Schema::table('access_tokens', function (Blueprint $table): void {
         });
     }
 }

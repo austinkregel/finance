@@ -38,7 +38,7 @@ class TransactionController extends Controller
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
-            ->whereHas('account', function ($query) use ($request) {
+            ->whereHas('account', function ($query) use ($request): void {
                 $query->whereIn('access_token_id', $request->user()->accessTokens->map->id);
             });
 
@@ -51,6 +51,7 @@ class TransactionController extends Controller
         $resource = new Transaction;
         $resource->fill($request->validated());
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 

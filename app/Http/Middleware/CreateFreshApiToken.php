@@ -41,6 +41,7 @@ class CreateFreshApiToken
         if ($this->shouldReceiveFreshToken($request, $response)) {
             $response->withCookie($this->tokens->createTokenCookie($request->user()));
         }
+
         return $response;
     }
 
@@ -93,6 +94,7 @@ class CreateFreshApiToken
                 return true;
             }
         }
+
         return false;
     }
 }

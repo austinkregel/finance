@@ -13,7 +13,7 @@ class EmitRefreshEvent extends Action
         $userId = auth()->id();
         $page = 1;
 
-        $accounts = Account::whereHas('users', function ($query) use ($userId) {
+        $accounts = Account::whereHas('users', function ($query) use ($userId): void {
             $query->where('user_id', $userId);
         })->get();
 

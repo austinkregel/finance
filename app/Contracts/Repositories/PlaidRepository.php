@@ -9,5 +9,4 @@ namespace App\Contracts\Repositories;
  */
 interface PlaidRepository extends AbstractRepositoryInterface
 {
-    //
 }

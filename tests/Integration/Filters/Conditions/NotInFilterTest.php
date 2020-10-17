@@ -3,18 +3,15 @@
 namespace Tests\Integration\Filters\Conditions;
 
 use App\Condition;
-use App\Contracts\ConditionalsContract;
-use App\Contracts\ConditionContract;
 use App\Filters\Conditions\NotInFilter;
 use Tests\TestCase;
 
 class NotInFilterTest extends TestCase
 {
-
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue)
+    public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';

@@ -11,9 +11,9 @@ class CreateConditionsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('conditions', function (Blueprint $table) {
+        Schema::create('conditions', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->string('parameter')->nullable();
             $table->string('comparator')->nullable();
@@ -29,7 +29,7 @@ class CreateConditionsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('conditions');
     }

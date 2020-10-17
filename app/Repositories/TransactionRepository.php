@@ -25,7 +25,7 @@ class TransactionRepository extends AbstractRepository implements TransactionRep
         $tag = $user
             ->tags()
             ->with([
-                'transactions' => function (MorphToMany $query) use ($startDate , $endDate) {
+                'transactions' => function (MorphToMany $query) use ($startDate , $endDate): void {
                     $query
                         ->selectRaw('id, sum(amount) as amount, date')
                         ->where('date', '>=', $startDate)

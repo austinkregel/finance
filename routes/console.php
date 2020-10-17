@@ -3,7 +3,6 @@
 use App\Events\TransactionCreated;
 use App\Models\Institution;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -17,11 +16,11 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
+Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
-Artisan::command('institution {institution_id}', function () {
+Artisan::command('institution {institution_id}', function (): void {
     /** @var \App\Services\Banking\PlaidService $service */
     $service = app(\App\Services\Banking\PlaidService::class);
 
@@ -42,10 +41,9 @@ Artisan::command('institution {institution_id}', function () {
             'primary_color' => $item->primary_color ?? null,
         ]);
     }
-
 });
 
-Artisan::command('test', function () {
+Artisan::command('test', function (): void {
     $transaction = Transaction::find(129);
     $event = new TransactionCreated($transaction);
 

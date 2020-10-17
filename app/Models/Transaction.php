@@ -7,12 +7,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\Tags\HasTags;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -105,7 +102,7 @@ class Transaction extends Model implements AbstractEloquentModel
         return null;
     }
 
-    public function setTagAttribute($value)
+    public function setTagAttribute($value): void
     {
         $this->attributes['tag'] = $value;
     }
@@ -168,9 +165,9 @@ class Transaction extends Model implements AbstractEloquentModel
     public function scopeWithoutFeesOrTransfers($query)
     {
         return $query->where(\DB::raw('LOWER(name)'), 'not like', '%transfer%')
-            ->where(\DB::raw('LOWER(name)'),'not like', '%interest%')
-            ->where(\DB::raw('LOWER(name)'),'not like', '%atm surcharge%')
-            ->where(\DB::raw('LOWER(name)') ,'not like', '%FEE%');
+            ->where(\DB::raw('LOWER(name)'), 'not like', '%interest%')
+            ->where(\DB::raw('LOWER(name)'), 'not like', '%atm surcharge%')
+            ->where(\DB::raw('LOWER(name)'), 'not like', '%FEE%');
     }
 
     public function scopeWithFeesAndTransfers($query)
@@ -237,7 +234,6 @@ class Transaction extends Model implements AbstractEloquentModel
 
     public function getAbstractAllowedFields(): array
     {
-
         return [
             'account_id',
             'amount',

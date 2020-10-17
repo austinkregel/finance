@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -52,7 +51,6 @@ return [
         'language' => env('PLAID_LANGUAGE', 'en'),
         'country_codes' => explode(',', env('PLAID_COUNTRY_CODES', 'US')),
         'products' => ['transactions'],
-
     ],
 
     'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),

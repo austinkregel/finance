@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Mail\BudgetBreachEstablishedAmountMail;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Support\Str;
 use NotificationChannels\Discord\DiscordMessage;
 
 class BudgetBreachedEstablishedAmountNotification extends AlertNotiffication

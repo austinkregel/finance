@@ -6,7 +6,6 @@ use App\Contracts\Repositories\TransactionRepositoryContract;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Category;
-use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use App\Tag;
 use App\User;
@@ -27,7 +26,7 @@ class TransactionRepositoryTest extends TestCase
         $this->transactionRepository = new TransactionRepository();
     }
 
-    public function testFindAllBetweenDateForUserInScopeWhere()
+    public function testFindAllBetweenDateForUserInScopeWhere(): void
     {
         $user = factory(User::class)->create();
         /** @var Tag $tag */

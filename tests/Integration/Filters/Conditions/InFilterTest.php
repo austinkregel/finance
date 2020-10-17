@@ -11,7 +11,7 @@ class InFilterTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue)
+    public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';

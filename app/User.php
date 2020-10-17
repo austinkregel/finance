@@ -6,7 +6,6 @@ use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Alert;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Tags\HasTags;
 

@@ -2,10 +2,8 @@
 
 namespace App\Actions;
 
-use App\Jobs\SyncPlaidAccountsJob;
 use App\Jobs\SyncPlaidTransactionsJob;
 use App\Models\AccessToken;
-use App\Models\Account;
 use Carbon\Carbon;
 
 class HistoricalSync extends Action

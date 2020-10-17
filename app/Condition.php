@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Contracts\ConditionalsContract;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
