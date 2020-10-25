@@ -57,7 +57,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         return $this->handleTransactionEvent($event, $user);
     }
 
-    protected function handleGroupedEvent(TransactionGroupedEvent $event, User $user)
+    protected function handleGroupedEvent(TransactionGroupedEvent $event, User $user): void
     {
         $tag = $event->getTag();
 
@@ -75,7 +75,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         $alertsToTrigger->map->createNotificationWithTag($transaction, $tag);
     }
 
-    protected function handleTransactionEvent(TransactionEventContract $event, User $user)
+    protected function handleTransactionEvent(TransactionEventContract $event, User $user): void
     {
         $transaction = $event->getTransaction();
         $transaction->load(['account.owner.alerts']);
@@ -120,7 +120,8 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         return $shouldNotAlertMe;
     }
 
-    protected function handleBudgetEvent (BudgetBreachedEstablishedAmount $event, $user) {
+    protected function handleBudgetEvent(BudgetBreachedEstablishedAmount $event, $user): void
+    {
         $budget = $event->getBudget();
 
         /** @var Collection $alerts */
@@ -135,6 +136,5 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         });
 
         $alertsToTrigger->map->createNotificationWithBudget($transaction, $budget);
-
     }
 }

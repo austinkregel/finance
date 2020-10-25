@@ -11,7 +11,7 @@ class NotLikeFilterTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';
@@ -26,8 +26,8 @@ class NotLikeFilterTest extends TestCase
     public function dataProvider()
     {
         return [
-            [false, "dog", "Hello dog, how are you?"],
-            [true, "nope", "Hello dog, how are you?"],
+            [false, 'dog', 'Hello dog, how are you?'],
+            [true, 'nope', 'Hello dog, how are you?'],
         ];
     }
 }

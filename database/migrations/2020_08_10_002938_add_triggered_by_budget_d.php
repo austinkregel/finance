@@ -11,9 +11,9 @@ class AddTriggeredByBudgetD extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('alert_logs', function (Blueprint $table) {
+        Schema::table('alert_logs', function (Blueprint $table): void {
             $table->unsignedInteger('triggered_by_transaction_id')->nullable()->change();
             $table->unsignedInteger('triggered_by_budget_id')->nullable();
         });
@@ -24,9 +24,9 @@ class AddTriggeredByBudgetD extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('alert_logs', function (Blueprint $table) {
+        Schema::table('alert_logs', function (Blueprint $table): void {
             $table->unsignedInteger('triggered_by_transaction_id')->change();
             $table->dropColumn('triggered_by_budget_id');
         });

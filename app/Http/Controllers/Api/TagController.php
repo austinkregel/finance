@@ -8,7 +8,6 @@ use App\Http\Requests\Tag\ConditionalsRequest;
 use App\Http\Requests\Tag\ConditionalUpdateRequest;
 use App\Http\Requests\Tag\DestroyRequest;
 use App\Jobs\SyncTagsWithTransactionsInDatabase;
-use App\Models\Transaction;
 use App\Tag;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -55,6 +54,7 @@ class TagController extends Controller
             'type' => 'automatic'
         ]);
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 
@@ -95,6 +95,7 @@ class TagController extends Controller
     {
         try {
             $tag->transactions()->sync([]);
+
             return $this->json(
                 $tag->conditionals()->create($request->json()->all())
             );
@@ -125,5 +126,4 @@ class TagController extends Controller
             $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));
         }
     }
-
 }

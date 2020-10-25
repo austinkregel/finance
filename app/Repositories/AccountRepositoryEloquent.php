@@ -5,7 +5,6 @@ namespace App\Repositories;
 use Illuminate\Support\Collection;
 use App\Contracts\Repositories\AccountRepository;
 use App\Models\Account;
-use Kregel\LaravelAbstract\Repositories\GenericRepository;
 
 /**
  * Class AccountRepositoryEloquent.
@@ -23,7 +22,6 @@ class AccountRepositoryEloquent extends AbstractRepository implements AccountRep
     {
         return Account::class;
     }
-
 
     /**
      * @return Collection

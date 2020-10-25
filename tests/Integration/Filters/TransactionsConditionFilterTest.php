@@ -3,12 +3,10 @@
 namespace Tests\Integration\Filters;
 
 use App\Condition;
-use App\Contracts\ConditionableContract;
 use App\Filters\TransactionsConditionFilter;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,12 +17,11 @@ class TransactionsConditionFilterTest extends TestCase
     const SHOULD_BE_EMPTY = true;
     const SHOULD_NOT_BE_EMPTY = false;
 
-    public function testHandle()
+    public function testHandle(): void
     {
         $data = $this->dataProvider();
 
         foreach ($data as $index => [$expected, $expectedCount, $conditionable, $transactions]) {
-
             $filter = new TransactionsConditionFilter();
 
             $result = $filter->handle($conditionable, ...$transactions);

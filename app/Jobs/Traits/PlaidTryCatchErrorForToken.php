@@ -10,11 +10,13 @@ trait PlaidTryCatchErrorForToken
             $response = $callable();
             $accessToken->should_sync = true;
             $accessToken->save();
+
             return $response;
         } catch (\Throwable $exception) {
             $accessToken->should_sync = false;
-            $accessToken->error .= "\n".now()->format('Y-m-d H:i:s')." ---- ".$exception->getMessage();
+            $accessToken->error .= "\n".now()->format('Y-m-d H:i:s').' ---- '.$exception->getMessage();
             $accessToken->save();
+
             return false;
         }
     }

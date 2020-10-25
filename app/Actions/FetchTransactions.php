@@ -2,9 +2,7 @@
 
 namespace App\Actions;
 
-use App\Jobs\SyncPlaidAccountsJob;
 use App\Jobs\SyncPlaidTransactionsJob;
-use App\Models\AccessToken;
 use Carbon\Carbon;
 
 class FetchTransactions extends Action

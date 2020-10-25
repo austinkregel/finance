@@ -11,9 +11,9 @@ class CreateAccountsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table): void {
             $table->increments('id');
             $table->string('account_id')->index();
             $table->integer('access_token_id')->unsigned();
@@ -27,7 +27,7 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('account_users', function (Blueprint $table) {
+        Schema::create('account_users', function (Blueprint $table): void {
             $table->integer('user_id')->unsigned();
             $table->integer('account_id')->unsigned();
         });
@@ -38,7 +38,7 @@ class CreateAccountsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('accounts');
         Schema::dropIfExists('account_users');

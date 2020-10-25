@@ -21,7 +21,7 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
         $this->filter = new TransactionsConditionFilter();
     }
 
-    public function handle(TransactionEventContract $event)
+    public function handle(TransactionEventContract $event): void
     {
         /** @var Transaction $transaction */
         $transaction = $event->getTransaction();
@@ -31,15 +31,14 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
         $user = $transaction->account->owner;
 
         /** @var Collection $groupsForUser */
-        $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), function () use ($user) {
-            return Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get();
-        });
+        $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), fn () => Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get());
 
-        $groupsForUser->each(function (Tag $group) use ($transaction) {
+        $groupsForUser->each(function (Tag $group) use ($transaction): void {
             if ($group->conditionals->count() === 0) {
                 // Shortcut. save the group to the conditional.
                 $transaction->attachTag($group);
                 event(new TransactionGroupedEvent($group, $transaction));
+
                 return;
             }
 
@@ -52,7 +51,7 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
 
             if ($transaction->tags()->where('tag_id', $group->id)->exists()) {
                 // Don't double attach tags...
-                return ;
+                return;
             }
 
             $transaction->attachTag($group);

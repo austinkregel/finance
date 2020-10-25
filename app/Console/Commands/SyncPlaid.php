@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Jobs\SyncPlaidAccountsJob;
 use App\Jobs\SyncPlaidTransactionsJob;
 use App\Models\AccessToken;
-use App\Models\Account;
 use Illuminate\Console\Command;
 
 class SyncPlaid extends Command

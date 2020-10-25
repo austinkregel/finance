@@ -2,27 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Contracts\Services\PlaidServiceContract;
 use App\Events\RegroupEvent;
-use App\Events\TransactionCreated;
-use App\Events\TransactionUpdated;
-use App\Filters\TransactionsConditionFilter;
 use App\Jobs\Traits\PlaidTryCatchErrorForToken;
-use App\Tag;
 use App\Models\AccessToken;
 use App\Models\Account;
-use App\Models\Category;
 use App\Models\Transaction;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Arr;
-use Kregel\LaravelAbstract\Repositories\GenericRepository;
 
 class SyncTagsWithTransactionsInDatabase implements ShouldQueue
 {
@@ -40,7 +30,7 @@ class SyncTagsWithTransactionsInDatabase implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $page = 1;
 

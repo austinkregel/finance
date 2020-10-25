@@ -7,9 +7,7 @@ use App\Actions\EmitRefreshEvent;
 use App\Actions\FetchTransactions;
 use App\Actions\HistoricalSync;
 use App\Actions\RefreshAccountsFor;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ActionService
 {

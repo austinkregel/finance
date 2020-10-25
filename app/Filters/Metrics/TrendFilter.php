@@ -22,7 +22,7 @@ class TrendFilter
             $returnedData[$durationStart->copy()->addDay($i)->format('m/d')] = 0;
         }
 
-        $data->each(function (Transaction $transaction) use (&$returnedData) {
+        $data->each(function (Transaction $transaction) use (&$returnedData): void {
             if (!array_key_exists($transaction->date->format('m/d'), $returnedData)) {
                 $returnedData[$transaction->date->format('m/d')] = 0;
             }

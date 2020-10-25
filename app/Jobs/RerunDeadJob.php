@@ -30,7 +30,7 @@ class RerunDeadJob
      * @param  Factory  $queue
      * @return void
      */
-    public function handle(Queue $queue)
+    public function handle(Queue $queue): void
     {
         if (is_null($job = FailedJob::find($this->id))) {
             return;

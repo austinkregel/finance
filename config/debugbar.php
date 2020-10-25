@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      |--------------------------------------------------------------------------
      | Debugbar Settings
@@ -32,11 +31,11 @@ return [
      |
      */
     'storage' => [
-        'enabled'    => true,
-        'driver'     => 'file', // redis, file, pdo, custom
-        'path'       => storage_path('debugbar'), // For file driver
+        'enabled' => true,
+        'driver' => 'file', // redis, file, pdo, custom
+        'path' => storage_path('debugbar'), // For file driver
         'connection' => null,   // Leave null for default connection (Redis/PDO)
-        'provider'   => '' // Instance of StorageInterface for custom driver
+        'provider' => '' // Instance of StorageInterface for custom driver
     ],
 
     /*
@@ -101,28 +100,28 @@ return [
      */
 
     'collectors' => [
-        'phpinfo'         => false,  // Php version
-        'messages'        => false,  // Messages
-        'time'            => false,  // Time Datalogger
-        'memory'          => true,  // Memory usage
-        'exceptions'      => true,  // Exception displayer
-        'log'             => false,  // Logs from Monolog (merged in messages if enabled)
-        'db'              => true,  // Show database (PDO) queries and bindings
-        'views'           => false,  // Views with their data
-        'route'           => false,  // Current route information
-        'auth'            => false, // Display Laravel authentication status
-        'gate'            => false,  // Display Laravel Gate checks
-        'session'         => true,  // Display session data
+        'phpinfo' => false,  // Php version
+        'messages' => false,  // Messages
+        'time' => false,  // Time Datalogger
+        'memory' => true,  // Memory usage
+        'exceptions' => true,  // Exception displayer
+        'log' => false,  // Logs from Monolog (merged in messages if enabled)
+        'db' => true,  // Show database (PDO) queries and bindings
+        'views' => false,  // Views with their data
+        'route' => false,  // Current route information
+        'auth' => false, // Display Laravel authentication status
+        'gate' => false,  // Display Laravel Gate checks
+        'session' => true,  // Display session data
         'symfony_request' => false,  // Only one can be enabled..
-        'mail'            => false,  // Catch mail messages
-        'laravel'         => false, // Laravel version and environment
-        'events'          => false, // All events fired
+        'mail' => false,  // Catch mail messages
+        'laravel' => false, // Laravel version and environment
+        'events' => false, // All events fired
         'default_request' => false, // Regular or special Symfony request logger
-        'logs'            => false, // Add the latest log messages
-        'files'           => false, // Show the included files
-        'config'          => false, // Display config settings
-        'cache'           => false, // Display cache events
-        'models'          => true,  // Display models
+        'logs' => false, // Add the latest log messages
+        'files' => false, // Show the included files
+        'config' => false, // Display config settings
+        'cache' => false, // Display cache events
+        'models' => true,  // Display models
     ],
 
     /*
@@ -139,14 +138,14 @@ return [
             'show_name' => true,   // Also show the users name/email in the debugbar
         ],
         'db' => [
-            'with_params'       => true,   // Render SQL with the parameters substituted
-            'backtrace'         => true,   // Use a backtrace to find the origin of the query in your files.
-            'timeline'          => false,  // Add the queries to the timeline
+            'with_params' => true,   // Render SQL with the parameters substituted
+            'backtrace' => true,   // Use a backtrace to find the origin of the query in your files.
+            'timeline' => false,  // Add the queries to the timeline
             'explain' => [                 // Show EXPLAIN output on queries
                 'enabled' => false,
                 'types' => ['SELECT'],     // // workaround ['SELECT'] only. https://github.com/barryvdh/laravel-debugbar/issues/888 ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
             ],
-            'hints'             => true,    // Show hints for common mistakes
+            'hints' => true,    // Show hints for common mistakes
         ],
         'mail' => [
             'full_log' => false

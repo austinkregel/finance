@@ -11,9 +11,9 @@ class CreateBudgetsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('budgets', function (Blueprint $table) {
+        Schema::create('budgets', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
@@ -32,7 +32,7 @@ class CreateBudgetsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('budgets');
     }

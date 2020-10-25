@@ -71,6 +71,7 @@ class FailedJob extends Model implements AbstractEloquentModel
     {
         return array_map(function ($codestack) {
             $codestack->file = str_replace(base_path(), '.', $codestack->file);
+
             return $codestack;
         }, (new Stacktrace)->parse($this->exception));
     }

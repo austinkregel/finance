@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Jobs;
-
 
 use App\Contracts\Services\PlaidServiceContract;
 use App\Jobs\Traits\PlaidTryCatchErrorForToken;
@@ -16,12 +14,12 @@ class SyncPlaidTokensJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, PlaidTryCatchErrorForToken;
 
-    public function handle()
+    public function handle(): void
     {
         /** @var PlaidServiceContract $plaidService */
         $plaidService = app(PlaidServiceContract::class);
         foreach (\App\Models\AccessToken::all() as $token) {
-            $response = $this->tryCatch(fn() => $plaidService->getAccounts($token->token), $token);
+            $response = $this->tryCatch(fn () => $plaidService->getAccounts($token->token), $token);
 
             if (!$response) {
                 return;
@@ -32,7 +30,7 @@ class SyncPlaidTokensJob implements ShouldQueue
             }
             $accounts = $response['accounts'];
 
-            foreach($accounts as $account) {
+            foreach ($accounts as $account) {
                 $this->accounts[$account->account_id] = [
                     $account->account_id,
                     $account->mask,

@@ -11,7 +11,7 @@ class StartsWithTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke($expect, $valueSearch, $actualValue)
+    public function testInvoke($expect, $valueSearch, $actualValue): void
     {
         $condition = new Condition;
         $condition->parameter = 'name';
@@ -26,9 +26,9 @@ class StartsWithTest extends TestCase
     public function dataProvider()
     {
         return [
-            [true, "Hello dog", "Hello dog, how are you?"],
-            [false, "nope", "Hello dog, how are you?"],
-            [false, "ello", "Hello dog, how are you?"],
+            [true, 'Hello dog', 'Hello dog, how are you?'],
+            [false, 'nope', 'Hello dog, how are you?'],
+            [false, 'ello', 'Hello dog, how are you?'],
         ];
     }
 }

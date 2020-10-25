@@ -17,9 +17,7 @@ class DynamicViewController
 
     public function index($view)
     {
-        $files = array_filter(glob(resource_path().'/**/*.blade.php'), function ($path) use ($view) {
-            return Str::contains($path, [$view.'.blade.php']);
-        });
+        $files = array_filter(glob(resource_path().'/**/*.blade.php'), fn ($path) => Str::contains($path, [$view.'.blade.php']));
 
         if (!Arr::first($files)) {
             abort(404, 'Blade ' . $view . '.blade.php not found');

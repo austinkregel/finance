@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSeedTables extends Migration
@@ -11,14 +10,14 @@ class CreateSeedTables extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         \Illuminate\Support\Facades\DB::getPdo()->exec(file_get_contents(__DIR__ . '/categories_seed.sql'));
         \Illuminate\Support\Facades\DB::getPdo()->exec(file_get_contents(__DIR__ . '/institutions_schema_seed.sql'));
 
         $contents = file_get_contents(__DIR__ . '/institutions_seed.sql');
         $contents = \Illuminate\Support\Collection::make(explode("\n", $contents));
-        $contents->chunk(1000)->each(function (\Illuminate\Support\Collection $chunks) {
+        $contents->chunk(1000)->each(function (\Illuminate\Support\Collection $chunks): void {
             \Illuminate\Support\Facades\DB::getPdo()->exec($chunks->join("\n"));
         });
     }
@@ -28,7 +27,7 @@ class CreateSeedTables extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

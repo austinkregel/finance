@@ -12,14 +12,13 @@ use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\Channels\DatabaseChannel;
-use Illuminate\Notifications\Notification;
 use Tests\TestCase;
 
 class TriggerAlertIfConditionsPassListenerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHandleWithNoConditionalsCreatesAlert()
+    public function testHandleWithNoConditionalsCreatesAlert(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -49,7 +48,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertSame(sprintf('Yo dog, maybe you shouldn\'t spend money on %s', $transaction->name), json_decode(collect($notifications)->first()->data)->body);
     }
 
-    public function testHandleWithConditionalCreatesAlert()
+    public function testHandleWithConditionalCreatesAlert(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
@@ -85,7 +84,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertSame(sprintf('Yo dog, maybe you shouldn\'t spend money on %s', $transaction->name), json_decode(collect($notifications)->first()->data)->body);
     }
 
-    public function testHandleWithConditionalDoesntCreatesAlert()
+    public function testHandleWithConditionalDoesntCreatesAlert(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
@@ -119,7 +118,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         // As long as notifications are empty, that means we're not creating alerts if it doesn't pass the conditionals!
     }
 
-    public function testHandleNothingHappensWhenNoAlertExists()
+    public function testHandleNothingHappensWhenNoAlertExists(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
@@ -136,7 +135,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertEmpty(\DB::table('notifications')->get()->all());
     }
 
-    public function testHandleCanUseTagInAlert()
+    public function testHandleCanUseTagInAlert(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -170,7 +169,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertSame(sprintf('You paid your %s %s', $transaction->name, $tag->name), json_decode(collect($notifications)->first()->data)->body);
     }
 
-    public function testHandleDoesNothingWhenThereIsNoChannel()
+    public function testHandleDoesNothingWhenThereIsNoChannel(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -201,7 +200,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertEmpty($notifications = \DB::table('notifications')->get()->all());
     }
 
-    public function testHandleDoesNothingWhenThereEventIsNotSelected()
+    public function testHandleDoesNothingWhenThereEventIsNotSelected(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create();
@@ -232,7 +231,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $this->assertEmpty($notifications = \DB::table('notifications')->get()->all());
     }
 
-    public function testHandleCreateAlertBasedOnTag()
+    public function testHandleCreateAlertBasedOnTag(): void
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([

@@ -169,7 +169,7 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => "Fast Food"
+                    'value' => 'Fast Food'
                 ]
             ],
         ],
@@ -248,7 +248,6 @@ class CreateDefaultTagsForUser
                 ],
             ],
         ],
-
     ];
 
     /**
@@ -257,7 +256,7 @@ class CreateDefaultTagsForUser
      * @param  object  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(Registered $event): void
     {
         /** @var User $user */
         $user = $event->user;

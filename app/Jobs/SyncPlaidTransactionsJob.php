@@ -4,22 +4,17 @@ namespace App\Jobs;
 
 use App\Contracts\Services\PlaidServiceContract;
 use App\Events\TransactionCreated;
-use App\Events\TransactionUpdated;
-use App\Filters\TransactionsConditionFilter;
 use App\Jobs\Traits\PlaidTryCatchErrorForToken;
-use App\Tag;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Arr;
 use Kregel\LaravelAbstract\Repositories\GenericRepository;
 
 class SyncPlaidTransactionsJob implements ShouldQueue
@@ -63,7 +58,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(PlaidServiceContract $plaid, GenericRepository $repository)
+    public function handle(PlaidServiceContract $plaid, GenericRepository $repository): void
     {
         $this->repository = $repository;
 
@@ -71,7 +66,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
             sleep(5);
         }
 
-        $transactionsResponse = $this->tryCatch(fn() => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
+        $transactionsResponse = $this->tryCatch(fn () => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
 
         if (!$transactionsResponse) {
             return;
@@ -90,7 +85,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
 
         foreach ($transactions as $transaction) {
             /** @var Transaction $localTransaction */
-            $localTransaction = Transaction::where(function ($query) use ($transaction) {
+            $localTransaction = Transaction::where(function ($query) use ($transaction): void {
                 $query->where('transaction_id', $transaction->transaction_id);
 
                 if ($transaction->pending_transaction_id) {
@@ -127,13 +122,11 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         }
     }
 
-    protected function syncTransactions($transaction, $localTransaction)
+    protected function syncTransactions($transaction, $localTransaction): void
     {
         $categoriesToSync = [];
         foreach ($transaction->category as $category) {
-            $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), function () use ($category) {
-                return Category::where('name', $category)->first();
-            })->id;
+            $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), fn () => Category::where('name', $category)->first())->id;
         }
 
         $localTransaction->categories()->sync($categoriesToSync);

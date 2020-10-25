@@ -11,7 +11,7 @@ jobs:
       - name: create database
         run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
       - name: install mysql
-        run: sudo apt install -y php-mysql
+        run: sudo apt update && sudo apt install -y php-mysql
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest

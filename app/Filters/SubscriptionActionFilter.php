@@ -66,7 +66,7 @@ class SubscriptionActionFilter
         return $query->{$this->getMethod()}();
     }
 
-    protected function parseAction()
+    protected function parseAction(): void
     {
         $parts = explode(':', $this->actionString);
 
@@ -74,12 +74,11 @@ class SubscriptionActionFilter
 
         if (count($parts) === 1) {
             $this->hasArguments = false;
+
             return;
         }
 
-        $this->arguments = array_filter(explode(',', end($parts)), function ($bit) {
-            return !empty($bit);
-        });
+        $this->arguments = array_filter(explode(',', end($parts)), fn ($bit) => !empty($bit));
 
         $this->hasArguments = count($this->arguments) > 0;
     }

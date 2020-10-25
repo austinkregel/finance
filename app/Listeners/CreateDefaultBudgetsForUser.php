@@ -1,17 +1,11 @@
 <?php
+
 namespace App\Listeners;
 
 use App\Budget;
-use App\Condition;
-use App\Events\BudgetBreachedEstablishedAmount;
-use App\Events\TransactionCreated;
-use App\Events\TransactionGroupedEvent;
-use App\Models\Alert;
 use App\Tag;
 use App\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Notifications\Channels\DatabaseChannel;
-use Illuminate\Notifications\Channels\MailChannel;
 
 class CreateDefaultBudgetsForUser
 {
@@ -42,7 +36,7 @@ class CreateDefaultBudgetsForUser
      * @param  object  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(Registered $event): void
     {
         /** @var User $user */
         $user = $event->user;
@@ -54,9 +48,7 @@ class CreateDefaultBudgetsForUser
             /** @var Budget $budget */
             $budget = $user->budgets()->create($budget);
 
-            $tags = array_map(function ($tagName) {
-                return Tag::findFromString($tagName, 'automatic')->id;
-            }, $tags);
+            $tags = array_map(fn ($tagName) => Tag::findFromString($tagName, 'automatic')->id, $tags);
 
             $budget->tags()->syncWithoutDetaching($tags);
         }

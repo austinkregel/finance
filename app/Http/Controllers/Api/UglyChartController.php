@@ -1,16 +1,11 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
-
 
 use App\Contracts\Repositories\TransactionRepositoryContract;
 use App\Filters\Metrics\TrendFilter;
-use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
-use App\Tag;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -26,6 +21,7 @@ class UglyChartController
 
         $this->transactionRepository = new TransactionRepository;
         $this->trendFilter = new TrendFilter;
+
         return cache()->tags([$request->user()->email])->remember(
             // This way we ensure each type/model/scope/duration combination can be cached on their own, and make it unique per user.
             sprintf('%s.%s.%s.%s.%s', $type, $model, $request->user()->id, $request->get('scope'), $request->get('duration')),

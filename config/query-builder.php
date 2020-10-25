@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * By default the package will use the `include`, `filter`, `sort` and `fields` query parameters.
      *
@@ -18,5 +17,4 @@ return [
 
         'append' => 'append',
     ],
-
 ];
