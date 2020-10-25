@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CheckBudgetsForBreachesOfAmount;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -27,7 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('generate:account-kpis')->dailyAt('23:55');
         $schedule->command('sync:plaid 1')->hourlyAt(0);
         // Small job offset so we don't flood the queue. Not really ever going to be a problem... but meh :shrug:
-        $schedule->command('check:budget-breach')->hourlyAt(10);
+        $schedule->job(CheckBudgetsForBreachesOfAmount::class)->hourlyAt(10);
     }
 
     /**

@@ -63,8 +63,6 @@ class SyncCategories extends Command
         $this->info('Attempting to sync the categories from the plaid services... One moment please...');
         $categories = new Collection($this->plaidService->getCategories());
 
-        dd($categories->count());
-
         $bar = $this->output->createProgressBar(count($categories));
 
         $bar->setRedrawFrequency(10);
