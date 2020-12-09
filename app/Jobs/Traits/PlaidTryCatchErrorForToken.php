@@ -17,7 +17,7 @@ trait PlaidTryCatchErrorForToken
             $accessToken->error .= "\n".now()->format('Y-m-d H:i:s').' ---- '.$exception->getMessage();
             $accessToken->save();
 
-            return false;
+            throw $exception;
         }
     }
 }
