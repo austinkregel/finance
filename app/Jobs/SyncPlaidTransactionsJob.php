@@ -73,15 +73,6 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         }
 
         $transactions = $transactionsResponse->get('transactions');
-        info(
-            sprintf(
-                'Found %d transactions for date range [%s] - [%s] on account %s',
-                count($transactions),
-                $this->startDate->format('Y-m-d'),
-                $this->endDate->format('Y-m-d'),
-                $this->accessToken->accounts->map->name->join(', ')
-            )
-        );
 
         foreach ($transactions as $transaction) {
             /** @var Transaction $localTransaction */
@@ -103,6 +94,8 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'pending' => $transaction->pending,
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
+                    'pending_transaction_id' => $transaction->pending_transaction_id,
+                    'data' => $transaction->toArray()
                 ]);
             } else {
                 $localTransaction->update([
@@ -114,6 +107,8 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'pending' => $transaction->pending,
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
+                    'pending_transaction_id' => $transaction->pending_transaction_id,
+                    'data' => $transaction->toArray()
                 ]);
             }
 
