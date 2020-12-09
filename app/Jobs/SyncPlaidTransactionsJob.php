@@ -95,7 +95,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
                     'pending_transaction_id' => $transaction->pending_transaction_id,
-                    'data' => $transaction->toArray()
+                    'data' => $transaction,
                 ]);
             } else {
                 $localTransaction->update([
@@ -108,7 +108,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                     'transaction_id' => $transaction->transaction_id,
                     'transaction_type' => $transaction->transaction_type,
                     'pending_transaction_id' => $transaction->pending_transaction_id,
-                    'data' => $transaction->toArray()
+                    'data' => $transaction
                 ]);
             }
 
