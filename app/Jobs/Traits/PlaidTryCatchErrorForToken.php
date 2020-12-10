@@ -19,7 +19,7 @@ trait PlaidTryCatchErrorForToken
             $accessToken->should_sync = false;
             $accessToken->save();
 
-            throw $exception;
+            return null;
         }
     }
 }
