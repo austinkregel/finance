@@ -251,4 +251,22 @@ class PlaidService implements PlaidServiceContract
             ])
             ->toArray();
     }
+
+    public function updateLinkToken(string $userId, string $accessToken): array
+    {
+        return $this->http
+            ->{config('services.plaid.env')}()
+            ->post('/link/token/create', [
+                'user' => [
+                    'client_user_id' => $userId
+                ],
+                'client_name' => config('services.plaid.client_name'),
+                'country_codes' => config('services.plaid.country_codes'),
+                'language' => config('services.plaid.language'),
+                'client_id' => config('services.plaid.client_id'),
+                'access_token' => $accessToken,
+                'secret' => config('services.plaid.secret_key'),
+ ])
+            ->toArray();
+    }
 }

@@ -59,6 +59,15 @@ export default {
             } catch (e) {
                 app.$toasted.success('We ran into an error when purging your cache!')
             }
-        }
+        },
+        async refreshAccountsFor({ commit, dispatch }, { access_token_id }) {
+            this.loading = true;
+            await axios.post('/api/actions/refresh-accounts-for', {
+                access_token_id,
+            });
+            Bus.$emit('fetchAccounts')
+
+            this.loading = false;
+        },
     }
 }

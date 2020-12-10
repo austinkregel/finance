@@ -79,25 +79,6 @@
             }
         },
         mounted() {
-            const that = this;
-            var handler = Plaid.create({
-                clientName: 'Kregel API',
-                env: process.env.MIX_PLAID_ENV,
-                key: process.env.MIX_PLAID_KEY,
-                product: ['transactions'],
-                // webhook: this.url,
-                selectAccount: false,
-                onSuccess: (public_token, metadata) => {
-                    axios.post('/api/plaid/exchange_token', {
-                        public_token: public_token,
-                        institution: metadata.institution.institution_id
-                    })
-                        .then((res) => {
-                            Bus.$emit('fetchAccessTokens')
-                        })
-                }
-            });
-
             Bus.$off('fetchAccessTokens');
             Bus.$on('fetchAccessTokens', () => this.getAccessTokens());
             Bus.$emit('fetchAccessTokens')

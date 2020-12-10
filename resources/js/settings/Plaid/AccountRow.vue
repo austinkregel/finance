@@ -27,13 +27,11 @@
         },
         methods: {
             async pullAccounts(access_token_id) {
-                this.loading = true;
-                await axios.post('/api/actions/refresh-accounts-for', {
-                    access_token_id,
-                });
-                Bus.$emit('fetchAccounts')
-
-                this.loading = false;
+                if (this.accessToken.should_sync) {
+                    await this.$store.dispatch('fetchAccounts')
+                } else {
+                    Bus.$emit('setupPlaid', this.accessToken)
+                }
             }
         }
     }
