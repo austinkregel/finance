@@ -75,6 +75,10 @@
             active(path) {
                 return this.$route.fullPath
             }
+        },
+        mounted() {
+            this.$store.dispatch('fetchAccessTokens')
+            this.$store.dispatch('fetchAccounts')
         }
     }
 </script>

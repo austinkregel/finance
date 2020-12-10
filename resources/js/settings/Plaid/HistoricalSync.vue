@@ -24,7 +24,7 @@
                 No accounts connected... Please connect an account to run a historical sync...
             </div>
 
-            <div class="mt-4 flex flex-wrap w-full mt-4" v-if="accessTokens.length > 0">
+            <div class="mt-4 flex flex-wrap w-full mt-4" v-if="accessTokens.data.length > 0">
                 <div class="w-full text-lg">Choose the furthest date back, you'd like to run this sync for.</div>
                 <div class="w-full">
                     <date-picker :dark-mode="$store.getters.darkMode" />
@@ -54,18 +54,12 @@
         props: ['darkMode'],
         data() {
             return {
-                accessTokens: [],
                 tokens: [],
                 date: '',
                 syncing: false,
             }
         },
         methods: {
-            async getAccessTokens() {
-                let { data: accessTokens } = await axios.get('/abstract-api/access_tokens?action=get&include=user,institution,accounts');
-
-                this.accessTokens = accessTokens;
-            },
             async syncTransactions() {
                 this.syncing = true;
                 try {
@@ -78,10 +72,12 @@
                 }
             }
         },
+        computed: {
+            accessTokens() {
+                return this.$store.getters.accessTokens;
+            }
+        },
         mounted() {
-            Bus.$off('fetchAccessTokens');
-            Bus.$on('fetchAccessTokens', () => this.getAccessTokens());
-            Bus.$emit('fetchAccessTokens')
 
             Bus.$off('chosenDate');
             Bus.$on('chosenDate', (value) => this.date = value)

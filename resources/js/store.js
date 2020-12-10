@@ -1,3 +1,5 @@
+const { buildUrl } = require('@kbco/query-builder');
+
 const { findLocalStorage, setLocalStorage, initLocalStorage } = require('./LocalStorage');
 
 initLocalStorage('darkMode', false);
@@ -16,10 +18,12 @@ export default {
         notifications: [],
         selectedTransactions: {},
         darkMode: findLocalStorage('darkMode'),
+        accessTokens: [],
     },
     getters: {
         selectedTransactions: (state) => state.selectedTransactions,
         darkMode: (state) => state.darkMode,
+        accessTokens: (state) => state.accessTokens,
     },
     mutations: {
         transactionLoading(state, value) {
@@ -46,6 +50,12 @@ export default {
         toggleDarkmode(state) {
             state.darkMode = !state.darkMode;
             setLocalStorage('darkMode', state.darkMode);
+        },
+        setAccessTokens(state, accessTokens) {
+            state.accessTokens = {
+                ...accessTokens,
+                loading: false,
+            };
         }
     },
     actions: {
@@ -65,9 +75,16 @@ export default {
             await axios.post('/api/actions/refresh-accounts-for', {
                 access_token_id,
             });
-            Bus.$emit('fetchAccounts')
 
+            await dispatch('fetchAccounts');
             this.loading = false;
         },
+        async fetchAccessTokens({ commit }) {
+            const { data: accessTokens } = await axios.get(buildUrl('/abstract-api/access_tokens', {
+                action: 'paginate:100',
+                include: 'accounts,institution'
+            }));
+            commit('setAccessTokens', accessTokens);
+        }
     }
 }

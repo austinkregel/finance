@@ -12,11 +12,10 @@
         </div>
 
         <div class="shadow p-4 rounded" :class="{'bg-gray-700': $store.getters.darkMode, 'bg-white': !$store.getters.darkMode}">
-            <div v-if="accessTokens.length > 0">
-                Linked to:
+            <div v-if="accessTokens">
                 <account-row
                     :dark-mode="$store.getters.darkMode"
-                    v-for="accessToken in accessTokens"
+                    v-for="accessToken in accessTokens.data"
                     :access-token="accessToken"
                     :key="accessToken.id"
                 />
@@ -33,7 +32,6 @@
         props: ['darkMode'],
         data() {
             return {
-                accessTokens: this.$store.getters.accessTokens,
                 handler: null,
             }
         },
@@ -87,6 +85,11 @@
                 this.handler.open();
             }
         },
+        computed: {
+            accessTokens() {
+                return this.$store.getters.accessTokens
+            }
+        },
         async mounted() {
             Bus.$off('setupPlaid');
             Bus.$on('setupPlaid', async (account) => {
@@ -94,7 +97,6 @@
                 await this.$store.dispatch('fetchAccounts')
             })
 
-            await this.$store.dispatch('fetchAccounts')
         }
     }
 </script>
