@@ -52,6 +52,14 @@ class AccessToken extends Model implements AbstractEloquentModel
         'should_sync' => 'boolean'
     ];
 
+    public function log($message)
+    {
+        activity('account')
+            ->causedByAnonymous()
+            ->on($this)
+            ->log($message);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
