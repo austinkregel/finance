@@ -75,45 +75,55 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         $transactions = $transactionsResponse->get('transactions');
 
         foreach ($transactions as $transaction) {
-            /** @var Transaction $localTransaction */
-            $localTransaction = Transaction::where(function ($query) use ($transaction): void {
+            $localTransactions = Transaction::where(function ($query) use ($transaction): void {
                 $query->where('transaction_id', $transaction->transaction_id);
 
+                /**
+                 * Due to how Plaid handles pending transactions, we need to delete the transaction with a pending transaction id,
+                 * and then create a new transaction
+                 * @see https://plaid.com/docs/transactions/transactions-data/#reconciling-transactions
+                 */
                 if ($transaction->pending_transaction_id) {
                     $query->orWhere('transaction_id', $transaction->pending_transaction_id);
                 }
-            })->first();
+            })->get();
 
-            if (empty($localTransaction)) {
-                $localTransaction = $repository->findOrCreate(Transaction::class, 'transaction_id', $transaction->transaction_id, [
-                    'account_id' => $transaction->account_id,
-                    'amount' => $transaction->amount,
-                    'category_id' => $transaction->category_id,
-                    'date' => Carbon::parse($transaction->date),
-                    'name' => $transaction->name,
-                    'pending' => $transaction->pending,
-                    'transaction_id' => $transaction->transaction_id,
-                    'transaction_type' => $transaction->transaction_type,
-                    'pending_transaction_id' => $transaction->pending_transaction_id,
-                    'data' => $transaction,
-                ]);
-            } else {
-                $localTransaction->update([
-                    'account_id' => $transaction->account_id,
-                    'amount' => $transaction->amount,
-                    'category_id' => $transaction->category_id,
-                    'date' => Carbon::parse($transaction->date),
-                    'name' => $transaction->name,
-                    'pending' => $transaction->pending,
-                    'transaction_id' => $transaction->transaction_id,
-                    'transaction_type' => $transaction->transaction_type,
-                    'pending_transaction_id' => $transaction->pending_transaction_id,
-                    'data' => $transaction
-                ]);
-            }
+            $localTransactions->map(function ($localTransaction) use ($transaction, $repository) {
+                if ($transaction->pending_transaction_id === $localTransaction->transaction_id) {
+                    $localTransaction->delete();
+                }
 
-            $this->syncTransactions($transaction, $localTransaction);
-            event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
+                if (empty($localTransaction)) {
+                    $localTransaction = $repository->findOrCreate(Transaction::class, 'transaction_id', $transaction->transaction_id, [
+                        'account_id' => $transaction->account_id,
+                        'amount' => $transaction->amount,
+                        'category_id' => $transaction->category_id,
+                        'date' => Carbon::parse($transaction->date),
+                        'name' => $transaction->name,
+                        'pending' => $transaction->pending,
+                        'transaction_id' => $transaction->transaction_id,
+                        'transaction_type' => $transaction->transaction_type,
+                        'pending_transaction_id' => $transaction->pending_transaction_id,
+                        'data' => $transaction,
+                    ]);
+                } else {
+                    $localTransaction->update([
+                        'account_id' => $transaction->account_id,
+                        'amount' => $transaction->amount,
+                        'category_id' => $transaction->category_id,
+                        'date' => Carbon::parse($transaction->date),
+                        'name' => $transaction->name,
+                        'pending' => $transaction->pending,
+                        'transaction_id' => $transaction->transaction_id,
+                        'transaction_type' => $transaction->transaction_type,
+                        'pending_transaction_id' => $transaction->pending_transaction_id,
+                        'data' => $transaction
+                    ]);
+                }
+
+                $this->syncTransactions($transaction, $localTransaction);
+                event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
+            });
         }
     }
 
