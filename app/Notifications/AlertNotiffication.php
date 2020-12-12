@@ -47,13 +47,12 @@ class AlertNotiffication extends Notification
                 $this->alertLog->transaction ? [
                 'transaction' => $this->alertLog->transaction->toArray(),
             ] : [],
-                $this->alertLog->tag ? [
-                    'tag' => $this->alertLog->tag->toArray(),
-                ] : [],
-                $this->alertLog->budget ? [
-                    'budget' => $this->alertLog->budget->toArray(),
-                ] : []
-            ));
+            $this->alertLog->tag ? [
+                'tag' => $this->alertLog->tag->toArray(),
+            ] : [],
+            $this->alertLog->budget ? [
+                'budget' => $this->alertLog->budget->toArray(),
+            ] : []));
         }
 
         return $field;
