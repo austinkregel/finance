@@ -48,7 +48,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
             return $model;
         });
 
-        Route::bind('id', abstracted()->resolveModelsUsing ?? function ($value) {
+        Route::bind('abstract_model_id', abstracted()->resolveModelsUsing ?? function ($value) {
             $class = request()->route('abstract_model');
 
             $model = new $class;
@@ -72,10 +72,10 @@ class AbstractRouteServiceProvider extends ServiceProvider
             ->group(function (): void {
                 Route::get('abstract-api/{abstract_model}', [AbstractResourceController::class, 'index']);
                 Route::post('abstract-api/{abstract_model}', [AbstractResourceController::class, 'store']);
-                Route::get('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'show']);
-                Route::put('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'update']);
-                Route::patch('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'update']);
-                Route::delete('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'destroy']);
+                Route::get('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'show']);
+                Route::put('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
+                Route::patch('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
+                Route::delete('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'destroy']);
             });
     }
 }
