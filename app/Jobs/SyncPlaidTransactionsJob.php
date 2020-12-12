@@ -130,7 +130,8 @@ class SyncPlaidTransactionsJob implements ShouldQueue
     protected function syncTransactions($transaction, $localTransaction): void
     {
         $categoriesToSync = [];
-        foreach ($transaction->category as $category) {
+        $categories = $transaction->category ?? [];
+        foreach ($categories as $category) {
             $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), fn () => Category::where('name', $category)->first())->id;
         }
 
