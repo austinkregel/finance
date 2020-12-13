@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\AccountKpi;
+use App\Models\Traits\LogsActivity;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -53,7 +55,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Account extends Model implements AbstractEloquentModel
 {
-    use AbstractModelTrait, BelongsToThrough;
+    use AbstractModelTrait, BelongsToThrough, LogsActivity;
 
     protected $fillable = [
         'account_id',

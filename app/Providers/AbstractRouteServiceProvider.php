@@ -16,6 +16,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Route;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Exceptions\ModelNotInstanceOfAbstractEloquentModel;
+use App\Activity;
 
 class AbstractRouteServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'alerts' => Alert::class,
                 'failed_jobs' => FailedJob::class,
                 'budgets' => Budget::class,
+                'activities' => Activity::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {

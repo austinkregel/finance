@@ -6,6 +6,7 @@ initLocalStorage('darkMode', false);
 
 export default {
     modules: {
+        activity: require('./state/Activity').default,
         accounts: require('./state/Accounts').default,
         alerts: require('./state/Alerts').default,
         actions: require('./state/Actions').default,

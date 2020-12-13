@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\LogsActivity;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -38,7 +39,7 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  */
 class AccessToken extends Model implements AbstractEloquentModel
 {
-    use AbstractModelTrait;
+    use AbstractModelTrait, LogsActivity;
 
     public $fillable = [
         'user_id', 'token', 'institution_id'
@@ -51,14 +52,6 @@ class AccessToken extends Model implements AbstractEloquentModel
     public $casts = [
         'should_sync' => 'boolean'
     ];
-
-    public function log($message)
-    {
-        activity('account')
-            ->causedByAnonymous()
-            ->on($this)
-            ->log($message);
-    }
 
     public function user()
     {
