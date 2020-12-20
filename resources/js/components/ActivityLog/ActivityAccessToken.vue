@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-wrap items-center flex-1 ml-2">
             <div class="font-bold">{{ activity.subject.institution.name }}</div>
-            <pre class="w-full text-monospace">{{ activity.description }}</pre>
+            <pre class="w-full text-monospace"><span v-if="activity.causer">{{ activity.causer.name }} </span>{{ activity.description }}</pre>
             <div class="text-xs" v-dark-mode-dark-text>{{ date }}</div>
         </div>
     </div>

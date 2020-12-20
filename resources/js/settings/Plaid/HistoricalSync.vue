@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+        <pre>{{ }}</pre>
     </div>
 </template>
 
@@ -64,7 +65,7 @@
                 this.syncing = true;
                 try {
                     await axios.post('/api/actions/historical-sync', {
-                        access_tokens: this.tokens,
+                        access_tokens: this.accessTokens.data.map(token => token.id),
                         date: this.date
                     })
                 } finally {

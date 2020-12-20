@@ -3,15 +3,15 @@
 namespace App\Models\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\ActivitylogServiceProvider;
 
 /**
  * @mixin Model
  */
 trait LogsActivity
 {
-    use \Spatie\Activitylog\Traits\LogsActivity;
-
     public function log($message)
     {
         $activity = activity(Str::snake(class_basename(static::class)));
@@ -23,6 +23,13 @@ trait LogsActivity
         }
 
         $activity->on($this)
+            ->inLog('activity')
             ->log($message);
+    }
+
+
+    public function activities(): MorphMany
+    {
+        return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
     }
 }

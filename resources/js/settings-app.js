@@ -115,10 +115,5 @@ window.app = new Vue({
     el: '#app',
     async mounted() {
         await store.dispatch('fetchUser');
-        await store.dispatch('fetchActivities', {
-            filter: {
-                log_name: 'access_token'
-            }
-        })
     }
 });

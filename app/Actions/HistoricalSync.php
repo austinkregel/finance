@@ -18,6 +18,16 @@ class HistoricalSync extends Action
         $start = Carbon::parse(request()->get('date'));
         /** @var int $diff */
         $diff = $now->diffInMonths($start);
+        /** @var AccessToken $accessToken */
+        foreach ($accessTokens as $accessToken) {
+            $accessToken->log(
+                sprintf(
+                    'requested a historical sync for %s - %s',
+                    $start->format('Y-m-d'),
+                    $now->format('Y-m-d')
+                )
+            );
+        }
 
         for ($i = 0; $i < $diff; $i ++) {
             $dateChunk = $now->copy()->subMonths($i)->startOfMonth();

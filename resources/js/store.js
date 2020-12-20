@@ -71,15 +71,6 @@ export default {
                 app.$toasted.success('We ran into an error when purging your cache!')
             }
         },
-        async refreshAccountsFor({ commit, dispatch }, { access_token_id }) {
-            this.loading = true;
-            await axios.post('/api/actions/refresh-accounts-for', {
-                access_token_id,
-            });
-
-            await dispatch('fetchAccounts');
-            this.loading = false;
-        },
         async fetchAccessTokens({ commit }) {
             const { data: accessTokens } = await axios.get(buildUrl('/abstract-api/access_tokens', {
                 action: 'paginate:100',

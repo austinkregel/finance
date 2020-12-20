@@ -27,6 +27,13 @@
             activities() {
                 return this.$store.getters.activities.data
             }
+        },
+        mounted() {
+            this.$store.dispatch('fetchActivities', {
+                filter: {
+                    log_name: 'activity'
+                }
+            })
         }
     }
 </script>

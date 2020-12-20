@@ -12,7 +12,7 @@
         </div>
 
         <div class="shadow p-4 rounded" :class="{'bg-gray-700': $store.getters.darkMode, 'bg-white': !$store.getters.darkMode}">
-            <div v-if="accessTokens">
+            <div v-if="accessTokens && accessTokens.data && accessTokens.data.length > 0">
                 <account-row
                     :dark-mode="$store.getters.darkMode"
                     v-for="accessToken in accessTokens.data"
@@ -62,7 +62,7 @@
                             institution: institution_id
                         });
 
-                        await this.getAccounts();
+                        await this.$store.dispatch('fetchAccounts')
                     },
                     onExit: async function (err, metadata) {
                         if (err != null && err.error_code === 'INVALID_LINK_TOKEN') {
@@ -71,6 +71,7 @@
                                 ...configs,
                                 token: await fetchLinkToken(),
                             });
+
                         }
                         if (err != null) {
                             console.log(err.message || err.error_code, this.$toasted);
@@ -96,7 +97,7 @@
                 await this.linkAccount(account);
                 await this.$store.dispatch('fetchAccounts')
             })
-
+            await this.$store.dispatch('fetchAccounts')
         }
     }
 </script>
