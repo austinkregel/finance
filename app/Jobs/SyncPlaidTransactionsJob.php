@@ -88,7 +88,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                 }
             })->get();
 
-            $localTransactions->map(function ($localTransaction) use ($transaction, $repository) {
+            $localTransactions->map(function ($localTransaction) use ($transaction, $repository): void {
                 if ($transaction->pending_transaction_id === $localTransaction->transaction_id) {
                     $localTransaction->delete();
                     $localTransaction = null;

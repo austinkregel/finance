@@ -25,7 +25,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
      * @param TransactionGroupedEvent|TransactionEventContract $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         if ($event->getShouldSendAlerts() === false) {
             // In other words, we should not send alerts.
@@ -48,12 +48,14 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         // Obvs we should send the alert, but does it need a tag?
         if ($event instanceof TransactionGroupedEvent) {
             $this->handleGroupedEvent($event, $user);
+
             return;
         }
         // So in the future, to add new event types this should probably get refactored...
         // but for now, doing this one final time.
         if ($event instanceof BudgetBreachedEstablishedAmount) {
             $this->handleBudgetEvent($event, $user);
+
             return;
         }
 

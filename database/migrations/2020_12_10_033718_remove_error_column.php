@@ -11,9 +11,9 @@ class RemoveErrorColumn extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('access_tokens', function(Blueprint $table) {
+        Schema::table('access_tokens', function (Blueprint $table): void {
             $table->dropColumn('error');
         });
     }
@@ -23,8 +23,7 @@ class RemoveErrorColumn extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
     }
 }

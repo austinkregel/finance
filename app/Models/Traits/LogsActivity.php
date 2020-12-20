@@ -12,7 +12,7 @@ use Spatie\Activitylog\ActivitylogServiceProvider;
  */
 trait LogsActivity
 {
-    public function log($message)
+    public function log($message): void
     {
         $activity = activity(Str::snake(class_basename(static::class)));
 
