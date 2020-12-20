@@ -27,7 +27,6 @@ trait LogsActivity
             ->log($message);
     }
 
-
     public function activities(): MorphMany
     {
         return $this->morphMany(ActivitylogServiceProvider::determineActivityModel(), 'subject');
