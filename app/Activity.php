@@ -5,7 +5,6 @@ namespace App;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\FiltersScope;
 
 class Activity extends \Spatie\Activitylog\Models\Activity implements AbstractEloquentModel
 {
