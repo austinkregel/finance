@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\AccountKpi;
 use App\Budget;
 use App\FailedJob;
 use App\Models\Alert;
@@ -31,7 +30,6 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'accounts' => Account::class,
                 'categories' => Category::class,
                 'transactions' => Transaction::class,
-                'account-kpis' => AccountKpi::class,
                 'access_tokens' => AccessToken::class,
                 'groups' => Tag::class,
                 'alerts' => Alert::class,

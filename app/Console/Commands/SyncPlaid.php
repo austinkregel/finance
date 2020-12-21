@@ -44,7 +44,9 @@ class SyncPlaid extends Command
         foreach (AccessToken::all() as $token) {
             SyncPlaidAccountsJob::dispatchNow($token);
             for ($i = 0; $i < (int) $this->argument('range'); $i ++) {
-                SyncPlaidTransactionsJob::dispatchNow($token, now()->subMonths($i), now()->subMonths($i+1));
+                $start = now()->subMonths($i);
+                $end = $start->copy()->addMonth();
+                SyncPlaidTransactionsJob::dispatchNow($token, $start, $end);
             }
         }
     }
