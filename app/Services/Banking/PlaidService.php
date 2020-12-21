@@ -155,10 +155,7 @@ class PlaidService implements PlaidServiceContract
                 ]);
             }
 
-            echo $exception->getMessage();
-            echo 'We got an exception. Sleeping for 60 seconds';
-            sleep(60);
-
+            sleep(30);
             return $this->getPaginator($accessToken, $startDate, $endDate, $page);
         }
     }
