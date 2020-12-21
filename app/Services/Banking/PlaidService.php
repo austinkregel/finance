@@ -86,6 +86,16 @@ class PlaidService implements PlaidServiceContract
      */
     public function getTransactions(string $accessToken, Carbon $startDate, Carbon $endDate): Collection
     {
+        throw_if(
+            $startDate->gte($endDate),
+            \InvalidArgumentException::class,
+            sprintf(
+                'Your start date of %s is after your end date of %s, which is illegal... You Can\'t do that you fool',
+                $startDate->format('Y-m-d'),
+                $endDate->format('Y-m-d')
+            )
+        );
+
         /// We should account for rate limiting here to make sure we don't make too many requests per second.
         $items = new Collection;
         $page = 1;
@@ -109,6 +119,15 @@ class PlaidService implements PlaidServiceContract
 
     protected function getPaginator(string $accessToken, Carbon $startDate, Carbon $endDate, int $page = 1)
     {
+        throw_if(
+            $startDate->gte($endDate),
+            \InvalidArgumentException::class,
+            sprintf(
+                'Your paginator start date of %s is after your end date of %s, which is illegal... You Can\'t do that you fool',
+                $startDate->format('Y-m-d'),
+                $endDate->format('Y-m-d')
+            )
+        );
         /** @var Collection $paginator */
         try {
             return $this->http
