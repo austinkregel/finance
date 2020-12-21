@@ -30,11 +30,11 @@ class HistoricalSync extends Action
         }
 
         for ($i = 0; $i < $diff; $i ++) {
-            $dateChunk = $now->copy()->subMonths($i)->startOfMonth();
+            $startOfTheMonth = $now->copy()->startOfMonth()->subMonths($i)->startOfMonth();
 
             /** @var AccessToken $accessToken */
             foreach ($accessTokens as $accessToken) {
-                dispatch(new SyncPlaidTransactionsJob($accessToken, $dateChunk, $dateChunk->copy()->endOfMonth(), false));
+                dispatch(new SyncPlaidTransactionsJob($accessToken, $startOfTheMonth, $startOfTheMonth->copy()->endOfMonth(), false));
             }
         }
     }

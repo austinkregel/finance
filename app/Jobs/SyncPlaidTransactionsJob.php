@@ -66,6 +66,12 @@ class SyncPlaidTransactionsJob implements ShouldQueue
             sleep(5);
         }
 
+        info('Syncing for dates', [
+            'end' => $this->endDate,
+            'start' => $this->startDate,
+            'token' => $this->accessToken->id
+        ]);
+
         $transactionsResponse = $this->tryCatch(fn () => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
 
         if (!$transactionsResponse) {
