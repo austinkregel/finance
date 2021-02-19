@@ -1,19 +1,3 @@
-create table categories
-(
-	id bigint unsigned auto_increment
-		primary key,
-	name varchar(255) not null,
-	category_id int unsigned not null,
-	created_at timestamp null,
-	updated_at timestamp null,
-	constraint categories_category_id_unique
-		unique (category_id)
-) collate = utf8mb4_unicode_ci;
-
-create index categories_name_index
-	on categories (name);
-
-
 INSERT INTO categories (id, name, category_id, created_at, updated_at) VALUES (1, 'Bank Fees', 10000000, '2020-06-06 03:47:08', '2020-06-06 03:47:08');
 INSERT INTO categories (id, name, category_id, created_at, updated_at) VALUES (2, 'Overdraft', 10001000, '2020-06-06 03:47:08', '2020-06-06 03:47:08');
 INSERT INTO categories (id, name, category_id, created_at, updated_at) VALUES (3, 'ATM', 10002000, '2020-06-06 03:47:08', '2020-06-06 03:47:08');
