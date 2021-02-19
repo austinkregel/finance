@@ -144,7 +144,6 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         return DB::table('alert_logs')
             ->where('triggered_by_transaction_id', $transaction->id)
             ->where('alert_id', $alert->id)
-            ->where('created_at', now()->startOfDay())
             ->exists();
     }
 }

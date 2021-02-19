@@ -124,7 +124,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'category_id' => $category->category_id,
@@ -155,7 +155,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'name' => 'Netflix',
@@ -220,7 +220,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'name' => 'Netflix',

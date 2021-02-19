@@ -235,7 +235,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     {
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
-            'category_id' => Category::firstWhere('name', 'Loans and Mortgages')->category_id,
+            'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
         ]);
 
         $transaction->load('user.alerts');
@@ -286,5 +286,64 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         // Ensure that our mustache service will format a templated title and body
         $this->assertSame(sprintf('You just paid your %s bills!', $transaction->name), json_decode(collect($notifications)->first()->data)->title);
         $this->assertSame(sprintf('This time around, you paid $%s.', $transaction->amount), json_decode(collect($notifications)->first()->data)->body);
+    }
+
+    public function testHandleWontCreateAlertsForTheSameTransaction(): void
+    {
+        /** @var Transaction $transaction */
+        $transaction = factory(Transaction::class)->create([
+            'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
+        ]);
+
+        $transaction->load('user.alerts');
+        /** @var Alert $alert */
+        $alert = $transaction->user->alerts()->create([
+            'name' => 'Bill paid!',
+            'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
+            'body' => 'This time around, you paid ${{ transaction.amount }}.',
+            'payload' => '{}',
+            'channels' => [DatabaseChannel::class],
+            'webhook_url' => null,
+            'messaging_service_channel' => null,
+            'events' => [TransactionGroupedEvent::class],
+        ]);
+
+        $alert->conditionals()->create([
+            'parameter' => 'tag.name.en',
+            'comparator' => Condition::COMPARATOR_LIKE,
+            'value' => 'bill'
+        ]);
+
+        /** @var Tag $tag */
+        $tag = factory(Tag::class)->create([
+            'name' => ['en' => 'bills']
+        ]);
+
+        $tag->conditionals()->create([
+            'parameter' => 'category.name',
+            'comparator' => Condition::COMPARATOR_EQUAL,
+            'value' => 'Loans and Mortgages',
+        ]);
+        \DB::table('alert_logs')->insert([
+            'triggered_by_tag_id' => $tag->id,
+            'triggered_by_transaction_id' => $transaction->id,
+            'alert_id' => $alert->id,
+        ]);
+        $transaction->setRelations([]);
+        $event = new TransactionGroupedEvent($tag, $transaction);
+
+        $listener = new TriggerAlertIfConditionsPassListenerForTransaction();
+
+        $this->assertEmpty(\DB::table('notifications')->get()->all());
+        $listener->handle($event);
+
+        $this->assertDatabaseHas('alert_logs', [
+            'triggered_by_tag_id' => $tag->id,
+            'triggered_by_transaction_id' => $transaction->id,
+            'alert_id' => $alert->id,
+        ]);
+
+        // There shouldn't be any new notifications because we've already been alerted to our transaction.
+        $this->assertEmpty(\DB::table('notifications')->get()->all());
     }
 }
