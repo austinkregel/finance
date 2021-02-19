@@ -156,6 +156,7 @@ class PlaidService implements PlaidServiceContract
             }
 
             sleep(30);
+
             return $this->getPaginator($accessToken, $startDate, $endDate, $page);
         }
     }

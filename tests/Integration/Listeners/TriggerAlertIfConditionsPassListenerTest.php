@@ -7,7 +7,6 @@ use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
 use App\Models\Alert;
-use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;

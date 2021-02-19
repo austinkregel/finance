@@ -5,7 +5,6 @@ namespace Tests\Integration\Repositories;
 use App\Contracts\Repositories\TransactionRepositoryContract;
 use App\Models\AccessToken;
 use App\Models\Account;
-use App\Models\Category;
 use App\Repositories\TransactionRepository;
 use App\Tag;
 use App\User;

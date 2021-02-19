@@ -6,7 +6,6 @@ use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\ApplyGroupToTransactionAutomaticallyListener;
-use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
