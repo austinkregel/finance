@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Contracts\Services\PlaidServiceContract;
 use App\Events\TransactionCreated;
+use App\Events\TransactionUpdated;
 use App\Jobs\Traits\PlaidTryCatchErrorForToken;
 use App\Models\AccessToken;
 use App\Models\Account;
@@ -36,8 +37,6 @@ class SyncPlaidTransactionsJob implements ShouldQueue
      */
     private $endDate;
 
-    private $repository;
-
     protected $shouldSendAlerts;
 
     /**
@@ -60,8 +59,6 @@ class SyncPlaidTransactionsJob implements ShouldQueue
      */
     public function handle(PlaidServiceContract $plaid, GenericRepository $repository): void
     {
-        $this->repository = $repository;
-
         if ($this->attempts() > 1) {
             sleep(5);
         }
@@ -73,10 +70,6 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         ]);
 
         $transactionsResponse = $this->tryCatch(fn () => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
-
-        if (!$transactionsResponse) {
-            return;
-        }
 
         $transactions = $transactionsResponse->get('transactions');
 
@@ -101,18 +94,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                 }
 
                 if (empty($localTransaction)) {
-                    $localTransaction = $repository->findOrCreate(Transaction::class, 'transaction_id', $transaction->transaction_id, [
-                        'account_id' => $transaction->account_id,
-                        'amount' => $transaction->amount,
-                        'category_id' => $transaction->category_id,
-                        'date' => Carbon::parse($transaction->date),
-                        'name' => $transaction->name,
-                        'pending' => $transaction->pending,
-                        'transaction_id' => $transaction->transaction_id,
-                        'transaction_type' => $transaction->transaction_type,
-                        'pending_transaction_id' => $transaction->pending_transaction_id,
-                        'data' => $transaction,
-                    ]);
+                    $localTransaction = $this->createLocalTransaction($repository, $transaction);
                 } else {
                     $localTransaction->update([
                         'account_id' => $transaction->account_id,
@@ -126,11 +108,15 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                         'pending_transaction_id' => $transaction->pending_transaction_id,
                         'data' => $transaction
                     ]);
+                    event(new TransactionUpdated($localTransaction, $this->shouldSendAlerts));
                 }
 
                 $this->syncTransactions($transaction, $localTransaction);
-                event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
             });
+
+            if ($localTransactions->isEmpty()) {
+                $this->createLocalTransaction($repository, $transaction);
+            }
         }
     }
 
@@ -143,5 +129,23 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         }
 
         $localTransaction->categories()->sync($categoriesToSync);
+    }
+
+    protected function createLocalTransaction($repository, $transaction) {
+        $localTransaction = $repository->findOrCreate(Transaction::class, 'transaction_id', $transaction->transaction_id, [
+            'account_id' => $transaction->account_id,
+            'amount' => $transaction->amount,
+            'category_id' => $transaction->category_id,
+            'date' => Carbon::parse($transaction->date),
+            'name' => $transaction->name,
+            'pending' => $transaction->pending,
+            'transaction_id' => $transaction->transaction_id,
+            'transaction_type' => $transaction->transaction_type,
+            'pending_transaction_id' => $transaction->pending_transaction_id,
+            'data' => $transaction,
+        ]);
+        event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
+        
+        return $localTransaction;
     }
 }

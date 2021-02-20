@@ -6,9 +6,12 @@ use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\TriggerAlertIfConditionsPassListenerForTransaction;
+use App\Models\AccessToken;
+use App\Models\Account;
 use App\Models\Alert;
 use App\Models\Transaction;
 use App\Tag;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\Channels\DatabaseChannel;
 use Tests\TestCase;
@@ -20,8 +23,14 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     public function testHandleWithNoConditionalsCreatesAlert(): void
     {
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
-
+        $transaction = factory(Transaction::class)->create([
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
+        ]);
+        
         $transaction->load('user.alerts');
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -52,7 +61,13 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
         ]);
+        
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
@@ -88,6 +103,11 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 10,
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
         ]);
         $transaction->load('user.alerts');
 
@@ -122,7 +142,13 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
         ]);
+        
         $transaction->load('user.alerts');
 
         $event = new TransactionCreated($transaction);
@@ -137,7 +163,14 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     public function testHandleCanUseTagInAlert(): void
     {
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = factory(Transaction::class)->create([
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
+        ]);
+        
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
@@ -170,9 +203,14 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleDoesNothingWhenThereIsNoChannel(): void
     {
-        /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
-        $transaction->load('user.alerts');
+        $transaction = factory(Transaction::class)->create([
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
+        ]);
+                $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -202,7 +240,14 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
     public function testHandleDoesNothingWhenThereEventIsNotSelected(): void
     {
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = factory(Transaction::class)->create([
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => factory(User::class)->create()->id,
+                ])->id,
+            ])->account_id,
+        ]);
+        
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
