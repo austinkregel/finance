@@ -5,7 +5,6 @@ namespace Tests\Integration\Repositories;
 use App\Contracts\Repositories\TransactionRepositoryContract;
 use App\Models\AccessToken;
 use App\Models\Account;
-use App\Models\Category;
 use App\Repositories\TransactionRepository;
 use App\Tag;
 use App\User;
@@ -48,7 +47,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 10),
             'pending' => mt_rand(0, 1),
-            'category_id' => Category::all()->random()->first()->category_id,
+            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -60,7 +59,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 11),
             'pending' => mt_rand(0, 1),
-            'category_id' => Category::all()->random()->first()->category_id,
+            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -72,7 +71,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 12),
             'pending' => mt_rand(0, 1),
-            'category_id' => Category::all()->random()->first()->category_id,
+            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -84,7 +83,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 13),
             'pending' => mt_rand(0, 1),
-            'category_id' => Category::all()->random()->first()->category_id,
+            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);

@@ -1,3 +1,4 @@
+const { buildUrl } = require('@kbco/query-builder');
 export default {
     state: {
         accounts: {
@@ -32,6 +33,16 @@ export default {
                 ...accounts,
                 loading: false,
             };
-        }
+        },
+
+        async refreshAccountsFor({ commit, dispatch }, { access_token_id }) {
+            this.loading = true;
+            await axios.post('/api/actions/refresh-accounts-for', {
+                access_token_id,
+            });
+
+            await dispatch('fetchAccounts');
+            this.loading = false;
+        },
     }
 }

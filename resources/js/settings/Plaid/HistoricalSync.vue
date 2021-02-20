@@ -24,7 +24,7 @@
                 No accounts connected... Please connect an account to run a historical sync...
             </div>
 
-            <div class="mt-4 flex flex-wrap w-full mt-4" v-if="accessTokens.length > 0">
+            <div class="mt-4 flex flex-wrap w-full mt-4" v-if="accessTokens.data.length > 0">
                 <div class="w-full text-lg">Choose the furthest date back, you'd like to run this sync for.</div>
                 <div class="w-full">
                     <date-picker :dark-mode="$store.getters.darkMode" />
@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+        <pre>{{ }}</pre>
     </div>
 </template>
 
@@ -54,23 +55,17 @@
         props: ['darkMode'],
         data() {
             return {
-                accessTokens: [],
                 tokens: [],
                 date: '',
                 syncing: false,
             }
         },
         methods: {
-            async getAccessTokens() {
-                let { data: accessTokens } = await axios.get('/abstract-api/access_tokens?action=get&include=user,institution,accounts');
-
-                this.accessTokens = accessTokens;
-            },
             async syncTransactions() {
                 this.syncing = true;
                 try {
                     await axios.post('/api/actions/historical-sync', {
-                        access_tokens: this.tokens,
+                        access_tokens: this.accessTokens.data.map(token => token.id),
                         date: this.date
                     })
                 } finally {
@@ -78,29 +73,12 @@
                 }
             }
         },
+        computed: {
+            accessTokens() {
+                return this.$store.getters.accessTokens;
+            }
+        },
         mounted() {
-            const that = this;
-            var handler = Plaid.create({
-                clientName: 'Kregel API',
-                env: process.env.MIX_PLAID_ENV,
-                key: process.env.MIX_PLAID_KEY,
-                product: ['transactions'],
-                // webhook: this.url,
-                selectAccount: false,
-                onSuccess: (public_token, metadata) => {
-                    axios.post('/api/plaid/exchange_token', {
-                        public_token: public_token,
-                        institution: metadata.institution.institution_id
-                    })
-                        .then((res) => {
-                            Bus.$emit('fetchAccessTokens')
-                        })
-                }
-            });
-
-            Bus.$off('fetchAccessTokens');
-            Bus.$on('fetchAccessTokens', () => this.getAccessTokens());
-            Bus.$emit('fetchAccessTokens')
 
             Bus.$off('chosenDate');
             Bus.$on('chosenDate', (value) => this.date = value)

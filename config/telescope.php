@@ -99,7 +99,6 @@ return [
         '/api/accounts*',
         '/api/transactions*',
         '/api/subscriptions*',
-        '/api/account-kpis*',
         '/api/subscriptions2*',
         '/js/*',
         '/css/*',

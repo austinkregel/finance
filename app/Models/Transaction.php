@@ -91,6 +91,7 @@ class Transaction extends Model implements AbstractEloquentModel
         'date' => 'datetime:Y-m-d',
         'is_subscription' => 'bool',
         'is_possible_subscription' => 'bool',
+        'data' => 'json',
     ];
 
     public function getTagAttribute()

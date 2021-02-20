@@ -9,7 +9,12 @@ import Notifications from "./settings/Notifications";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import locale from "dayjs/plugin/localizedFormat";
+import ActivityLog from "./settings/ActivityLog";
+import { buildUrl } from '@kbco/query-builder';
+import compromise from './compromise';
 
+window.compromise = compromise
+window.buildUrl = buildUrl
 Vue.component('zondicon', Zondicon);
 
 initLocalStorage('darkMode', false);
@@ -87,6 +92,11 @@ const routes = [
             {
                 path: '/failed-jobs',
                 component: FailedJobs,
+                props: true,
+            },
+            {
+                path: '/activity-log',
+                component: ActivityLog,
                 props: true,
             }
         ]

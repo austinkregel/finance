@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap w-full items-center mt-4">
         <button class="rounded focus:outline-none"
-            @click.prevent="() => pullAccounts(accessToken.id)"
+            @click.prevent="() => pullAccounts()"
             title="Fetch the latest account balances for accounts associated with this institution."
             :class="{ 'rotate': loading, 'text-gray-300': $store.getters.darkMode, 'text-gray-600': !$store.getters.darkMode }"
         >
@@ -26,14 +26,15 @@
             }
         },
         methods: {
-            async pullAccounts(access_token_id) {
-                this.loading = true;
-                await axios.post('/api/actions/refresh-accounts-for', {
-                    access_token_id,
-                });
-                Bus.$emit('fetchAccounts')
-
-                this.loading = false;
+            async pullAccounts() {
+                console.log(this.accessToken.should_sync)
+                if (this.accessToken.should_sync) {
+                    await this.$store.dispatch('refreshAccountsFor', {
+                        access_token_id: this.accessToken.id,
+                    })
+                } else {
+                    Bus.$emit('setupPlaid', this.accessToken)
+                }
             }
         }
     }

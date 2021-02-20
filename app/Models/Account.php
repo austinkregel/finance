@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\AccountKpi;
+use App\Models\Traits\LogsActivity;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +44,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereSubtype($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereUpdatedAt($value)
- * @property-read \App\AccountKpi $kpis
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
  * @property-read int|null $transactions_count
  * @property-read int|null $users_count
@@ -53,7 +52,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Account extends Model implements AbstractEloquentModel
 {
-    use AbstractModelTrait, BelongsToThrough;
+    use AbstractModelTrait, BelongsToThrough, LogsActivity;
 
     protected $fillable = [
         'account_id',
@@ -66,11 +65,6 @@ class Account extends Model implements AbstractEloquentModel
         'type',
         'access_token_id',
     ];
-
-    public function kpis()
-    {
-        return $this->belongsTo(AccountKpi::class);
-    }
 
     public function scopeCurrentUser(Builder $query)
     {

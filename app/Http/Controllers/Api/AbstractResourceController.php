@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Activity;
 use App\FailedJob;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
@@ -41,7 +42,7 @@ class AbstractResourceController extends Controller
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts());
 
-        if (!in_array(get_class($model), [FailedJob::class, Transaction::class])) {
+        if (!in_array(get_class($model), [FailedJob::class, Transaction::class, Activity::class])) {
             $query->where('user_id', auth()->id());
         }
 

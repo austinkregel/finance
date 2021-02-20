@@ -39,6 +39,12 @@
                                     Failed Jobs
                                 </router-link>
                             </settings-link>
+                            <settings-link path="/activity-log">
+                                <svg slot="image" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path></svg>
+                                <router-link slot="text" to="/activity-log" class="text-lg pl-4 font-bold">
+                                    Activity Log
+                                </router-link>
+                            </settings-link>
                             <li class="flex items-center p-2">
                                 <button class="flex items-center justify-between h-8" @click="$store.commit('toggleDarkmode')">
                                     <span class="rounded-full flex items-center shadow cursor-pointer w-6" :class="{ 'bg-blue-500 justify-end': $store.getters.darkMode, 'justify-start bg-gray-600': !$store.getters.darkMode }">
@@ -75,6 +81,10 @@
             active(path) {
                 return this.$route.fullPath
             }
+        },
+        mounted() {
+            this.$store.dispatch('fetchAccessTokens')
+            this.$store.dispatch('fetchAccounts')
         }
     }
 </script>

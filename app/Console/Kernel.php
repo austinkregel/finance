@@ -25,7 +25,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('plaid:sync-institutions')->monthly();
         $schedule->command('plaid:sync-categories')->monthly();
-        $schedule->command('generate:account-kpis')->dailyAt('23:55');
         $schedule->command('sync:plaid 1')->hourlyAt(0);
         // Small job offset so we don't flood the queue. Not really ever going to be a problem... but meh :shrug:
         $schedule->job(CheckBudgetsForBreachesOfAmount::class)->hourlyAt(10);

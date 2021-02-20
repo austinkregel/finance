@@ -104,7 +104,7 @@ class Budget extends Model implements AbstractEloquentModel
             'frequency' => 'required',
             'interval' => 'required',
             'started_at' => 'required',
-            'count' => 'required',
+            'count' => 'nullable',
         ];
     }
 
@@ -120,8 +120,8 @@ class Budget extends Model implements AbstractEloquentModel
                 'WEEKLY',
             ]),
             'interval' => 'numeric',
-            'started_at' => 'date',
-            'count' => 'numeric',
+            'started_at' => 'date|nullable',
+            'count' => 'numeric|nullable',
         ];
     }
 

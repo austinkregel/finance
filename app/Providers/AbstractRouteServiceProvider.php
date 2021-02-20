@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\AccountKpi;
 use App\Budget;
 use App\FailedJob;
 use App\Models\Alert;
@@ -16,6 +15,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Route;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Exceptions\ModelNotInstanceOfAbstractEloquentModel;
+use App\Activity;
 
 class AbstractRouteServiceProvider extends ServiceProvider
 {
@@ -30,12 +30,12 @@ class AbstractRouteServiceProvider extends ServiceProvider
                 'accounts' => Account::class,
                 'categories' => Category::class,
                 'transactions' => Transaction::class,
-                'account-kpis' => AccountKpi::class,
                 'access_tokens' => AccessToken::class,
                 'groups' => Tag::class,
                 'alerts' => Alert::class,
                 'failed_jobs' => FailedJob::class,
                 'budgets' => Budget::class,
+                'activities' => Activity::class,
             ]);
 
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {
@@ -48,7 +48,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
             return $model;
         });
 
-        Route::bind('id', abstracted()->resolveModelsUsing ?? function ($value) {
+        Route::bind('abstract_model_id', abstracted()->resolveModelsUsing ?? function ($value) {
             $class = request()->route('abstract_model');
 
             $model = new $class;
@@ -72,10 +72,10 @@ class AbstractRouteServiceProvider extends ServiceProvider
             ->group(function (): void {
                 Route::get('abstract-api/{abstract_model}', [AbstractResourceController::class, 'index']);
                 Route::post('abstract-api/{abstract_model}', [AbstractResourceController::class, 'store']);
-                Route::get('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'show']);
-                Route::put('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'update']);
-                Route::patch('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'update']);
-                Route::delete('abstract-api/{abstract_model}/{id}', [AbstractResourceController::class, 'destroy']);
+                Route::get('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'show']);
+                Route::put('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
+                Route::patch('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
+                Route::delete('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'destroy']);
             });
     }
 }

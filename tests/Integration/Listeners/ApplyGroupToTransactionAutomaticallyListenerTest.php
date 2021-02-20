@@ -6,7 +6,6 @@ use App\Condition;
 use App\Events\TransactionCreated;
 use App\Events\TransactionGroupedEvent;
 use App\Listeners\ApplyGroupToTransactionAutomaticallyListener;
-use App\Models\Category;
 use App\Models\Transaction;
 use App\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -124,7 +123,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'category_id' => $category->category_id,
@@ -155,7 +154,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'name' => 'Netflix',
@@ -220,7 +219,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class
         ]);
-        $category = Category::first();
+        $category = factory(\App\Models\Category::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'name' => 'Netflix',

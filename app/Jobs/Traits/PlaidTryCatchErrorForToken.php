@@ -2,9 +2,11 @@
 
 namespace App\Jobs\Traits;
 
+use App\Models\AccessToken;
+
 trait PlaidTryCatchErrorForToken
 {
-    public function tryCatch(callable $callable, $accessToken)
+    public function tryCatch(callable $callable, AccessToken $accessToken)
     {
         try {
             $response = $callable();
@@ -13,11 +15,11 @@ trait PlaidTryCatchErrorForToken
 
             return $response;
         } catch (\Throwable $exception) {
+            $accessToken->log($exception->getMessage());
             $accessToken->should_sync = false;
-            $accessToken->error .= "\n".now()->format('Y-m-d H:i:s').' ---- '.$exception->getMessage();
             $accessToken->save();
 
-            return false;
+            throw $exception;
         }
     }
 }

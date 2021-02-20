@@ -5,6 +5,7 @@ use App\Http\Controllers\DynamicViewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Plaid\CreateLinkTokenController;
 use App\Http\Controllers\Plaid\TokenController;
+use App\Http\Controllers\Plaid\UpdateLinkTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth'], static function (): void {
 
         Route::post('actions/{action}', ActionController::class);
         Route::post('plaid/create-link-token', CreateLinkTokenController::class);
+        Route::post('plaid/update-access-token', UpdateLinkTokenController::class);
         Route::post('plaid/exchange-token', TokenController::class);
         Route::post('cache-clear', App\Http\Controllers\Api\CacheController::class);
 
