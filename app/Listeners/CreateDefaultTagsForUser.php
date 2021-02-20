@@ -60,6 +60,21 @@ class CreateDefaultTagsForUser
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'Subscription'
                 ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Discord'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'netflix'
+                ],
+                [
+                    'parameter' => 'name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'WASABI TECHNOLOGIES',
+                ]
             ],
         ],
 
@@ -77,6 +92,11 @@ class CreateDefaultTagsForUser
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'Steampowered'
+                ],
+                [
+                    'parameter' => 'transaction.name',
+                    'comparator' => Condition::COMPARATOR_LIKE,
+                    'value' => 'Steam'
                 ],
                 [
                     'parameter' => 'transaction.name',
@@ -120,6 +140,16 @@ class CreateDefaultTagsForUser
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     'value' => 'Billpay'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'USAA P&C INT AUTOPAY'
+                ],
+                [
+                    'parameter' => 'category.name',
+                    'comparator' => Condition::COMPARATOR_EQUAL,
+                    'value' => 'Car Dealers and Leasing'
                 ],
             ],
         ],

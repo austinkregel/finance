@@ -35,7 +35,7 @@ $factory->define(App\Models\Transaction::class, function (Faker $faker) {
         'account_id' => fn () => factory(\App\Models\Account::class)->create()->account_id,
         'date' => $faker->date('Y-m-d'),
         'pending' => mt_rand(0, 1),
-        'category_id' => \App\Models\Category::all()->random()->first()->category_id,
+        'category_id' => fn () => factory(\App\Models\Category::class)->create()->category_id,
         'transaction_id' => \Illuminate\Support\Str::random(32),
         'transaction_type' => 'debit',
     ];

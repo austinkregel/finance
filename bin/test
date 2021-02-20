@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker exec -e TEST_COMMAND=true -it finance-php vendor/bin/phpunit "$@"

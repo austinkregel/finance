@@ -18,8 +18,8 @@ class FetchTransactions extends Action
 
         $months = request()->get('months');
 
-        $startDate = Carbon::now()->subMonths($months);
-        $endDate = Carbon::now();
+        $startDate = Carbon::now()->startOfMonth()->subMonths($months);
+        $endDate = Carbon::now()->endOfMonth();
 
         dispatch(new SyncPlaidTransactionsJob($accessToken, $startDate, $endDate));
     }

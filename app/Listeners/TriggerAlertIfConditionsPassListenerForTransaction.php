@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
 {
@@ -24,7 +25,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
      * @param TransactionGroupedEvent|TransactionEventContract $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         if ($event->getShouldSendAlerts() === false) {
             // In other words, we should not send alerts.
@@ -46,15 +47,19 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
 
         // Obvs we should send the alert, but does it need a tag?
         if ($event instanceof TransactionGroupedEvent) {
-            return $this->handleGroupedEvent($event, $user);
+            $this->handleGroupedEvent($event, $user);
+
+            return;
         }
         // So in the future, to add new event types this should probably get refactored...
         // but for now, doing this one final time.
         if ($event instanceof BudgetBreachedEstablishedAmount) {
-            return $this->handleBudgetEvent($event, $user);
+            $this->handleBudgetEvent($event, $user);
+
+            return;
         }
 
-        return $this->handleTransactionEvent($event, $user);
+        $this->handleTransactionEvent($event, $user);
     }
 
     protected function handleGroupedEvent(TransactionGroupedEvent $event, User $user): void
@@ -83,12 +88,30 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         /** @var Collection $alerts */
         $alerts = $transaction->account->owner->alerts;
 
-        $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
-            // Should be empty if the transaction fails the alert's conditionals.
-            return !empty($this->filter->handle($alert, $transaction));
-        });
+        $alertsToTrigger = $this->alertsToTrigger($alerts, $event, $transaction);
 
         $alertsToTrigger->map->createNotification($transaction);
+    }
+
+    protected function alertsToTrigger(Collection $alerts, $event, $transaction)
+    {
+        return $alerts->filter(function ($alert) use ($event, $transaction) {
+            if (!in_array(get_class($event), $alert->events)) {
+                return false;
+            }
+
+            $transactions = $this->filter->handle($alert, $transaction);
+
+            if (empty($transactions)) {
+                return false;
+            }
+
+            if ($this->alertHasAlreadyBeenTriggeredRecentlyForThisTransaction($alert, $transaction)) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     protected function shouldNotNotifyAbout(TransactionEventContract $event, User $user)
@@ -98,26 +121,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
 
         $transaction->load(['user', 'category']);
 
-        $shouldNotAlertMe = true;
-        /** @var Alert $alert */
-        foreach ($alerts as $alert) {
-            // If the current event' isn't chosen by the user to be notified about, let's ignore this shiz.
-            if (!in_array(get_class($event), $alert->events)) {
-                continue;
-            }
-
-            $transactions = $this->filter->handle($alert, $transaction);
-
-            if (empty($transactions)) {
-                // True here because we don't want to notify anyone if the transaction doesn't pass filters.
-                continue;
-            }
-
-            $shouldNotAlertMe = false;
-        }
-
-        // False here basically means we're going to notify someone about something.
-        return $shouldNotAlertMe;
+        return $this->alertsToTrigger($alerts, $event, $transaction)->count() === 0;
     }
 
     protected function handleBudgetEvent(BudgetBreachedEstablishedAmount $event, $user): void
@@ -130,11 +134,16 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         $transaction = $event->getTransaction();
         $transaction->load(['tags', 'category', 'account']);
         /** @var Collection|Alert $alertsToTrigger */
-        $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
-            // Should be empty if the transaction fails the alert's conditionals.
-            return !empty($this->filter->handle($alert, $transaction));
-        });
+        $alertsToTrigger = $this->alertsToTrigger($alerts, $event, $transaction);
 
         $alertsToTrigger->map->createNotificationWithBudget($transaction, $budget);
+    }
+
+    protected function alertHasAlreadyBeenTriggeredRecentlyForThisTransaction($alert, $transaction)
+    {
+        return DB::table('alert_logs')
+            ->where('triggered_by_transaction_id', $transaction->id)
+            ->where('alert_id', $alert->id)
+            ->exists();
     }
 }
