@@ -232,16 +232,6 @@ class SyncPlaidTransactionsJobTest extends TestCase
         $this->assertDatabaseCount('transactions', 9);
     }
 
-    public function testHandleCanFindPendingTransactionsAndDeletesThem(): void
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testHandleSyncCategoriesForTrnasaction(): void
-    {
-        $this->assertTrue(true);
-    }
-
     protected function generatePlaidTransaction(Carbon $date, bool $hasLocation) 
     {
         $faker = Factory::create();
