@@ -53,7 +53,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         $this->assertDatabaseCount('activity_log', 0);
         $this->expectException(InvalidArgumentException::class);
         $token = factory(AccessToken::class)->create();
-   
+
         $job = new SyncPlaidTransactionsJob(
             $token,
             $start = now(),
@@ -73,7 +73,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         } finally {
             $accessToken = AccessToken::find($token->id);
             $this->assertSame(false, $accessToken->should_sync, 'Account syncing should be disabled when a failure occurs.');
-    
+
             $this->assertDatabaseCount('activity_log', 1);
             $this->assertDatabaseHas('activity_log', [
                 'log_name' => 'activity',
@@ -88,7 +88,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         Carbon::setTestNow(Carbon::create(2021, 1, 1));
         $token = factory(AccessToken::class)->create();
         $this->assertDatabaseCount('transactions', 0);
-   
+
         $this->expectsEvents([
             TransactionCreated::class,
         ]);
@@ -128,7 +128,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         Carbon::setTestNow(Carbon::create(2021, 1, 1));
         $token = factory(AccessToken::class)->create();
         $this->assertDatabaseCount('transactions', 0);
-   
+
         $this->expectsEvents([
             TransactionCreated::class,
             TransactionUpdated::class,
@@ -149,10 +149,10 @@ class SyncPlaidTransactionsJobTest extends TestCase
         ]);
 
         $transaction2 = $this->generatePlaidTransaction(Carbon::create(2020, 12, 11), true);
-        
+
         $pendingTransaction = $this->generatePlaidTransaction(Carbon::create(2020, 12, 11), false);
-        
-        $pendingTransaction->pending_transaction_id = str_shuffle("lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje");
+
+        $pendingTransaction->pending_transaction_id = str_shuffle('lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje');
 
         $storedPendingTransaction = Transaction::create([
             'account_id' => $pendingTransaction->account_id,
@@ -211,10 +211,10 @@ class SyncPlaidTransactionsJobTest extends TestCase
 
         $storedTransaction1->refresh();
         $storedTransaction2->refresh();
-        
+
         $this->assertSame($storedTransaction1->amount, $transaction1->amount);
         $this->assertSame($storedTransaction2->amount, $transaction2->amount);
-        
+
         $this->assertDatabaseMissing('transactions', [
             'amount' => $pendingTransaction->amount,
             'transaction_id' => $pendingTransaction->pending_transaction_id,
@@ -228,11 +228,11 @@ class SyncPlaidTransactionsJobTest extends TestCase
             'pending' => false,
             'name' => $pendingTransaction->name,
         ]);
-        
+
         $this->assertDatabaseCount('transactions', 9);
     }
 
-    protected function generatePlaidTransaction(Carbon $date, bool $hasLocation) 
+    protected function generatePlaidTransaction(Carbon $date, bool $hasLocation)
     {
         $faker = Factory::create();
 
@@ -244,53 +244,52 @@ class SyncPlaidTransactionsJobTest extends TestCase
         ]));
 
         return (object) [
-            "account_id" => "BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp",
-            "amount" => (float) mt_rand(5, 3000),
-            "iso_currency_code" => "USD",
-            "unofficial_currency_code" => null,
-            "category" => [$category->name, $category2->name],
-            "category_id" => "19013000",
-            "date" => $date->addDay()->format('Y-m-d'),
-            "authorized_date" => $date->format('Y-m-d'),
-            "location" => $hasLocation ? (object) [
-                "address" => $faker->streetAddress,
-                "city" => $faker->city,
-                "region" => $faker->state,
-                "postal_code" => $faker->postcode,
-                "country" => "US",
-                "lat" => $faker->latitude,
-                "lon" => $faker->longitude,
-                "store_number" => $faker->randomNumber(5)
+            'account_id' => 'BxBXxLj1m4HMXBm9WZZmCWVbPjX16EHwv99vp',
+            'amount' => (float) mt_rand(5, 3000),
+            'iso_currency_code' => 'USD',
+            'unofficial_currency_code' => null,
+            'category' => [$category->name, $category2->name],
+            'category_id' => '19013000',
+            'date' => $date->addDay()->format('Y-m-d'),
+            'authorized_date' => $date->format('Y-m-d'),
+            'location' => $hasLocation ? (object) [
+                'address' => $faker->streetAddress,
+                'city' => $faker->city,
+                'region' => $faker->state,
+                'postal_code' => $faker->postcode,
+                'country' => 'US',
+                'lat' => $faker->latitude,
+                'lon' => $faker->longitude,
+                'store_number' => $faker->randomNumber(5)
             ] : (object) [
-              
-                "address" => null,
-                "city" => null,
-                "region" => null,
-                "postal_code" => null,
-                "country" => null,
-                "lat" => null,
-                "lon" => null,
-                "store_number" => null 
+                'address' => null,
+                'city' => null,
+                'region' => null,
+                'postal_code' => null,
+                'country' => null,
+                'lat' => null,
+                'lon' => null,
+                'store_number' => null
             ],
-            "name" => $faker->sentence,
-            "merchant_name" => $faker->company,
-            "payment_meta" => (object) [
-                "by_order_of" => null,
-                "payee" => null,
-                "payer" => null,
-                "payment_method" => null,
-                "payment_processor" => null,
-                "ppd_id" => null,
-                "reason" => null,
-                "reference_number" => null
+            'name' => $faker->sentence,
+            'merchant_name' => $faker->company,
+            'payment_meta' => (object) [
+                'by_order_of' => null,
+                'payee' => null,
+                'payer' => null,
+                'payment_method' => null,
+                'payment_processor' => null,
+                'ppd_id' => null,
+                'reason' => null,
+                'reference_number' => null
             ],
-            "payment_channel" => "in store",
-            "pending" => false,
-            "pending_transaction_id" => null,
-            "account_owner" => null,
-            "transaction_id" => str_shuffle("lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje"),
-            "transaction_code" => null,
-            "transaction_type" => "place"
+            'payment_channel' => 'in store',
+            'pending' => false,
+            'pending_transaction_id' => null,
+            'account_owner' => null,
+            'transaction_id' => str_shuffle('lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje'),
+            'transaction_code' => null,
+            'transaction_type' => 'place'
         ];
     }
 }

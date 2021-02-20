@@ -30,7 +30,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-        
+
         $transaction->load('user.alerts');
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -67,7 +67,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-        
+
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
@@ -148,7 +148,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-        
+
         $transaction->load('user.alerts');
 
         $event = new TransactionCreated($transaction);
@@ -170,7 +170,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-        
+
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
@@ -210,7 +210,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-                $transaction->load('user.alerts');
+        $transaction->load('user.alerts');
 
         /** @var Alert $alert */
         $alert = $transaction->user->alerts()->create([
@@ -247,7 +247,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
                 ])->id,
             ])->account_id,
         ]);
-        
+
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */

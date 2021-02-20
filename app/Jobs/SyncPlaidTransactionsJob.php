@@ -131,7 +131,8 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         $localTransaction->categories()->sync($categoriesToSync);
     }
 
-    protected function createLocalTransaction($repository, $transaction) {
+    protected function createLocalTransaction($repository, $transaction)
+    {
         $localTransaction = $repository->findOrCreate(Transaction::class, 'transaction_id', $transaction->transaction_id, [
             'account_id' => $transaction->account_id,
             'amount' => $transaction->amount,
@@ -145,7 +146,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
             'data' => $transaction,
         ]);
         event(new TransactionCreated($localTransaction, $this->shouldSendAlerts));
-        
+
         return $localTransaction;
     }
 }
