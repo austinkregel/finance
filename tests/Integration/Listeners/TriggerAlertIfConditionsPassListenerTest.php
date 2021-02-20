@@ -22,18 +22,19 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithNoConditionalsCreatesAlert(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
 
         $transaction->load('user.alerts');
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => '{{ transaction.name }} charged ${{ transaction.amount }}',
             'body' => 'Yo dog, maybe you shouldn\'t spend money on {{transaction.name}}',
@@ -58,12 +59,13 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithConditionalCreatesAlert(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
@@ -71,7 +73,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => '{{ transaction.name }} charged ${{ transaction.amount }}',
             'body' => 'Yo dog, maybe you shouldn\'t spend money on {{transaction.name}}',
@@ -100,19 +102,20 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithConditionalDoesntCreatesAlert(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 10,
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => '{{ transaction.name }} charged ${{ transaction.amount }}',
             'body' => 'Yo dog, maybe you shouldn\'t spend money on {{transaction.name}}',
@@ -139,12 +142,13 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleNothingHappensWhenNoAlertExists(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'amount' => 100,
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
@@ -162,11 +166,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleCanUseTagInAlert(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
@@ -174,7 +179,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => 'Hey! It looks like your tag {{ tag.name.en }} just had a ${{transaction.amount}} charge!',
             'body' => 'You paid your {{transaction.name}} {{tag.name.en}}',
@@ -203,17 +208,18 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleDoesNothingWhenThereIsNoChannel(): void
     {
+        $user = factory(User::class)->create();
         $transaction = factory(Transaction::class)->create([
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => 'Hey! It looks like your tag {{ tag.name.en }} just had a ${{transaction.amount}} charge!',
             'body' => 'You paid your {{transaction.name}} {{tag.name.en}}',
@@ -239,11 +245,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleDoesNothingWhenThereEventIsNotSelected(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'account_id' => factory(Account::class)->create([
                 'access_token_id' => factory(AccessToken::class)->create([
-                    'user_id' => factory(User::class)->create()->id,
+                    'user_id' => $user->id,
                 ])->id,
             ])->account_id,
         ]);
@@ -251,7 +258,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $transaction->load('user.alerts');
 
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => 'Hey! It looks like your tag {{ tag.name.en }} just had a ${{transaction.amount}} charge!',
             'body' => 'You paid your {{transaction.name}} {{tag.name.en}}',
@@ -277,14 +284,20 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleCreateAlertBasedOnTag(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => $user->id,
+                ])->id,
+            ])->account_id,
         ]);
 
         $transaction->load('user.alerts');
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Bill paid!',
             'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
@@ -334,14 +347,20 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWontCreateAlertsForTheSameTransaction(): void
     {
+        $user = factory(User::class)->create();
         /** @var Transaction $transaction */
         $transaction = factory(Transaction::class)->create([
             'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
+            'account_id' => factory(Account::class)->create([
+                'access_token_id' => factory(AccessToken::class)->create([
+                    'user_id' => $user->id,
+                ])->id,
+            ])->account_id,
         ]);
 
         $transaction->load('user.alerts');
         /** @var Alert $alert */
-        $alert = $transaction->user->alerts()->create([
+        $alert = $user->alerts()->create([
             'name' => 'Bill paid!',
             'title' => 'You just paid your {{ transaction.name }} {{ tag.name.en }}!',
             'body' => 'This time around, you paid ${{ transaction.amount }}.',
