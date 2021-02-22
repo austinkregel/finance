@@ -57,12 +57,12 @@
                             return;
                         }
 
-                        await axios.post('/api/plaid/exchange-token', {
+                        const { data: token } = await axios.post('/api/plaid/exchange-token', {
                             public_token: public_token,
                             institution: institution_id
                         });
 
-                        await this.$store.dispatch('fetchAccounts')
+                        await this.$store.dispatch('refreshAccountsFor', { access_token_id: token.id })
                     },
                     onExit: async function (err, metadata) {
                         if (err != null && err.error_code === 'INVALID_LINK_TOKEN') {
@@ -81,8 +81,8 @@
                 };
                 this.handler = Plaid.create(configs)
             },
-            async linkAccount(account) {
-                await this.setupPlaid(account);
+            async linkAccount() {
+                await this.setupPlaid();
                 this.handler.open();
             }
         },
