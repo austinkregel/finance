@@ -42,6 +42,7 @@ export default {
             });
 
             await dispatch('fetchAccounts');
+            await dispatch('fetchAccessTokens');
             this.loading = false;
         },
     }
