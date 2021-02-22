@@ -15,7 +15,7 @@ class RefreshAccountsFor extends Action
             return;
         }
 
-        dispatch(new SyncPlaidAccountsJob($accessToken));
+        dispatch_now(new SyncPlaidAccountsJob($accessToken));
     }
 
     public function validate(): array
