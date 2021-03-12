@@ -6,7 +6,7 @@ use App\Mail\BudgetBreachEstablishedAmountMail;
 use Illuminate\Notifications\Messages\SlackMessage;
 use NotificationChannels\Discord\DiscordMessage;
 
-class BudgetBreachedEstablishedAmountNotification extends AlertNotiffication
+class BudgetBreachedEstablishedAmountNotification extends AlertNotification
 {
     public function toMail($notifiable)
     {

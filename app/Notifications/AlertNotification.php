@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use NotificationChannels\Discord\DiscordMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 
-class AlertNotiffication extends Notification
+class AlertNotification extends Notification
 {
     use Queueable;
 
@@ -101,3 +101,4 @@ class AlertNotiffication extends Notification
             ]);
     }
 }
+3FAF11A6F2300449
