@@ -42,7 +42,7 @@ class TriggerAlertForBreachedBudget extends TestCase
         $alert = $user->alerts()->create([
             'name' => 'Alert',
             'title' => '{{ transaction.name }} charged ${{ transaction.amount }}',
-            'body' => 'Yo dog, maybe you shouldn\'t spend money on {{transaction.name}}',
+            'body' => 'Yo dog your budget breached {{budget.name}}',
             'payload' => '{}',
             'channels' => [DatabaseChannel::class],
             'webhook_url' => null,
@@ -56,6 +56,7 @@ class TriggerAlertForBreachedBudget extends TestCase
             'frequency' => 'MONTHLY',
             'interval' => 1,
             'user_id' => $user->id,
+            'name' => 'Budget Breacher'
         ]);
 
         $event = new BudgetBreachedEstablishedAmount($budget, $transaction);
@@ -67,6 +68,6 @@ class TriggerAlertForBreachedBudget extends TestCase
         self::assertNotEmpty($notifications = \DB::table('notifications')->get()->all());
         // Ensure that our mustache service will format a templated title and body
         self::assertSame(sprintf('%s charged $%s', $transaction->name, $transaction->amount), json_decode(collect($notifications)->first()->data)->title);
-        self::assertSame(sprintf('Yo dog, maybe you shouldn\'t spend money on %s', $transaction->name), json_decode(collect($notifications)->first()->data)->body);
+        self::assertSame(sprintf('Yo dog your budget breached %s', $budget->name), json_decode(collect($notifications)->first()->data)->body);
     }
 }
