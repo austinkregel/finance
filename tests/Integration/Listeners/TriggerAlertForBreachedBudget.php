@@ -35,6 +35,7 @@ class TriggerAlertForBreachedBudget extends TestCase
                 ])->id,
             ])->account_id,
             'amount' => 100,
+            'name' => 'Actual Transaction'
         ]);
 
         $transaction->load('user.alerts');
@@ -67,7 +68,7 @@ class TriggerAlertForBreachedBudget extends TestCase
         $listener->handle($event);
         self::assertNotEmpty($notifications = \DB::table('notifications')->get()->all());
         // Ensure that our mustache service will format a templated title and body
-        self::assertSame(sprintf('%s charged $%s', $transaction->name, $transaction->amount), json_decode(collect($notifications)->first()->data)->title);
-        self::assertSame(sprintf('Yo dog your budget breached %s', $budget->name), json_decode(collect($notifications)->first()->data)->body);
+        self::assertSame('Actual Transaction charged $100', json_decode(collect($notifications)->first()->data)->title);
+        self::assertSame('Yo dog your budget breached Budget Breacher', json_decode(collect($notifications)->first()->data)->body);
     }
 }
