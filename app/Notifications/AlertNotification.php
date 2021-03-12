@@ -101,4 +101,3 @@ class AlertNotification extends Notification
             ]);
     }
 }
-
