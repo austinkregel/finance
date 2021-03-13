@@ -54,5 +54,7 @@ return [
     ],
 
     'slack_webhook_url' => env('SLACK_WEBHOOK_URL'),
-    'discord_webhook_url' => env('DISCORD_WEBHOOK_URL'),
+    'discord' => [
+        'token' => env('DISCORD_TOKEN')
+    ],
 ];
