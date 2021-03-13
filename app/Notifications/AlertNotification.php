@@ -51,7 +51,7 @@ class AlertNotification extends Notification
                 'tag' => $this->alertLog->tag->toArray(),
             ] : [],
                 $this->alertLog->budget ? [
-                'budget' => $this->alertLog->budget->toArray(),
+                'budget' => $this->alertLog->budget->toArray() + ['total_spends' => $this->alertLog->budget->findTotalSpends($this->alertLog->budget->getStartOfCurrentPeriod()) ],
             ] : []
             ));
         }

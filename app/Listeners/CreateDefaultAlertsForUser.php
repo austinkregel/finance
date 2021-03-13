@@ -74,7 +74,7 @@ class CreateDefaultAlertsForUser
         ],
         [
             'name' => 'Budget spends exceeded amount!',
-            'title' => 'You budget just exceeded your amount ${{ budget.amount }}!',
+            'title' => 'Your {{budget.name}} just exceeded your set amount ${{ budget.amount }}!',
             'body' => 'In total you have spent ${{ budget.total_spend }}.',
             'conditions' => [],
             'events' => [
