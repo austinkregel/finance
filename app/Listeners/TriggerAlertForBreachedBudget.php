@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Budget;
 use App\Events\BudgetBreachedEstablishedAmount;
 use App\Filters\TransactionsConditionFilter;
 use App\Models\Alert;
