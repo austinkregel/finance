@@ -38,7 +38,6 @@ class TriggerAlertForBreachedBudget extends TestCase
             'name' => 'Actual Transaction'
         ]);
 
-        $transaction->load('user.alerts');
         /** @var Alert $alert */
         $alert = $user->alerts()->create([
             'name' => 'Alert',
@@ -60,7 +59,7 @@ class TriggerAlertForBreachedBudget extends TestCase
             'name' => 'Budget Breacher'
         ]);
 
-        $event = new BudgetBreachedEstablishedAmount($budget, $transaction);
+        $event = unserialize(serialize(new BudgetBreachedEstablishedAmount($budget, $transaction)));
 
         $listener = new \App\Listeners\TriggerAlertForBreachedBudget();
 

@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Budget;
 use App\Events\BudgetBreachedEstablishedAmount;
 use App\Filters\TransactionsConditionFilter;
 use App\Models\Alert;
@@ -16,18 +15,26 @@ class TriggerAlertForBreachedBudget implements ShouldQueue
 
     protected TransactionsConditionFilter $filter;
 
+    /**
+     * @param BudgetBreachedEstablishedAmount $event
+     */
     public function handle($event): void
     {
         $budget = $event->getBudget();
-
-        $budget = Budget::totalSpends()->with(['user'])->find($budget->id);
-
         $user = $budget->user;
 
         /** @var Collection|Alert[] $alertsToTrigger */
         $alertsToTrigger = $user->alerts()
             ->whereJsonContains('events', BudgetBreachedEstablishedAmount::class)
             ->get();
+
+        $transaction = $event->getTransaction();
+
+        if ($transaction !== null) {
+            $alertsToTrigger->map->createBudgetBreachNotificationWithTransaction($transaction, $budget);
+
+            return;
+        }
 
         $alertsToTrigger->map->createBudgetBreachNotification($budget);
     }
