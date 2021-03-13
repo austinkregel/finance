@@ -2,6 +2,6 @@
 
 namespace App\Notifications;
 
-class TransactionBudgetAlertNotification extends AlertNotiffication
+class TransactionBudgetAlertNotification extends AlertNotification
 {
 }

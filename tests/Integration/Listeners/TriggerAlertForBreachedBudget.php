@@ -60,6 +60,7 @@ class TriggerAlertForBreachedBudget extends TestCase
         ]);
 
         $event = unserialize(serialize(new BudgetBreachedEstablishedAmount($budget, $transaction)));
+
         $listener = new \App\Listeners\TriggerAlertForBreachedBudget();
 
         self::assertEmpty(\DB::table('notifications')->get()->all());
