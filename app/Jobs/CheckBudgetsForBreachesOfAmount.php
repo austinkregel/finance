@@ -19,7 +19,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
     {
         do {
             /** @var Paginator $budgets */
-            $budgets = Budget::totalSpends(now()->subMonths(2), 1)->paginate(50, [], 'page', $page++);
+            $budgets = Budget::query()->paginate(50, ['*'], '', $page++);
 
             /** @var Budget $budget */
             foreach ($budgets->items() as $budget) {
@@ -32,7 +32,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
                     return;
                 }
 
-                if ($budget->amount < $budget->total_spend && empty($budget->breached_at)) {
+                if ($budget->amount < $budget->findTotalSpends($startOfTheLastBudgetPeriod) && empty($budget->breached_at)) {
                     event(new BudgetBreachedEstablishedAmount($budget));
                     $budget->update([
                         'breached_at' => now()

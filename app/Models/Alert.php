@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Budget;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
+use App\Notifications\AlertNotiffication;
 use App\Notifications\BudgetBreachedEstablishedAmountNotification;
 use App\Notifications\TransactionBudgetAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
@@ -163,6 +164,16 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
     {
         $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
             'triggered_by_budget_id' => $budget->id,
+        ]));
+
+        $this->notifyAbout($notification);
+    }
+
+    public function createBudgetBreachNotificationWithTransaction(Transaction $transaction, Budget $budget): void
+    {
+        $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
+            'triggered_by_budget_id' => $budget->id,
+            'triggered_by_transaction_id' => $transaction->id,
         ]));
 
         $this->notifyAbout($notification);

@@ -35,7 +35,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget q($string)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget totalSpends()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereCreatedAt($value)
@@ -94,6 +93,21 @@ class Budget extends Model implements AbstractEloquentModel
                 )
                 ->where('date', '>=', $startingPeriod)
         ]);
+    }
+
+    public function findTotalSpends($startingPeriod):? int
+    {
+        return Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
+            ->whereIn('taggables.tag_id', $this->tags()->select('id'))
+            ->where('taggables.taggable_type', '=', Transaction::class)
+            ->whereIn(
+                'transactions.account_id',
+                Account::select('account_id')
+                    ->whereIn('access_token_id', AccessToken::select('id')
+                        ->where('user_id', $this->user_id))
+            )
+            ->where('date', '>=', $startingPeriod)
+            ->sum('amount');
     }
 
     public function getValidationCreateRules(): array
