@@ -67,6 +67,7 @@ class AlertNotification extends Notification
     protected function render($string, $data)
     {
         info('rendering '. $string, $data);
+
         return app(\Mustache_Engine::class)->render($string, $data);
     }
 
