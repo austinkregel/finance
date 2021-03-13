@@ -11,7 +11,6 @@ use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
