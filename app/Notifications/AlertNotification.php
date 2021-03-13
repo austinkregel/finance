@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use NotificationChannels\Discord\DiscordMessage;
 use NotificationChannels\Webhook\WebhookMessage;
 
-class AlertNotiffication extends Notification
+class AlertNotification extends Notification
 {
     use Queueable;
 

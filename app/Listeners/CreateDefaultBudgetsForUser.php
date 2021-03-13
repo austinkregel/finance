@@ -42,7 +42,7 @@ class CreateDefaultBudgetsForUser
         $user = $event->user;
 
         foreach (static::BUDGETS as $budget) {
-            $budget['started_at'] = now();
+            $budget['started_at'] = now()->startOfMonth();
             $tags = $budget['tags'];
             unset($budget['tags']);
             /** @var Budget $budget */

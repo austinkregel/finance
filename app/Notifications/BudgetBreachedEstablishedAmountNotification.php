@@ -6,7 +6,7 @@ use App\Mail\BudgetBreachEstablishedAmountMail;
 use Illuminate\Notifications\Messages\SlackMessage;
 use NotificationChannels\Discord\DiscordMessage;
 
-class BudgetBreachedEstablishedAmountNotification extends AlertNotiffication
+class BudgetBreachedEstablishedAmountNotification extends AlertNotification
 {
     public function toMail($notifiable)
     {
@@ -16,7 +16,7 @@ class BudgetBreachedEstablishedAmountNotification extends AlertNotiffication
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
-            ->content(sprintf('Your budget %s breached the set amount!', $this->alertLog->budget->name))
+            ->content(sprintf('Your budget %s breached the set amount $%s!', $this->alertLog->budget->name, $this->alertLog->budget->amount))
             ->to($this->alertLog->alert->messaging_service_channel)
             ->warning();
     }
@@ -24,6 +24,6 @@ class BudgetBreachedEstablishedAmountNotification extends AlertNotiffication
     public function toDiscord($notifiable)
     {
         return (new DiscordMessage)
-            ->body(sprintf('Your budget %s breached the set amount!', $this->alertLog->budget->name));
+            ->body(sprintf('Your budget %s breached the set amount $%s!', $this->alertLog->budget->name, $this->alertLog->budget->amount));
     }
 }

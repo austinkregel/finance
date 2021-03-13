@@ -167,4 +167,14 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
 
         $this->notifyAbout($notification);
     }
+
+    public function createBudgetBreachNotificationWithTransaction(Transaction $transaction, Budget $budget): void
+    {
+        $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
+            'triggered_by_budget_id' => $budget->id,
+            'triggered_by_transaction_id' => $transaction->id,
+        ]));
+
+        $this->notifyAbout($notification);
+    }
 }

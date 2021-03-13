@@ -6,7 +6,6 @@ use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Transaction;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -35,7 +34,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget q($string)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget totalSpends()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget whereCreatedAt($value)
@@ -79,21 +77,19 @@ class Budget extends Model implements AbstractEloquentModel
         return Tag::class;
     }
 
-    public function scopeTotalSpends(Builder $query, $startingPeriod, int $userId): void
+    public function findTotalSpends($startingPeriod):? int
     {
-        $query->addSelect([
-            'total_spend' => Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
-                ->whereIn('taggables.tag_id', $this->tags()->select('id'))
-                ->selectRaw('sum(amount) as amount')
-                ->where('taggables.taggable_type', '=', Transaction::class)
-                ->whereIn(
-                    'transactions.account_id',
-                    Account::select('account_id')
+        return Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
+            ->whereIn('taggables.tag_id', $this->tags()->select('id'))
+            ->where('taggables.taggable_type', '=', Transaction::class)
+            ->whereIn(
+                'transactions.account_id',
+                Account::select('account_id')
                     ->whereIn('access_token_id', AccessToken::select('id')
-                        ->where('user_id', $userId))
-                )
-                ->where('date', '>=', $startingPeriod)
-        ]);
+                        ->where('user_id', $this->user_id))
+            )
+            ->where('date', '>=', $startingPeriod)
+            ->sum('amount');
     }
 
     public function getValidationCreateRules(): array

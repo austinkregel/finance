@@ -16,7 +16,7 @@ class BudgetBreachedEstablishedAmount
 
     public ?Transaction $transaction;
 
-    public function __construct(Budget $budget, ?Transaction $transaction)
+    public function __construct(Budget $budget, ?Transaction $transaction = null)
     {
         $this->budget = $budget;
         $this->transaction = $transaction;
