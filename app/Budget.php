@@ -6,7 +6,6 @@ use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Transaction;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;

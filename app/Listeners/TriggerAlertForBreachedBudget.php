@@ -34,7 +34,8 @@ class TriggerAlertForBreachedBudget implements ShouldQueue
         $transaction = $event->getTransaction();
 
         if ($transaction !== null) {
-            $alertsToTrigger->map->createBudgetBreachNotificationWithTransaction($transaction,$budget);
+            $alertsToTrigger->map->createBudgetBreachNotificationWithTransaction($transaction, $budget);
+
             return;
         }
 

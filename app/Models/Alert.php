@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Budget;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
-use App\Notifications\AlertNotiffication;
 use App\Notifications\BudgetBreachedEstablishedAmountNotification;
 use App\Notifications\TransactionBudgetAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
