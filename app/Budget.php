@@ -123,9 +123,7 @@ class Budget extends Model implements AbstractEloquentModel
 
     public function getAbstractAllowedFilters(): array
     {
-        return [
-            AllowedFilter::scope('totalSpends'),
-        ];
+        return [];
     }
 
     public function getAbstractAllowedRelationships(): array
