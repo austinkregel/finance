@@ -14,7 +14,7 @@ class UpdateWebhooksForAccountsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function handle(PlaidServiceContract $plaid)
+    public function handle(PlaidServiceContract $plaid): void
     {
         $page = 1;
         do {
