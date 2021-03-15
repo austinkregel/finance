@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Alert;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Tags\HasTags;
@@ -57,7 +57,6 @@ use Spatie\Tags\HasTags;
 class User extends Authenticatable
 {
     use HasFactory;
-
     use Notifiable, HasTags {
         tags as oldRelationshipTags;
     }

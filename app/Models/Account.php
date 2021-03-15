@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Traits\LogsActivity;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
@@ -56,7 +56,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 class Account extends Model implements AbstractEloquentModel
 {
     use HasFactory;
-
     use AbstractModelTrait, BelongsToThrough, LogsActivity;
 
     protected $fillable = [

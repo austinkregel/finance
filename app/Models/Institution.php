@@ -37,7 +37,6 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
 class Institution extends Model implements AbstractEloquentModel
 {
     use HasFactory;
-
     use AbstractModelTrait;
 
     protected $primaryKey = 'institution_id';

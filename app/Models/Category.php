@@ -29,7 +29,6 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
 class Category extends Model implements AbstractEloquentModel
 {
     use HasFactory;
-
     use AbstractModelTrait;
 
     protected $guarded = [];

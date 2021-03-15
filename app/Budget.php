@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -56,7 +56,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 class Budget extends Model implements AbstractEloquentModel
 {
     use HasFactory;
-
     use AbstractModelTrait, BelongsToThrough, HasTags {
         getTagClassName as oldTagName;
     }
