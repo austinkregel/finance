@@ -7,8 +7,6 @@ use Illuminate\Support\Collection;
 
 /**
  * Interface AccountRepository.
- *
- * @package namespace App\Contracts\Repositories;
  */
 interface AccountRepository extends AbstractRepositoryInterface
 {

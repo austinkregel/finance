@@ -2,20 +2,20 @@
 
 namespace App\Providers;
 
+use App\Activity;
 use App\Budget;
 use App\FailedJob;
-use App\Models\Alert;
-use App\Tag;
 use App\Http\Controllers\Api\AbstractResourceController;
 use App\Models\AccessToken;
 use App\Models\Account;
+use App\Models\Alert;
 use App\Models\Category;
 use App\Models\Transaction;
+use App\Tag;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Exceptions\ModelNotInstanceOfAbstractEloquentModel;
-use App\Activity;
 
 class AbstractRouteServiceProvider extends ServiceProvider
 {
@@ -43,7 +43,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
 
             $model = new $class;
 
-            throw_if(!$model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
+            throw_if(! $model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
 
             return $model;
         });
@@ -53,7 +53,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
 
             $model = new $class;
 
-            throw_if(!$model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
+            throw_if(! $model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
 
             return $model::find($value);
         });

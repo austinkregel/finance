@@ -44,7 +44,7 @@ class AccessToken extends Model implements AbstractEloquentModel
     use AbstractModelTrait, LogsActivity;
 
     public $fillable = [
-        'user_id', 'token', 'institution_id'
+        'user_id', 'token', 'institution_id',
     ];
 
     public $hidden = [
@@ -52,13 +52,14 @@ class AccessToken extends Model implements AbstractEloquentModel
     ];
 
     public $casts = [
-        'should_sync' => 'boolean'
+        'should_sync' => 'boolean',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function institution()
     {
         return $this->belongsTo(Institution::class, 'institution_id', 'institution_id');

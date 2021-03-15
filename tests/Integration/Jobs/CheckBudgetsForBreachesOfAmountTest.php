@@ -26,7 +26,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         $job->handle();
 
         $this->doesntExpectEvents([
-            BudgetBreachedEstablishedAmount::class
+            BudgetBreachedEstablishedAmount::class,
         ]);
     }
 
@@ -35,7 +35,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         Carbon::setTestNow($now = Carbon::create(2020, 1, 1, 0, 0, 0));
 
         $user = factory(User::class)->create([
-            'id' => 1
+            'id' => 1,
         ]);
 
         $token = $user->accessTokens()->create([
@@ -100,7 +100,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         $job->handle();
 
         $this->doesntExpectEvents([
-            BudgetBreachedEstablishedAmount::class
+            BudgetBreachedEstablishedAmount::class,
         ]);
     }
 }

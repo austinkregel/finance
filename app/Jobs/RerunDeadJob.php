@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use Illuminate\Contracts\Queue\Factory as Queue;
 use App\FailedJob;
 use Illuminate\Contracts\Queue\Factory;
+use Illuminate\Contracts\Queue\Factory as Queue;
 
 class RerunDeadJob
 {
@@ -14,6 +14,7 @@ class RerunDeadJob
      * @var string
      */
     public $id;
+
     /**
      * Create a new job instance.
      *
@@ -24,6 +25,7 @@ class RerunDeadJob
     {
         $this->id = $id;
     }
+
     /**
      * Re-execute the job.
      *

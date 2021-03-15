@@ -15,7 +15,7 @@ class ActionService
         'refresh-accounts-for' => RefreshAccountsFor::class,
         'fetch-transactions' => FetchTransactions::class,
         'regroup-transactions' => EmitRefreshEvent::class,
-        'historical-sync' => HistoricalSync::class
+        'historical-sync' => HistoricalSync::class,
     ];
 
     public function build(?string $thing)

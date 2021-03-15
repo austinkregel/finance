@@ -39,7 +39,7 @@ class TransactionsConditionFilterTest extends TestCase
             'comparator' => Condition::COMPARATOR_LIKE,
             'value' => 'Hello',
             'conditionable_type' => Tag::class,
-            'conditionable_id' => $tag->id
+            'conditionable_id' => $tag->id,
         ]);
         $tag->load('conditionals');
 
@@ -49,7 +49,7 @@ class TransactionsConditionFilterTest extends TestCase
             'comparator' => Condition::COMPARATOR_LIKE,
             'value' => 'netflix',
             'conditionable_type' => Tag::class,
-            'conditionable_id' => $tag2->id
+            'conditionable_id' => $tag2->id,
         ]);
         $tag2->load('conditionals');
         $tag3 = factory(Tag::class)->create(['name' => 'Subscriptions']);
@@ -58,7 +58,7 @@ class TransactionsConditionFilterTest extends TestCase
             'comparator' => Condition::COMPARATOR_EQUAL,
             'value' => 'Subscription',
             'conditionable_type' => Tag::class,
-            'conditionable_id' => $tag3->id
+            'conditionable_id' => $tag3->id,
         ]);
         $tag3->load('conditionals');
 
@@ -85,7 +85,7 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         'name' => 'Nah dawg',
                     ]),
-                ]
+                ],
             ],
             [
                 self::SHOULD_NOT_BE_EMPTY,
@@ -115,7 +115,7 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         'name' => 'Nope',
                     ]),
-                ]
+                ],
             ],
             [
                 self::SHOULD_NOT_BE_EMPTY,
@@ -128,8 +128,8 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         'name' => 'Netflix',
                         'category_id' => $subscriptionCategory = factory(Category::class)->create([
-                            'name' => 'Subscription'
-                        ])->category_id
+                            'name' => 'Subscription',
+                        ])->category_id,
                     ]),
                     factory(Transaction::class)->create([
                         'name' => 'Hello',
@@ -137,7 +137,7 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         // A charge through a privacy.com card
                         'name' => 'PWP*Netflix.com          844-7718229  NY',
-                        'category_id' => $subscriptionCategory
+                        'category_id' => $subscriptionCategory,
                     ]),
                     factory(Transaction::class)->create([
                         'name' => 'Nope',
@@ -150,7 +150,7 @@ class TransactionsConditionFilterTest extends TestCase
                     factory(Transaction::class)->create([
                         'name' => 'Nope',
                     ]),
-                ]
+                ],
             ],
         ];
     }

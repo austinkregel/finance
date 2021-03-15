@@ -8,7 +8,6 @@ namespace App\Models\Domain;
 
 /**
  * Class Account
- * @package App\Models\Domain
  * @property $account_id
  * @property $balances
  * @property $mask

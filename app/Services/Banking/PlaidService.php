@@ -11,13 +11,12 @@ use App\Models\Account;
 use App\Services\PlaidHttpService;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
  * Class PlaidService
- * @package App\Services\Banking
  */
 class PlaidService implements PlaidServiceContract
 {
@@ -46,14 +45,15 @@ class PlaidService implements PlaidServiceContract
         return $this->http
             ->{config('services.plaid.env')}()
             ->auth([
-                'public_key' => env('PLAID_PUBLIC_KEY')
+                'public_key' => env('PLAID_PUBLIC_KEY'),
             ])
             ->post('/institutions/search', [
                 'query' => $bankName,
-                'products' => ['transactions']
+                'products' => ['transactions'],
             ])
             ->get('institutions');
     }
+
     /**
      * Get the institutions provided by plaid
      * @param string $bankName
@@ -65,13 +65,13 @@ class PlaidService implements PlaidServiceContract
         return new Collection($this->http
             ->development()
             ->auth([
-                'public_key' => config('services.plaid.public_key')
+                'public_key' => config('services.plaid.public_key'),
             ])
             ->post('/institutions/get_by_id', [
                 'institution_id' => $bankId,
                 'options' => [
                     'include_optional_metadata' => true,
-                ]
+                ],
             ])
             ->get('institution'));
     }
@@ -108,12 +108,12 @@ class PlaidService implements PlaidServiceContract
             $totalAvailable = count($paginator->get('transactions')) + ($page - 1) * 500;
             $total = $paginator->get('total_transactions');
             $loop = $total !== $totalAvailable;
-            $page ++;
+            $page++;
         } while ($loop);
 
         return Collection::make([
             'transactions' => $items->toArray(),
-            'accounts' => $accounts
+            'accounts' => $accounts,
         ]);
     }
 
@@ -142,8 +142,8 @@ class PlaidService implements PlaidServiceContract
                     'end_date' => $endDate->format('Y-m-d'),
                     'options' => [
                         'count' => 500,
-                        'offset' => ($page - 1) * 500
-                    ]
+                        'offset' => ($page - 1) * 500,
+                    ],
                 ]);
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
@@ -160,6 +160,7 @@ class PlaidService implements PlaidServiceContract
             return $this->getPaginator($accessToken, $startDate, $endDate, $page);
         }
     }
+
     /**
      * Exchange the public token for a new access token
      * @param string $publicToken
@@ -192,7 +193,7 @@ class PlaidService implements PlaidServiceContract
             ->auth([
                 'client_id' => config('services.plaid.client_id'),
                 'secret' => config('services.plaid.secret_key'),
-                'access_token' => $accessToken
+                'access_token' => $accessToken,
             ])
             ->post('/accounts/get')
             ->toArray();
@@ -209,7 +210,7 @@ class PlaidService implements PlaidServiceContract
             ->auth([
                 'client_id' => config('services.plaid.client_id'),
                 'secret' => config('services.plaid.secret_key'),
-                'access_token' => $account->accessToken->token
+                'access_token' => $account->accessToken->token,
             ])
             ->post('/item/access_token/invalidate')
             ->toArray();
@@ -244,7 +245,7 @@ class PlaidService implements PlaidServiceContract
             ->post('/institutions/get', [
                 'options' => [
                     'include_optional_metadata' => true,
-                ]
+                ],
             ])
             ->toArray();
 
@@ -260,7 +261,7 @@ class PlaidService implements PlaidServiceContract
                 'secret' => config('services.plaid.secret_key'),
                 'client_name' => config('services.plaid.client_name'),
                 'user' => [
-                    'client_user_id' => $userId
+                    'client_user_id' => $userId,
                 ],
                 'products' => config('services.plaid.products'),
                 'country_codes' => config('services.plaid.country_codes'),
@@ -275,7 +276,7 @@ class PlaidService implements PlaidServiceContract
             ->{config('services.plaid.env')}()
             ->post('/link/token/create', [
                 'user' => [
-                    'client_user_id' => $userId
+                    'client_user_id' => $userId,
                 ],
                 'client_name' => config('services.plaid.client_name'),
                 'country_codes' => config('services.plaid.country_codes'),

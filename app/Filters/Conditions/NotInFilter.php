@@ -13,6 +13,6 @@ class NotInFilter implements ConditionContract
     {
         $arrayOfData = explode(',', $condition->getComparatorValue());
 
-        return !in_array(Arr::get($item->toArray(), $condition->getComparatorField()), array_map('trim', $arrayOfData));
+        return ! in_array(Arr::get($item->toArray(), $condition->getComparatorField()), array_map('trim', $arrayOfData));
     }
 }

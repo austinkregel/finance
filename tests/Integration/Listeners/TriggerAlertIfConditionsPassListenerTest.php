@@ -86,7 +86,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $alert->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_GREATER_THAN,
-            'value' => 50
+            'value' => 50,
         ]);
         $event = new TransactionCreated($transaction);
 
@@ -128,7 +128,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $alert->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_GREATER_THAN,
-            'value' => 50
+            'value' => 50,
         ]);
         $event = new TransactionCreated($transaction);
 
@@ -191,7 +191,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
 
         $tag = factory(Tag::class)->create([
-            'name' => ['en' => 'bill']
+            'name' => ['en' => 'bill'],
         ]);
 
         $event = new TransactionGroupedEvent($tag, $transaction);
@@ -231,7 +231,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
 
         $tag = factory(Tag::class)->create([
-            'name' => ['en' => 'bill']
+            'name' => ['en' => 'bill'],
         ]);
 
         $event = new TransactionGroupedEvent($tag, $transaction);
@@ -270,7 +270,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
 
         $tag = factory(Tag::class)->create([
-            'name' => ['en' => 'bill']
+            'name' => ['en' => 'bill'],
         ]);
 
         $event = new TransactionGroupedEvent($tag, $transaction);
@@ -311,12 +311,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $alert->conditionals()->create([
             'parameter' => 'tag.name.en',
             'comparator' => Condition::COMPARATOR_LIKE,
-            'value' => 'bill'
+            'value' => 'bill',
         ]);
 
         /** @var Tag $tag */
         $tag = factory(Tag::class)->create([
-            'name' => ['en' => 'bills']
+            'name' => ['en' => 'bills'],
         ]);
 
         $tag->conditionals()->create([
@@ -374,12 +374,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $alert->conditionals()->create([
             'parameter' => 'tag.name.en',
             'comparator' => Condition::COMPARATOR_LIKE,
-            'value' => 'bill'
+            'value' => 'bill',
         ]);
 
         /** @var Tag $tag */
         $tag = factory(Tag::class)->create([
-            'name' => ['en' => 'bills']
+            'name' => ['en' => 'bills'],
         ]);
 
         $tag->conditionals()->create([

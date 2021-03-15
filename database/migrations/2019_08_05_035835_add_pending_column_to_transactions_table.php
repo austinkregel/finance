@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPendingColumnToTransactionsTable extends Migration
 {
@@ -35,7 +35,7 @@ class AddPendingColumnToTransactionsTable extends Migration
             $table->dropColumn(['is_subscription', 'is_possible_subscription']);
             $table->dropIndex([
                 'name',
-                'date'
+                'date',
             ]);
         });
     }

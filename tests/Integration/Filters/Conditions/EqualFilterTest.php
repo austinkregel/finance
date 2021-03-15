@@ -19,7 +19,7 @@ class EqualFilterTest extends TestCase
         $filter = new EqualFilter();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 
@@ -37,7 +37,7 @@ class EqualFilterTest extends TestCase
             [false, true, false], // Ensure this works with types
             [true, '12', 12], // Make it loose types and not strict.
             [true, 12, '12'], // Make it loose types and not strict.
-            [true, 310, 310]
+            [true, 310, 310],
         ];
     }
 }

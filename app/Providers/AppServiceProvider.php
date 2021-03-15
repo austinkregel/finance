@@ -6,10 +6,10 @@ use App\Contracts\Repositories\AccountRepository;
 use App\Contracts\Services\PlaidServiceContract;
 use App\Repositories\AccountRepositoryEloquent;
 use App\Services\Banking\PlaidService;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {

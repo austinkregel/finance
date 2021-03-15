@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\DestroyRequest;
+use App\Http\Requests\Account\IndexRequest;
+use App\Http\Requests\Account\StoreRequest;
+use App\Http\Requests\Account\UpdateRequest;
+use App\Http\Requests\Account\ViewRequest;
 use App\Models\Account;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Filters\ActionFilter;
-use App\Http\Requests\Account\StoreRequest;
-use App\Http\Requests\Account\IndexRequest;
-use App\Http\Requests\Account\UpdateRequest;
-use App\Http\Requests\Account\ViewRequest;
 use Spatie\QueryBuilder\AllowedFilter as Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -32,7 +32,7 @@ class AccountController extends Controller
         $query = QueryBuilder::for(Account::class)
             ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q')
+                Filter::scope('q'),
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
@@ -63,7 +63,7 @@ class AccountController extends Controller
 
         if (empty($result)) {
             return $this->json([
-                'message' => 'No resource found by that id.'
+                'message' => 'No resource found by that id.',
             ], 404);
         }
 

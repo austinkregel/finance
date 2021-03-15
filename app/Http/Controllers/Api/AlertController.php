@@ -28,7 +28,7 @@ class AlertController extends Controller
         $query = QueryBuilder::for(Alert::class)
             ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q')
+                Filter::scope('q'),
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
@@ -61,7 +61,7 @@ class AlertController extends Controller
 
         if (empty($result)) {
             return $this->json([
-                'message' => 'No resource found by that id.'
+                'message' => 'No resource found by that id.',
             ], 404);
         }
 
@@ -95,6 +95,7 @@ class AlertController extends Controller
 
         return $condition;
     }
+
     public function deleteConditional(ConditionalUpdateRequest $request, Alert $alert, Condition $condition)
     {
         $condition->delete();

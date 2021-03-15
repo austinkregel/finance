@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class AbstractStatsRepository
- * @package App\Contracts\Repositories
  */
 interface AbstractStatsRepository
 {

@@ -35,7 +35,7 @@ class TriggerAlertForBreachedBudget extends TestCase
                 ])->id,
             ])->account_id,
             'amount' => 100,
-            'name' => 'Actual Transaction'
+            'name' => 'Actual Transaction',
         ]);
 
         /** @var Alert $alert */
@@ -56,7 +56,7 @@ class TriggerAlertForBreachedBudget extends TestCase
             'frequency' => 'MONTHLY',
             'interval' => 1,
             'user_id' => $user->id,
-            'name' => 'Budget Breacher'
+            'name' => 'Budget Breacher',
         ]);
 
         $event = unserialize(serialize(new BudgetBreachedEstablishedAmount($budget, $transaction)));

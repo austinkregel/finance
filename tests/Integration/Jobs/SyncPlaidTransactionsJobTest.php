@@ -15,8 +15,8 @@ use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use Kregel\LaravelAbstract\Repositories\GenericRepository;
-use Tests\TestCase;
 use Mockery;
+use Tests\TestCase;
 
 class SyncPlaidTransactionsJobTest extends TestCase
 {
@@ -41,7 +41,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
             ->with($token->token, $start, $end)
             ->andReturn(collect([
                 'transactions' => [],
-                'accounts' => []
+                'accounts' => [],
             ]));
 
         $job->handle($plaidService, new GenericRepository);
@@ -78,7 +78,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
             $this->assertDatabaseHas('activity_log', [
                 'log_name' => 'activity',
                 'subject_id' => $accessToken->id,
-                'description' => 'Exception Message'
+                'description' => 'Exception Message',
             ]);
         }
     }
@@ -115,7 +115,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 22), false),
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 30), false),
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 31), false),
-                ]
+                ],
             ]));
 
         $job->handle($plaidService, new GenericRepository);
@@ -145,7 +145,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         $transaction1 = $this->generatePlaidTransaction(Carbon::create(2020, 12, 8), false);
 
         $account = factory(Account::class)->create([
-            'account_id' => $transaction1->account_id
+            'account_id' => $transaction1->account_id,
         ]);
 
         $transaction2 = $this->generatePlaidTransaction(Carbon::create(2020, 12, 11), true);
@@ -204,7 +204,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 22), false),
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 30), false),
                     $this->generatePlaidTransaction(Carbon::create(2020, 12, 31), false),
-                ]
+                ],
             ]));
 
         $job->handle($plaidService, new GenericRepository);
@@ -260,7 +260,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 'country' => 'US',
                 'lat' => $faker->latitude,
                 'lon' => $faker->longitude,
-                'store_number' => $faker->randomNumber(5)
+                'store_number' => $faker->randomNumber(5),
             ] : (object) [
                 'address' => null,
                 'city' => null,
@@ -269,7 +269,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 'country' => null,
                 'lat' => null,
                 'lon' => null,
-                'store_number' => null
+                'store_number' => null,
             ],
             'name' => $faker->sentence,
             'merchant_name' => $faker->company,
@@ -281,7 +281,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 'payment_processor' => null,
                 'ppd_id' => null,
                 'reason' => null,
-                'reference_number' => null
+                'reference_number' => null,
             ],
             'payment_channel' => 'in store',
             'pending' => false,
@@ -289,7 +289,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
             'account_owner' => null,
             'transaction_id' => str_shuffle('lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje'),
             'transaction_code' => null,
-            'transaction_type' => 'place'
+            'transaction_type' => 'place',
         ];
     }
 }

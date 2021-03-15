@@ -5,8 +5,8 @@ namespace App;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Alert;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Tags\HasTags;
 
 /**
@@ -65,7 +65,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'alert_channels'
+        'name', 'email', 'password', 'alert_channels',
     ];
 
     /**

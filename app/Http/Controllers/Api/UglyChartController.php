@@ -17,7 +17,7 @@ class UglyChartController
 
     public function __invoke(Request $request, $type, $model)
     {
-        abort_unless($model === 'tag', 400, 'Unsupported model ' .$model);
+        abort_unless($model === 'tag', 400, 'Unsupported model '.$model);
 
         $this->transactionRepository = new TransactionRepository;
         $this->trendFilter = new TrendFilter;
@@ -62,33 +62,33 @@ class UglyChartController
             case '14d':
                 return [
                     'current' => [now()->subWeeks(2), now()],
-                    'previous' => [now()->subWeeks(4), now()->subWeeks(2)]
+                    'previous' => [now()->subWeeks(4), now()->subWeeks(2)],
                 ];
             case '1m':
                 return [
                     'current' => [now()->subMonth(), now()],
-                    'previous' => [now()->subMonths(2), now()->subMonth()]
+                    'previous' => [now()->subMonths(2), now()->subMonth()],
                 ];
             case '1y':
                 return [
                     'current' => [now()->subYear(), now()],
-                    'previous' => [now()->subYears(2), now()->subYear()]
+                    'previous' => [now()->subYears(2), now()->subYear()],
                 ];
             case 'mtd':
                 return [
                     'current' => [now()->startOfMonth(), now()],
-                    'previous' => [now()->subMonth()->startOfMonth(), now()->subMonth()]
+                    'previous' => [now()->subMonth()->startOfMonth(), now()->subMonth()],
                 ];
             case 'ytd':
                 return [
                     'current' => [now()->startOfYear(), now()],
-                    'previous' => [now()->subYear()->startOfYear(), now()->subYear()]
+                    'previous' => [now()->subYear()->startOfYear(), now()->subYear()],
                 ];
             case '7d':
             default:
                 return [
                     'current' => [now()->subWeek(), now()],
-                    'previous' => [now()->subWeeks(2), now()->subWeek()]
+                    'previous' => [now()->subWeeks(2), now()->subWeek()],
                 ];
         }
     }

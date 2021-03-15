@@ -68,7 +68,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
     protected $casts = [
         'channels' => 'json',
         'events' => 'json',
-        'is_templated' => 'boolean'
+        'is_templated' => 'boolean',
     ];
 
     public function user()
@@ -146,6 +146,7 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
 
         $this->notifyAbout($notification);
     }
+
     public function createNotificationWithBudget(Transaction $transaction, Budget $budget): void
     {
         /** @var AlertLog $log */

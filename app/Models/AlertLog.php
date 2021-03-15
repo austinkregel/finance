@@ -50,6 +50,7 @@ class AlertLog extends Model
     {
         return $this->belongsTo(Transaction::class, 'triggered_by_transaction_id');
     }
+
     public function budget()
     {
         return $this->belongsTo(Budget::class, 'triggered_by_budget_id');

@@ -89,7 +89,7 @@ class TransactionRepositoryTest extends TestCase
         ]);
         $tag->transactions()->create([
             'date' => Carbon::create(2020, 4, 14),
-            'account_id' => $account->account_id
+            'account_id' => $account->account_id,
         ]);
 
         $transactions = $this->transactionRepository->findAllBetweenDateForUserInScope($user, Carbon::create(2020, 4, 11), Carbon::create(2020, 4, 13), $tag->id);

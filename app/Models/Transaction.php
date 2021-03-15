@@ -17,7 +17,6 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 /**
  * Class Transaction.
  *
- * @package namespace App\Models;
  * @property-read \App\Models\Account $account
  * @property-read \App\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
@@ -154,7 +153,7 @@ class Transaction extends Model implements AbstractEloquentModel
         ], [
             'id',
             'access_token_id',
-            'user_id'
+            'user_id',
         ]);
     }
 
@@ -213,7 +212,7 @@ class Transaction extends Model implements AbstractEloquentModel
             AllowedFilter::scope('has'),
             AllowedFilter::scope('null'),
             AllowedFilter::scope('withFeesAndTransfers'),
-            AllowedFilter::scope('accountsIn')
+            AllowedFilter::scope('accountsIn'),
         ];
     }
 

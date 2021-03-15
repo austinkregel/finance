@@ -18,63 +18,63 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'hulu'
+                    'value' => 'hulu',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'disney'
+                    'value' => 'disney',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'HBO'
+                    'value' => 'HBO',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'twitch'
+                    'value' => 'twitch',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'github'
+                    'value' => 'github',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'plex'
+                    'value' => 'plex',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'protonmail'
+                    'value' => 'protonmail',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'youtube'
+                    'value' => 'youtube',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Subscription'
+                    'value' => 'Subscription',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Discord'
+                    'value' => 'Discord',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'netflix'
+                    'value' => 'netflix',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     'value' => 'WASABI TECHNOLOGIES',
-                ]
+                ],
             ],
         ],
 
@@ -86,39 +86,39 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'ORIGIN'
+                    'value' => 'ORIGIN',
                 ],
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Steampowered'
+                    'value' => 'Steampowered',
                 ],
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Steam'
+                    'value' => 'Steam',
                 ],
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'UBISOFT'
+                    'value' => 'UBISOFT',
                 ],
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'gamestop'
+                    'value' => 'gamestop',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Video Games'
+                    'value' => 'Video Games',
                 ],
                 [
                     'parameter' => 'transaction.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'game store'
+                    'value' => 'game store',
                 ],
-            ]
+            ],
         ],
         [
             'name' => 'bills',
@@ -129,27 +129,27 @@ class CreateDefaultTagsForUser
                     'parameter' => 'tag.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
                     // anything that's a utility should automatically be a bill
-                    'value' => 'utilities'
+                    'value' => 'utilities',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Loans and Mortgages'
+                    'value' => 'Loans and Mortgages',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Billpay'
+                    'value' => 'Billpay',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'USAA P&C INT AUTOPAY'
+                    'value' => 'USAA P&C INT AUTOPAY',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Car Dealers and Leasing'
+                    'value' => 'Car Dealers and Leasing',
                 ],
             ],
         ],
@@ -161,29 +161,29 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Cable'
+                    'value' => 'Cable',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Telecommunication Services'
+                    'value' => 'Telecommunication Services',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Utilities'
+                    'value' => 'Utilities',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Sanitary and Waste Management'
+                    'value' => 'Sanitary and Waste Management',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
                     // This is for people who get their power/water from the city (like those in petoskey)
-                    'value' => 'Government Departments and Agencies'
-                ]
+                    'value' => 'Government Departments and Agencies',
+                ],
             ],
         ],
         [
@@ -194,13 +194,13 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'Restaurants'
+                    'value' => 'Restaurants',
                 ],
                 [
                     'parameter' => 'category.name',
                     'comparator' => Condition::COMPARATOR_EQUAL,
-                    'value' => 'Fast Food'
-                ]
+                    'value' => 'Fast Food',
+                ],
             ],
         ],
         [
@@ -210,7 +210,7 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'fee'
+                    'value' => 'fee',
                 ],
             ],
         ],
@@ -221,7 +221,7 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_STARTS_WITH,
-                    'value' => 'PWP*'
+                    'value' => 'PWP*',
                 ],
             ],
         ],
@@ -232,7 +232,7 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'transfer'
+                    'value' => 'transfer',
                 ],
             ],
         ],
@@ -243,17 +243,17 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_NOT_LIKE,
-                    'value' => 'transfer'
+                    'value' => 'transfer',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_NOT_LIKE,
-                    'value' => 'fee'
+                    'value' => 'fee',
                 ],
                 [
                     'parameter' => 'amount',
                     'comparator' => Condition::COMPARATOR_LESS_THAN,
-                    'value' => 0
+                    'value' => 0,
                 ],
             ],
         ],
@@ -264,17 +264,17 @@ class CreateDefaultTagsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_NOT_LIKE,
-                    'value' => 'transfer'
+                    'value' => 'transfer',
                 ],
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_NOT_LIKE,
-                    'value' => 'fee'
+                    'value' => 'fee',
                 ],
                 [
                     'parameter' => 'amount',
                     'comparator' => Condition::COMPARATOR_GREATER_THAN,
-                    'value' => 0
+                    'value' => 0,
                 ],
             ],
         ],

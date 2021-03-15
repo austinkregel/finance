@@ -6,7 +6,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Tag::class, function (Faker $faker) {
     return [
-        'name' => $name = [ 'en' => $faker->sentence ],
+        'name' => $name = ['en' => $faker->sentence],
         'slug' => $name,
         'type' => 'automatic',
         'order_column' => 1,

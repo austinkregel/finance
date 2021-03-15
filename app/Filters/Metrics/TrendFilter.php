@@ -23,7 +23,7 @@ class TrendFilter
         }
 
         $data->each(function (Transaction $transaction) use (&$returnedData): void {
-            if (!array_key_exists($transaction->date->format('m/d'), $returnedData)) {
+            if (! array_key_exists($transaction->date->format('m/d'), $returnedData)) {
                 $returnedData[$transaction->date->format('m/d')] = 0;
             }
 

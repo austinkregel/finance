@@ -24,7 +24,7 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'number|exists:tags,id'
+            'tag' => 'number|exists:tags,id',
         ];
     }
 }

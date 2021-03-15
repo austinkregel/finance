@@ -37,12 +37,12 @@ class AbstractResourceController extends Controller
         $query = QueryBuilder::for(get_class($model))
             ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q')
+                Filter::scope('q'),
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts());
 
-        if (!in_array(get_class($model), [FailedJob::class, Transaction::class, Activity::class])) {
+        if (! in_array(get_class($model), [FailedJob::class, Transaction::class, Activity::class])) {
             $query->where('user_id', auth()->id());
         }
 
@@ -74,7 +74,7 @@ class AbstractResourceController extends Controller
 
         if (empty($result)) {
             return $this->json([
-                'message' => 'No resource found by that id.'
+                'message' => 'No resource found by that id.',
             ], 404);
         }
 
@@ -103,7 +103,7 @@ class AbstractResourceController extends Controller
 
     public function forceDestroy(ForceDeleteRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
-        if (!$model->usesSoftdeletes()) {
+        if (! $model->usesSoftdeletes()) {
             abort(404, 'You cannot force delete an item of this type.');
 
             return;
@@ -116,7 +116,7 @@ class AbstractResourceController extends Controller
 
     public function restore(RestoreRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
-        if (!$model->usesSoftdeletes()) {
+        if (! $model->usesSoftdeletes()) {
             abort(404, 'You cannot restore an item of this type.');
 
             return;

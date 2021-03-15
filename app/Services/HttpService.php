@@ -12,12 +12,11 @@ use Illuminate\Support\Collection;
 
 /**
  * Class HttpService
- * @package App\Services
  */
 class HttpService
 {
     /**
-     * @var $this
+     * @var
      */
     protected static $instance;
 
@@ -108,7 +107,7 @@ class HttpService
      */
     protected function request($action, $data = [])
     {
-        if (!in_array(strtolower($action), ['get', 'post', 'put', 'delete', 'patch'])) {
+        if (! in_array(strtolower($action), ['get', 'post', 'put', 'delete', 'patch'])) {
             throw new \Exception('Your desired action is not supported');
         }
 
@@ -118,7 +117,7 @@ class HttpService
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accepts' => 'application/json',
-                ]
+                ],
             ];
         } else {
             $body = [
@@ -126,7 +125,7 @@ class HttpService
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accepts' => 'application/json',
-                ]
+                ],
             ];
         }
 

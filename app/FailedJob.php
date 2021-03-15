@@ -10,7 +10,6 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
 /**
  * Class FailedJob.
  *
- * @package namespace App\Models;
  * @mixin \Eloquent
  * @property int $id
  * @property string $connection

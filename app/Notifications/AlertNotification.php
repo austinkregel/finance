@@ -56,7 +56,7 @@ class AlertNotification extends Notification
                 'tag' => $tag->toArray(),
             ] : [],
                 $budget ? [
-                'budget' => $budget->toArray() + ['total_spends' => $budget->findTotalSpends($budget->getStartOfCurrentPeriod()) ],
+                'budget' => $budget->toArray() + ['total_spends' => $budget->findTotalSpends($budget->getStartOfCurrentPeriod())],
             ] : []
             ));
         }
@@ -102,7 +102,7 @@ class AlertNotification extends Notification
     {
         return WebhookMessage::create()
             ->data([
-                'payload' => $this->renderField($this->alertLog->alert->payload)
+                'payload' => $this->renderField($this->alertLog->alert->payload),
             ]);
     }
 }

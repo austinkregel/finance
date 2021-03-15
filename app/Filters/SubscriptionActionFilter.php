@@ -78,14 +78,14 @@ class SubscriptionActionFilter
             return;
         }
 
-        $this->arguments = array_filter(explode(',', end($parts)), fn ($bit) => !empty($bit));
+        $this->arguments = array_filter(explode(',', end($parts)), fn ($bit) => ! empty($bit));
 
         $this->hasArguments = count($this->arguments) > 0;
     }
 
     protected function validateAction(string $action): string
     {
-        if (!in_array($action, static::WHITELISTED_ACTIONS)) {
+        if (! in_array($action, static::WHITELISTED_ACTIONS)) {
             return static::DEFAULT_ACTION;
         }
 

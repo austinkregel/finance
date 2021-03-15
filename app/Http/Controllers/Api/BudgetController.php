@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Budget;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Budget\DestroyRequest;
 use App\Http\Requests\Budget\IndexRequest;
 use App\Http\Requests\Budget\StoreRequest;
 use App\Http\Requests\Budget\UpdateRequest;
 use App\Http\Requests\Budget\ViewRequest;
-use App\Budget;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -26,7 +26,7 @@ class BudgetController extends Controller
         $query = QueryBuilder::for(Budget::class)
             ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q')
+                Filter::scope('q'),
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
@@ -45,7 +45,7 @@ class BudgetController extends Controller
                         'tags.transactions' => function ($query) use ($budget): void {
                             $query->where('date', '>=', $budget->getStartOfCurrentPeriod())
                                 ->orderBy('date', 'desc');
-                        }
+                        },
                     ]);
 
                     return $budget;
@@ -80,7 +80,7 @@ class BudgetController extends Controller
 
         if (empty($result)) {
             return $this->json([
-                'message' => 'No resource found by that id.'
+                'message' => 'No resource found by that id.',
             ], 404);
         }
 

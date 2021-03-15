@@ -29,7 +29,7 @@ class HistoricalSync extends Action
             );
         }
 
-        for ($i = 0; $i < $diff; $i ++) {
+        for ($i = 0; $i < $diff; $i++) {
             $startOfTheMonth = $now->copy()->startOfMonth()->subMonths($i)->startOfMonth();
 
             /** @var AccessToken $accessToken */
@@ -43,7 +43,7 @@ class HistoricalSync extends Action
     {
         return [
             'access_tokens' => 'required|array',
-            'date' => 'required|date'
+            'date' => 'required|date',
         ];
     }
 }

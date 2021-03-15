@@ -24,11 +24,11 @@ Artisan::command('institution {institution_id}', function (): void {
     /** @var \App\Services\Banking\PlaidService $service */
     $service = app(\App\Services\Banking\PlaidService::class);
 
-    if (!Institution::where('institution_id', $this->argument('institution_id'))->exists()) {
+    if (! Institution::where('institution_id', $this->argument('institution_id'))->exists()) {
         $item = json_decode($service->getInstitutionsById($this->argument('institution_id'))->toJson());
 
         if ($item->logo) {
-            $logo = 'institutions/' . $item->institution_id . '.png';
+            $logo = 'institutions/'.$item->institution_id.'.png';
             file_put_contents(public_path($logo), base64_decode($item->logo));
         }
 
