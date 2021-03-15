@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Contracts\Services\PlaidServiceContract;
+use App\Models\AccessToken;
 use App\Models\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,13 +19,13 @@ class UpdateWebhooksForAccountsJob implements ShouldQueue
     {
         $page = 1;
         do {
-            $paginator = Account::paginate(50, ['*'], 'page', $page++);
+            $paginator = AccessToken::paginate(50, ['*'], 'page', $page++);
 
             $items = $paginator->items();
 
-            /** @var Account $item */
+            /** @var AccessToken $item */
             foreach ($items as $item) {
-                $plaid->updateWebhook($item->account_id);
+                $plaid->updateWebhook($item->token);
             }
         } while ($paginator->hasMorePages());
     }
