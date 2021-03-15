@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\CheckBudgetsForBreachesOfAmount;
+use App\Jobs\UpdateWebhooksForAccountsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('sync:plaid 1')->hourlyAt(0);
         // Small job offset so we don't flood the queue. Not really ever going to be a problem... but meh :shrug:
         $schedule->job(CheckBudgetsForBreachesOfAmount::class)->hourlyAt(10);
+        $schedule->job(UpdateWebhooksForAccountsJob::class)->daily();
+
     }
 
     /**
