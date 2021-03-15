@@ -30,7 +30,6 @@ class Kernel extends ConsoleKernel
         // Small job offset so we don't flood the queue. Not really ever going to be a problem... but meh :shrug:
         $schedule->job(CheckBudgetsForBreachesOfAmount::class)->hourlyAt(10);
         $schedule->job(UpdateWebhooksForAccountsJob::class)->daily();
-
     }
 
     /**
