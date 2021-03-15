@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Broadcaster
@@ -28,6 +29,7 @@ return [
     */
 
     'connections' => [
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -36,7 +38,13 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
+                'useTLS' => true,
             ],
+        ],
+
+        'ably' => [
+            'driver' => 'ably',
+            'key' => env('ABLY_KEY'),
         ],
 
         'redis' => [
@@ -51,5 +59,7 @@ return [
         'null' => [
             'driver' => 'null',
         ],
+
     ],
+
 ];
