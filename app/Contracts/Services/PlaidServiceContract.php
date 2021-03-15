@@ -73,4 +73,5 @@ interface PlaidServiceContract
     public function getInstitutions(int $count = 500, int $page = 1): LengthAwarePaginatorContract;
     public function createLinkToken(string $userId): array;
     public function updateLinkToken(string $userId, string $accessToken): array;
+    public function updateWebhook(string $access_token): array;
 }

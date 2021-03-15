@@ -70,6 +70,11 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction withAnyTags($tags, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction withAnyTagsOfAnyType($tags)
  * @property mixed $tag
+ * @property string|null $pending_transaction_id
+ * @property array|null $data
+ * @method static Builder|Transaction accountsIn($accounts)
+ * @method static Builder|Transaction whereData($value)
+ * @method static Builder|Transaction wherePendingTransactionId($value)
  */
 class Transaction extends Model implements AbstractEloquentModel
 {

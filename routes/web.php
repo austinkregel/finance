@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Plaid\CreateLinkTokenController;
 use App\Http\Controllers\Plaid\TokenController;
 use App\Http\Controllers\Plaid\UpdateLinkTokenController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::get('/', static fn () => view('welcome'))->middleware('auth');
 Route::group(['namespace' => 'App\\Http\\Controllers'], static function (): void {
     Auth::routes(['register' => true]);
 });
+
+Route::post('webhook/plaid', WebhookController::class)->name('webhook');
 
 Route::group(['middleware' => 'auth'], static function (): void {
     Route::get('/home', HomeController::class.'@index')->name('home');

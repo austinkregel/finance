@@ -50,6 +50,8 @@ use Spatie\Tags\HasTags;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User withAnyTagsOfAnyType($tags)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tag[] $alerts
  * @property-read int|null $alerts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Budget[] $budgets
+ * @property-read int|null $budgets_count
  */
 class User extends Authenticatable
 {

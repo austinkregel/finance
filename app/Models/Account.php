@@ -49,6 +49,8 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account currentUser()
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class Account extends Model implements AbstractEloquentModel
 {
