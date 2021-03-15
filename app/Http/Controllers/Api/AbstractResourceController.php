@@ -1,25 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Activity;
-use App\FailedJob;
-use App\Http\Controllers\Controller;
-use App\Models\Transaction;
-use App\Tag;
+use App\Http\Resources\AbstractResource;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Filters\ActionFilter;
-use Kregel\LaravelAbstract\Http\Requests\CreateRequest;
-use Kregel\LaravelAbstract\Http\Requests\DeleteRequest;
-use Kregel\LaravelAbstract\Http\Requests\ForceDeleteRequest;
-use Kregel\LaravelAbstract\Http\Requests\IndexRequest;
-use Kregel\LaravelAbstract\Http\Requests\RestoreRequest;
-use Kregel\LaravelAbstract\Http\Requests\UpdateRequest;
-use Kregel\LaravelAbstract\Http\Requests\ViewRequest;
 use Spatie\QueryBuilder\AllowedFilter as Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -27,103 +16,100 @@ class AbstractResourceController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    const RESOURCE = AbstractResource::class;
+
+    public AbstractEloquentModel $model;
+
+    public function __construct(AbstractEloquentModel $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * @throws Exception
      */
-    public function index(IndexRequest $request, AbstractEloquentModel $model)
+    public function index()
     {
         $action = new ActionFilter(request()->get('action', 'paginate:14'));
 
-        $query = QueryBuilder::for(get_class($model))
-            ->allowedFields($model->getAbstractAllowedFields())
-            ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q'),
+        $query = QueryBuilder::for(get_class($this->model))
+            ->allowedFields($this->model->getAbstractAllowedFields())
+            ->allowedFilters(array_merge($this->model->getAbstractAllowedFilters(), [
+                Filter::scope('q')
             ]))
-            ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts());
-
-        if (! in_array(get_class($model), [FailedJob::class, Transaction::class, Activity::class])) {
-            $query->where('user_id', auth()->id());
-        }
-
-        if (get_class($model) === Tag::class) {
-            $query->withSum('transactions.amount');
-        }
+            ->allowedIncludes($this->model->getAbstractAllowedRelationships())
+            ->allowedSorts($this->model->getAbstractAllowedSorts());
 
         return $this->json($action->execute($query));
     }
 
-    public function store(CreateRequest $request, AbstractEloquentModel $model)
+    public function store(Request $request)
     {
         /** @var AbstractEloquentModel $resource */
-        $resource = new $model;
+        $resource = $this->model->newInstance();
         $resource->fill($request->validated());
         $resource->save();
-
         return $this->json($resource->refresh());
     }
 
-    public function show(ViewRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    public function show($id)
     {
-        $result = QueryBuilder::for(get_class($model))
-            ->allowedFields($model->getAbstractAllowedFields())
-            ->allowedFilters($model->getAbstractAllowedFilters())
-            ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts())
-            ->find($abstractEloquentModel->id);
+        $abstract_model = $this->model::findOrFail($id);
 
-        if (empty($result)) {
-            return $this->json([
-                'message' => 'No resource found by that id.',
+        $query = QueryBuilder::for(get_class($this->model))
+            ->allowedFields($abstract_model->getAbstractAllowedFields())
+            ->allowedFilters($abstract_model->getAbstractAllowedFilters())
+            ->allowedIncludes($abstract_model->getAbstractAllowedRelationships())
+            ->allowedSorts($abstract_model->getAbstractAllowedSorts());
+
+        return $this->json($query->find($abstract_model->id)) ?? $this->json([
+                'message' => 'No resource found by that id.'
             ], 404);
-        }
-
-        return $this->json($result);
     }
 
-    /**
-     * @param  UpdateRequest  $request
-     * @param  AbstractEloquentModel  $model
-     * @param  AbstractEloquentModel|Model  $abstractEloquentModel
-     * @return \Illuminate\Http\JsonResponse|object
-     */
-    public function update(UpdateRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    public function update(Request $request, $id)
     {
-        $abstractEloquentModel->update($request->validated());
+        $abstract_model = $this->model::findOrFail($id);
 
-        return $this->json($abstractEloquentModel->refresh());
+        $abstract_model->update($request->all());
+
+        return $this->json($abstract_model->refresh());
     }
 
-    public function destroy(DeleteRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    public function destroy($request, $id)
     {
-        $abstractEloquentModel->delete();
+        $abstract_model = $this->model::findOrFail($id);
+
+        $abstract_model->delete();
 
         return $this->json('', 204);
     }
 
-    public function forceDestroy(ForceDeleteRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    public function forceDestroy($request, $id)
     {
-        if (! $model->usesSoftdeletes()) {
-            abort(404, 'You cannot force delete an item of this type.');
+        $abstract_model = $this->model::findOrFail($id);
 
+        if (!$abstract_model->usesSoftdeletes()) {
+            abort(404, "You cannot force delete an item of this type.");
             return;
         }
 
-        $abstractEloquentModel->forceDelete();
+        $abstract_model->forceDelete();
 
         return $this->json('', 204);
     }
 
-    public function restore(RestoreRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    public function restore($request, $id)
     {
-        if (! $model->usesSoftdeletes()) {
-            abort(404, 'You cannot restore an item of this type.');
+        $abstract_model = $this->model::findOrFail($id);
 
+        if (!$abstract_model->usesSoftdeletes()) {
+            abort(404, "You cannot restore an item of this type.");
             return;
         }
 
-        $abstractEloquentModel->restore();
+        $abstract_model->restore();
 
-        return $this->json($abstractEloquentModel->refresh());
+        return $this->json($abstract_model->refresh());
     }
 }
