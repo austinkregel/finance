@@ -28,6 +28,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AlertLog whereTriggeredByTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AlertLog whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $triggered_by_budget_id
+ * @property-read Budget|null $budget
+ * @method static \Illuminate\Database\Eloquent\Builder|AlertLog whereTriggeredByBudgetId($value)
  */
 class AlertLog extends Model
 {

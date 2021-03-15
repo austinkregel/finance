@@ -59,16 +59,6 @@ class SyncPlaidTransactionsJob implements ShouldQueue
      */
     public function handle(PlaidServiceContract $plaid, GenericRepository $repository): void
     {
-        if ($this->attempts() > 1) {
-            sleep(5);
-        }
-
-        info('Syncing for dates', [
-            'end' => $this->endDate,
-            'start' => $this->startDate,
-            'token' => $this->accessToken->id
-        ]);
-
         $transactionsResponse = $this->tryCatch(fn () => $plaid->getTransactions($this->accessToken->token, $this->startDate, $this->endDate), $this->accessToken);
 
         $transactions = $transactionsResponse->get('transactions');

@@ -36,6 +36,8 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  * @property bool $should_sync
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AccessToken whereError($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AccessToken whereShouldSync($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class AccessToken extends Model implements AbstractEloquentModel
 {

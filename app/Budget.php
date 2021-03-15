@@ -48,6 +48,9 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget withAnyTags($tags, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Budget withAnyTagsOfAnyType($tags)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $breached_at
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Budget whereBreachedAt($value)
  */
 class Budget extends Model implements AbstractEloquentModel
 {
