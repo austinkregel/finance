@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
@@ -27,6 +28,8 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  */
 class Category extends Model implements AbstractEloquentModel
 {
+    use HasFactory;
+
     use AbstractModelTrait;
 
     protected $guarded = [];

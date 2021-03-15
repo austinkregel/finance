@@ -26,11 +26,11 @@ class TriggerAlertForBreachedBudget extends TestCase
 
     public function testHandleWithNoConditionalsCreatesAlert(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -50,7 +50,7 @@ class TriggerAlertForBreachedBudget extends TestCase
             'events' => [BudgetBreachedEstablishedAmount::class],
         ]);
 
-        $budget = factory(Budget::class)->create([
+        $budget = Budget::factory()->create([
             'amount' => 50,
             'started_at' => Carbon::create(2021, 1, 1),
             'frequency' => 'MONTHLY',

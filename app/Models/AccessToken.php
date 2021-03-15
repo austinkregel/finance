@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Traits\LogsActivity;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,8 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  */
 class AccessToken extends Model implements AbstractEloquentModel
 {
+    use HasFactory;
+
     use AbstractModelTrait, LogsActivity;
 
     public $fillable = [

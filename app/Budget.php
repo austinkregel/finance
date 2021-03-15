@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Transaction;
@@ -54,6 +55,8 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Budget extends Model implements AbstractEloquentModel
 {
+    use HasFactory;
+
     use AbstractModelTrait, BelongsToThrough, HasTags {
         getTagClassName as oldTagName;
     }

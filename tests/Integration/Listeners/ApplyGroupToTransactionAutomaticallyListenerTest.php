@@ -21,8 +21,8 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
             TransactionGroupedEvent::class,
         ]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
-        $tag = factory(Tag::class)->create([
+        $transaction = Transaction::factory()->create();
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
             'user_id' => $transaction->account->owner->id,
@@ -40,9 +40,9 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
             'user_id' => $transaction->account->owner->id,
@@ -66,9 +66,9 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
             'user_id' => $transaction->account->owner->id,
@@ -94,9 +94,9 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
             'user_id' => $transaction->account->owner->id,
@@ -123,13 +123,13 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'category_id' => $category->category_id,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
             'user_id' => $transaction->account->owner->id,
@@ -154,15 +154,15 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'name' => 'Netflix',
             'category_id' => $category->category_id,
             'amount' => 9.99,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'debits/withdrawals',
             'user_id' => $transaction->account->owner->id,
@@ -184,7 +184,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         ]);
 
         /** @var Tag $tag */
-        $tag2 = factory(Tag::class)->create([
+        $tag2 = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'credits/income',
             'user_id' => $transaction->account->owner->id,
@@ -219,15 +219,15 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $this->expectsEvents([
             TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'name' => 'Netflix',
             'category_id' => $category->category_id,
             'amount' => 9.99,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'debits/withdrawals',
             'user_id' => $transaction->account->owner->id,
@@ -250,7 +250,7 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         ]);
 
         /** @var Tag $tag */
-        $tag2 = factory(Tag::class)->create([
+        $tag2 = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'credits/income',
             'user_id' => $transaction->account->owner->id,

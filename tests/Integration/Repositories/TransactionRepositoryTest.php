@@ -27,15 +27,15 @@ class TransactionRepositoryTest extends TestCase
 
     public function testFindAllBetweenDateForUserInScopeWhere(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $token = factory(AccessToken::class)->create();
+        $token = AccessToken::factory()->create();
 
-        $account = factory(Account::class)->create([
+        $account = Account::factory()->create([
             'access_token_id' => $token->id,
         ]);
 
@@ -47,7 +47,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 10),
             'pending' => mt_rand(0, 1),
-            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
+            'category_id' => \App\Models\Category::factory()->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -59,7 +59,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 11),
             'pending' => mt_rand(0, 1),
-            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
+            'category_id' => \App\Models\Category::factory()->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -71,7 +71,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 12),
             'pending' => mt_rand(0, 1),
-            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
+            'category_id' => \App\Models\Category::factory()->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);
@@ -83,7 +83,7 @@ class TransactionRepositoryTest extends TestCase
             'account_id' => $account->account_id,
             'date' => Carbon::create(2020, 4, 13),
             'pending' => mt_rand(0, 1),
-            'category_id' => factory(\App\Models\Category::class)->create()->category_id,
+            'category_id' => \App\Models\Category::factory()->create()->category_id,
             'transaction_id' => Str::random(32),
             'transaction_type' => 'debit',
         ]);

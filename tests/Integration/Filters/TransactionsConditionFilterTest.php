@@ -33,8 +33,8 @@ class TransactionsConditionFilterTest extends TestCase
 
     protected function dataProvider()
     {
-        $tag = factory(Tag::class)->create();
-        factory(Condition::class)->create([
+        $tag = Tag::factory()->create();
+        Condition::factory()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_LIKE,
             'value' => 'Hello',
@@ -43,8 +43,8 @@ class TransactionsConditionFilterTest extends TestCase
         ]);
         $tag->load('conditionals');
 
-        $tag2 = factory(Tag::class)->create();
-        factory(Condition::class)->create([
+        $tag2 = Tag::factory()->create();
+        Condition::factory()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_LIKE,
             'value' => 'netflix',
@@ -52,8 +52,8 @@ class TransactionsConditionFilterTest extends TestCase
             'conditionable_id' => $tag2->id,
         ]);
         $tag2->load('conditionals');
-        $tag3 = factory(Tag::class)->create(['name' => 'Subscriptions']);
-        factory(Condition::class)->create([
+        $tag3 = Tag::factory()->create(['name' => 'Subscriptions']);
+        Condition::factory()->create([
             'parameter' => 'category',
             'comparator' => Condition::COMPARATOR_EQUAL,
             'value' => 'Subscription',
@@ -67,22 +67,22 @@ class TransactionsConditionFilterTest extends TestCase
                 self::SHOULD_BE_EMPTY,
                 0,
                 $tag,
-                [factory(Transaction::class)->create([
+                [Transaction::factory()->create([
                     'name' => 'EPC* GAMES STORE',
                 ])],
             ],
             [
                 self::SHOULD_NOT_BE_EMPTY,
                 3, // No conditions will default all things to be applied to the tag.
-                factory(Tag::class)->create(),
+                Tag::factory()->create(),
                 [
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Hello',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nah dawg',
                     ]),
                 ],
@@ -92,27 +92,27 @@ class TransactionsConditionFilterTest extends TestCase
                 3,
                 $tag2,
                 [
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Netflix',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Hello',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         // A charge through a privacy.com card
                         'name' => 'PWP*Netflix.com          844-7718229  NY',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         // A charge through a privacy.com card
                         'name' => 'GOG*netflix - GPay',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
                 ],
@@ -122,32 +122,32 @@ class TransactionsConditionFilterTest extends TestCase
                 3,
                 $tag2,
                 [
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Netflix',
-                        'category_id' => $subscriptionCategory = factory(Category::class)->create([
+                        'category_id' => $subscriptionCategory = Category::factory()->create([
                             'name' => 'Subscription',
                         ])->category_id,
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Hello',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         // A charge through a privacy.com card
                         'name' => 'PWP*Netflix.com          844-7718229  NY',
                         'category_id' => $subscriptionCategory,
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         // A charge through a privacy.com card
                         'name' => 'GOG*netflix - GPay',
                         'category_id' => $subscriptionCategory,
                     ]),
-                    factory(Transaction::class)->create([
+                    Transaction::factory()->create([
                         'name' => 'Nope',
                     ]),
                 ],

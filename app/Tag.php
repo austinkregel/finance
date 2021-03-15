@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
 use App\Models\Transaction;
@@ -47,6 +48,8 @@ use Spatie\Tags\Tag as SpatieTag;
  */
 class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContract
 {
+    use HasFactory;
+
     use Conditionable, AbstractModelTrait;
     public $guarded = [];
 

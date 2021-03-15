@@ -25,7 +25,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
     public function testHandleNoTransactions(): void
     {
         $this->assertDatabaseCount('activity_log', 0);
-        $token = factory(AccessToken::class)->create();
+        $token = AccessToken::factory()->create();
 
         $job = new SyncPlaidTransactionsJob(
             $token,
@@ -52,7 +52,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
     {
         $this->assertDatabaseCount('activity_log', 0);
         $this->expectException(InvalidArgumentException::class);
-        $token = factory(AccessToken::class)->create();
+        $token = AccessToken::factory()->create();
 
         $job = new SyncPlaidTransactionsJob(
             $token,
@@ -86,7 +86,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
     public function testHandleWillCreateNewTransactions(): void
     {
         Carbon::setTestNow(Carbon::create(2021, 1, 1));
-        $token = factory(AccessToken::class)->create();
+        $token = AccessToken::factory()->create();
         $this->assertDatabaseCount('transactions', 0);
 
         $this->expectsEvents([
@@ -126,7 +126,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
     public function testHandleWillUpdateExistingTransactions(): void
     {
         Carbon::setTestNow(Carbon::create(2021, 1, 1));
-        $token = factory(AccessToken::class)->create();
+        $token = AccessToken::factory()->create();
         $this->assertDatabaseCount('transactions', 0);
 
         $this->expectsEvents([
@@ -144,7 +144,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
         $plaidService = Mockery::mock(PlaidServiceContract::class);
         $transaction1 = $this->generatePlaidTransaction(Carbon::create(2020, 12, 8), false);
 
-        $account = factory(Account::class)->create([
+        $account = Account::factory()->create([
             'account_id' => $transaction1->account_id,
         ]);
 
@@ -236,10 +236,10 @@ class SyncPlaidTransactionsJobTest extends TestCase
     {
         $faker = Factory::create();
 
-        $category = cache()->remember('category.Shops', now()->addHour(), fn () => factory(Category::class)->create([
+        $category = cache()->remember('category.Shops', now()->addHour(), fn () => Category::factory()->create([
             'name' => 'Shops',
         ]));
-        $category2 = cache()->remember('category.Computers and Electronics', now()->addHour(), fn () => factory(Category::class)->create([
+        $category2 = cache()->remember('category.Computers and Electronics', now()->addHour(), fn () => Category::factory()->create([
             'name' => 'Computers and Electronics',
         ]));
 

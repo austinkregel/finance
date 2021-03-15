@@ -22,11 +22,11 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithNoConditionalsCreatesAlert(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -59,12 +59,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithConditionalCreatesAlert(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'amount' => 100,
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -102,12 +102,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWithConditionalDoesntCreatesAlert(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'amount' => 10,
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -142,12 +142,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleNothingHappensWhenNoAlertExists(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'amount' => 100,
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -166,11 +166,11 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleCanUseTagInAlert(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -190,7 +190,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
             'events' => [TransactionGroupedEvent::class],
         ]);
 
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'name' => ['en' => 'bill'],
         ]);
 
@@ -208,10 +208,10 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleDoesNothingWhenThereIsNoChannel(): void
     {
-        $user = factory(User::class)->create();
-        $transaction = factory(Transaction::class)->create([
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $user = User::factory()->create();
+        $transaction = Transaction::factory()->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -230,7 +230,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
             'events' => [TransactionGroupedEvent::class],
         ]);
 
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'name' => ['en' => 'bill'],
         ]);
 
@@ -245,11 +245,11 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleDoesNothingWhenThereEventIsNotSelected(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -269,7 +269,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
             'events' => [TransactionCreated::class],
         ]);
 
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'name' => ['en' => 'bill'],
         ]);
 
@@ -284,12 +284,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleCreateAlertBasedOnTag(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'category_id' => \App\Models\Category::factory()->create(['name' => 'Loans and Mortgages'])->category_id,
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -315,7 +315,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
 
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'name' => ['en' => 'bills'],
         ]);
 
@@ -347,12 +347,12 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
 
     public function testHandleWontCreateAlertsForTheSameTransaction(): void
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
-            'category_id' => factory(\App\Models\Category::class)->create(['name' => 'Loans and Mortgages'])->category_id,
-            'account_id' => factory(Account::class)->create([
-                'access_token_id' => factory(AccessToken::class)->create([
+        $transaction = Transaction::factory()->create([
+            'category_id' => \App\Models\Category::factory()->create(['name' => 'Loans and Mortgages'])->category_id,
+            'account_id' => Account::factory()->create([
+                'access_token_id' => AccessToken::factory()->create([
                     'user_id' => $user->id,
                 ])->id,
             ])->account_id,
@@ -378,7 +378,7 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         ]);
 
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'name' => ['en' => 'bills'],
         ]);
 
