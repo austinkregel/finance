@@ -14,6 +14,7 @@ class WebhookController extends Controller
         switch (strtolower($request->get('webhook_type'))) {
             case 'transactions':
                 $this->handleTransactionsWebhook($request);
+
                 return;
             case 'assets':
             case 'auth':
