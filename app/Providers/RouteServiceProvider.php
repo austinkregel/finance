@@ -19,15 +19,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('action', fn ($value) => app(ActionService::class)->build($value));
         Route::bind('alert', fn ($value) => Alert::findOrFail($value));
 
-        $this->routes(function () {
+        $this->routes(function (): void {
             Route::middleware('web')->group(base_path('routes/web.php'));
         });
     }
 
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip()));
     }
 }
