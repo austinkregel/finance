@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Contracts\Services\PlaidServiceContract;
 use App\Models\AccessToken;
-use App\Models\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
