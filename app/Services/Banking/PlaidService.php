@@ -283,7 +283,20 @@ class PlaidService implements PlaidServiceContract
                 'client_id' => config('services.plaid.client_id'),
                 'access_token' => $accessToken,
                 'secret' => config('services.plaid.secret_key'),
- ])
+            ])
+            ->toArray();
+    }
+
+    public function updateWebhook(string $access_token): array
+    {
+        return $this->http
+            ->{config('services.plaid.env')}()
+            ->post('/item/webhook/update', [
+                'access_token' => $access_token,
+                'client_id' => config('services.plaid.client_id'),
+                'secret' => config('services.plaid.secret_key'),
+                'webhook' => route('webhook'),
+            ])
             ->toArray();
     }
 }
