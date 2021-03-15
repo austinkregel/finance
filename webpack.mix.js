@@ -20,3 +20,4 @@ mix.js('resources/js/app.js', 'public/js')
         postCss: [ tailwind('./tailwind.config.js') ],
     })
     .disableNotifications()
+    .vue();
