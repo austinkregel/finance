@@ -19,7 +19,7 @@ class LessThanEqualFilterTest extends TestCase
         $filter = new LessThanEqualFilter();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

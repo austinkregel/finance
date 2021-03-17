@@ -43,7 +43,7 @@ class SyncPlaid extends Command
         $this->info('Looking for more transactions');
         foreach (AccessToken::all() as $token) {
             SyncPlaidAccountsJob::dispatchNow($token);
-            for ($i = 0; $i < (int) $this->argument('range'); $i ++) {
+            for ($i = 0; $i < (int) $this->argument('range'); $i++) {
                 $start = now()->subMonths($i + 1);
                 $end = $start->copy()->addMonth();
                 SyncPlaidTransactionsJob::dispatchNow($token, $start, $end);

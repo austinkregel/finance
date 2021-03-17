@@ -74,7 +74,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
         /** @var Collection|Alert $alertsToTrigger */
         $alertsToTrigger = $alerts->filter(function (Alert $alert) use ($transaction) {
             // Should be empty if the transaction fails the alert's conditionals.
-            return !empty($this->filter->handle($alert, $transaction));
+            return ! empty($this->filter->handle($alert, $transaction));
         });
 
         $alertsToTrigger->map->createNotificationWithTag($transaction, $tag);
@@ -96,7 +96,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
     protected function alertsToTrigger(Collection $alerts, $event, $transaction)
     {
         return $alerts->filter(function ($alert) use ($event, $transaction) {
-            if (!in_array(get_class($event), $alert->events)) {
+            if (! in_array(get_class($event), $alert->events)) {
                 return false;
             }
 

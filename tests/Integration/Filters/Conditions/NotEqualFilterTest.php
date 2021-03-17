@@ -19,7 +19,7 @@ class NotEqualFilterTest extends TestCase
         $filter = new NotEqualFilter();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

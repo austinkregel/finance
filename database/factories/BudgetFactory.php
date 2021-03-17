@@ -1,18 +1,34 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(App\Budget::class, function (Faker $faker) {
-    return [
-        'user_id' => factory(\App\User::class),
-        'name' => $faker->name,
-        'amount' => $faker->numberBetween(10, 30),
-        'frequency' => 1,
-        'interval' => 'MONTHLY',
-        'started_at' => $faker->dateTime,
-        'count' => null,
-        'breached_at' => null,
-    ];
-});
+class BudgetFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = \App\Budget::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => \App\User::factory(),
+            'name' => $this->faker->name,
+            'amount' => $this->faker->numberBetween(10, 30),
+            'frequency' => 1,
+            'interval' => 'MONTHLY',
+            'started_at' => $this->faker->dateTime,
+            'count' => null,
+            'breached_at' => null,
+        ];
+    }
+}

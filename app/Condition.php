@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Contracts\ConditionalsContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
@@ -36,6 +37,7 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  */
 class Condition extends Model implements AbstractEloquentModel, ConditionalsContract
 {
+    use HasFactory;
     use AbstractModelTrait;
 
     protected $guarded = [];

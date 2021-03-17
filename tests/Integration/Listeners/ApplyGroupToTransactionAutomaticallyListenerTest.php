@@ -18,14 +18,14 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     public function testHandleSuccess(): void
     {
         $this->expectsEvents([
-            TransactionGroupedEvent::class
+            TransactionGroupedEvent::class,
         ]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
-        $tag = factory(Tag::class)->create([
+        $transaction = Transaction::factory()->create();
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $handler = new ApplyGroupToTransactionAutomaticallyListener();
         $event = new TransactionCreated($transaction);
@@ -40,17 +40,17 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag->conditionals()->create([
             'parameter' => 'transaction.name',
             'comparator' => Condition::COMPARATOR_NOT_EQUAL,
-            'value' => $transaction->name
+            'value' => $transaction->name,
         ]);
 
         $handler = new ApplyGroupToTransactionAutomaticallyListener();
@@ -66,17 +66,17 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag->conditionals()->create([
             'parameter' => 'transaction.name',
             'comparator' => Condition::COMPARATOR_NOT_EQUAL,
-            'value' => $transaction->name
+            'value' => $transaction->name,
         ]);
 
         $transaction->tags()->attach($tag->id);
@@ -94,17 +94,17 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     {
         $this->expectsEvents([]);
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create();
+        $transaction = Transaction::factory()->create();
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag->conditionals()->create([
             'parameter' => 'transaction.name',
             'comparator' => Condition::COMPARATOR_EQUAL,
-            'value' => $transaction->name
+            'value' => $transaction->name,
         ]);
 
         $transaction->tags()->attach($tag->id);
@@ -121,23 +121,23 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     public function testHandleSuccessAttachTagWithRelationInConditional(): void
     {
         $this->expectsEvents([
-            TransactionGroupedEvent::class
+            TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'category_id' => $category->category_id,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'bill',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag->conditionals()->create([
             'parameter' => 'category.name',
             'comparator' => Condition::COMPARATOR_EQUAL,
-            'value' => $category->name
+            'value' => $category->name,
         ]);
 
         $handler = new ApplyGroupToTransactionAutomaticallyListener();
@@ -152,57 +152,57 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     public function testHandleSuccessAttachTagWhereAmountGreaterThan(): void
     {
         $this->expectsEvents([
-            TransactionGroupedEvent::class
+            TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'name' => 'Netflix',
             'category_id' => $category->category_id,
-            'amount' => 9.99
+            'amount' => 9.99,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'debits/withdrawals',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_GREATER_THAN,
-            'value' => '0'
+            'value' => '0',
         ]);
         $tag->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'fee'
+            'value' => 'fee',
         ]);
         $tag->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'transfer'
+            'value' => 'transfer',
         ]);
 
         /** @var Tag $tag */
-        $tag2 = factory(Tag::class)->create([
+        $tag2 = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'credits/income',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_LESS_THAN,
-            'value' => '0'
+            'value' => '0',
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'fee'
+            'value' => 'fee',
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'transfer'
+            'value' => 'transfer',
         ]);
 
         $handler = new ApplyGroupToTransactionAutomaticallyListener();
@@ -217,17 +217,17 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
     public function testHandleSuccessAttachTagWithAllConditionsPassSetToFalse(): void
     {
         $this->expectsEvents([
-            TransactionGroupedEvent::class
+            TransactionGroupedEvent::class,
         ]);
-        $category = factory(\App\Models\Category::class)->create();
+        $category = \App\Models\Category::factory()->create();
         /** @var Transaction $transaction */
-        $transaction = factory(Transaction::class)->create([
+        $transaction = Transaction::factory()->create([
             'name' => 'Netflix',
             'category_id' => $category->category_id,
-            'amount' => 9.99
+            'amount' => 9.99,
         ]);
         /** @var Tag $tag */
-        $tag = factory(Tag::class)->create([
+        $tag = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'debits/withdrawals',
             'user_id' => $transaction->account->owner->id,
@@ -236,39 +236,39 @@ class ApplyGroupToTransactionAutomaticallyListenerTest extends TestCase
         $tag->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_GREATER_THAN,
-            'value' => '0'
+            'value' => '0',
         ]);
         $tag->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'fee'
+            'value' => 'fee',
         ]);
         $tag->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'transfer'
+            'value' => 'transfer',
         ]);
 
         /** @var Tag $tag */
-        $tag2 = factory(Tag::class)->create([
+        $tag2 = Tag::factory()->create([
             'type' => 'automatic',
             'name' => 'credits/income',
-            'user_id' => $transaction->account->owner->id
+            'user_id' => $transaction->account->owner->id,
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'amount',
             'comparator' => Condition::COMPARATOR_LESS_THAN,
-            'value' => '0'
+            'value' => '0',
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'fee'
+            'value' => 'fee',
         ]);
         $tag2->conditionals()->create([
             'parameter' => 'name',
             'comparator' => Condition::COMPARATOR_NOT_LIKE,
-            'value' => 'transfer'
+            'value' => 'transfer',
         ]);
 
         $handler = new ApplyGroupToTransactionAutomaticallyListener();

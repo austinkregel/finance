@@ -7,10 +7,10 @@ use App\Jobs\Traits\PlaidTryCatchErrorForToken;
 use App\Models\AccessToken;
 use App\Models\Account;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class SyncPlaidAccountsJob implements ShouldQueue
 {
@@ -40,7 +40,7 @@ class SyncPlaidAccountsJob implements ShouldQueue
     {
         $response = $this->tryCatch(fn () => $plaid->getAccounts($this->accessToken->token), $this->accessToken);
 
-        if (!$response) {
+        if (! $response) {
             return;
         }
 
@@ -62,7 +62,7 @@ class SyncPlaidAccountsJob implements ShouldQueue
                     'available' => $account->balances->available ?? 0,
                     'subtype' => $account->subtype,
                     'type' => $account->type,
-                    'access_token_id' => $this->accessToken->id
+                    'access_token_id' => $this->accessToken->id,
                 ]);
 
                 continue;
@@ -75,7 +75,7 @@ class SyncPlaidAccountsJob implements ShouldQueue
                 'balance' => $account->balances->current ?? 0,
                 'available' => $account->balances->available ?? 0,
                 'subtype' => $account->subtype,
-                'type' => $account->type
+                'type' => $account->type,
             ]);
         }
     }

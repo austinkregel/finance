@@ -23,7 +23,7 @@ class CreateDefaultAlertsForUser
                 [
                     'parameter' => 'name',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'fee'
+                    'value' => 'fee',
                 ],
             ],
             'events' => [
@@ -32,7 +32,7 @@ class CreateDefaultAlertsForUser
             'channels' => [
                 DatabaseChannel::class,
                 MailChannel::class,
-            ]
+            ],
         ],
         [
             'name' => 'Bill paid!',
@@ -42,7 +42,7 @@ class CreateDefaultAlertsForUser
                 [
                     'parameter' => 'tag.name.en',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'bill'
+                    'value' => 'bill',
                 ],
             ],
             'events' => [
@@ -51,7 +51,7 @@ class CreateDefaultAlertsForUser
             'channels' => [
                 DatabaseChannel::class,
                 MailChannel::class,
-            ]
+            ],
         ],
         [
             'name' => 'Subscription paid!',
@@ -61,7 +61,7 @@ class CreateDefaultAlertsForUser
                 [
                     'parameter' => 'tag.name.en',
                     'comparator' => Condition::COMPARATOR_LIKE,
-                    'value' => 'subscription'
+                    'value' => 'subscription',
                 ],
             ],
             'events' => [
@@ -70,7 +70,7 @@ class CreateDefaultAlertsForUser
             'channels' => [
                 DatabaseChannel::class,
                 MailChannel::class,
-            ]
+            ],
         ],
         [
             'name' => 'Budget spends exceeded amount!',
@@ -83,7 +83,7 @@ class CreateDefaultAlertsForUser
             'channels' => [
                 DatabaseChannel::class,
                 MailChannel::class,
-            ]
+            ],
         ],
     ];
 
@@ -102,7 +102,7 @@ class CreateDefaultAlertsForUser
             'alert_channels' => array_merge($user->alert_channels ?? [], [
                 DatabaseChannel::class,
                 MailChannel::class,
-            ])
+            ]),
         ]);
 
         foreach (static::ALERTS as $alertInfo) {

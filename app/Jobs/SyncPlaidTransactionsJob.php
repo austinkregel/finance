@@ -12,10 +12,10 @@ use App\Models\Category;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Kregel\LaravelAbstract\Repositories\GenericRepository;
 
 class SyncPlaidTransactionsJob implements ShouldQueue
@@ -96,7 +96,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
                         'transaction_id' => $transaction->transaction_id,
                         'transaction_type' => $transaction->transaction_type,
                         'pending_transaction_id' => $transaction->pending_transaction_id,
-                        'data' => $transaction
+                        'data' => $transaction,
                     ]);
                     event(new TransactionUpdated($localTransaction, $this->shouldSendAlerts));
                 }

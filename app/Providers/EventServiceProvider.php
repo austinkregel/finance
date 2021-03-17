@@ -47,7 +47,7 @@ class EventServiceProvider extends ServiceProvider
 
         TransactionGroupedEvent::class => [
             // A transaction was newly grouped into some group. Do something.
-            TriggerAlertIfConditionsPassListenerForTransaction::class
+            TriggerAlertIfConditionsPassListenerForTransaction::class,
         ],
     ];
 }

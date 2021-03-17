@@ -19,7 +19,7 @@ class NotInFilterTest extends TestCase
         $filter = new NotInFilter();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

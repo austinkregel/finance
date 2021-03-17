@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 class TransactionRepository extends AbstractRepository implements TransactionRepositoryContract
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function model(): string
     {
@@ -31,7 +31,7 @@ class TransactionRepository extends AbstractRepository implements TransactionRep
                         ->where('date', '>=', $startDate)
                         ->where('date', '<=', $endDate)
                         ->groupBy('date');
-                }
+                },
             ])
             ->where('id', $scope)
             ->first();

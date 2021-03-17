@@ -3,12 +3,12 @@
 namespace App\Http\Guards;
 
 use App\Models\AccessToken;
-use Exception;
+use App\Repositories\TokenRepository;
 use Carbon\Carbon;
+use Exception;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\TokenRepository;
 
 class AccessTokenGuard
 {

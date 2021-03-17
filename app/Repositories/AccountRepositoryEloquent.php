@@ -2,14 +2,12 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Collection;
 use App\Contracts\Repositories\AccountRepository;
 use App\Models\Account;
+use Illuminate\Support\Collection;
 
 /**
  * Class AccountRepositoryEloquent.
- *
- * @package namespace App\Repositories;
  */
 class AccountRepositoryEloquent extends AbstractRepository implements AccountRepository
 {

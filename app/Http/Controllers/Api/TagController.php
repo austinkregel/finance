@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Tag\ConditionalsRequest;
 use App\Http\Requests\Tag\ConditionalUpdateRequest;
 use App\Http\Requests\Tag\DestroyRequest;
+use App\Http\Requests\Tag\IndexRequest;
+use App\Http\Requests\Tag\StoreRequest;
+use App\Http\Requests\Tag\UpdateRequest;
+use App\Http\Requests\Tag\ViewRequest;
 use App\Jobs\SyncTagsWithTransactionsInDatabase;
 use App\Tag;
 use Exception;
@@ -14,10 +18,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Filters\ActionFilter;
-use App\Http\Requests\Tag\StoreRequest;
-use App\Http\Requests\Tag\IndexRequest;
-use App\Http\Requests\Tag\UpdateRequest;
-use App\Http\Requests\Tag\ViewRequest;
 use Spatie\QueryBuilder\AllowedFilter as Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -36,7 +36,7 @@ class TagController extends Controller
         $query = QueryBuilder::for(Tag::class)
             ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
-                Filter::scope('q')
+                Filter::scope('q'),
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
             ->allowedSorts($model->getAbstractAllowedSorts())
@@ -51,7 +51,7 @@ class TagController extends Controller
         $resource = new Tag;
         $resource->fill($request->validated() + [
             'user_id' => auth()->id(),
-            'type' => 'automatic'
+            'type' => 'automatic',
         ]);
         $resource->save();
 
@@ -70,7 +70,7 @@ class TagController extends Controller
 
         if (empty($result)) {
             return $this->json([
-                'message' => 'No resource found by that id.'
+                'message' => 'No resource found by that id.',
             ], 404);
         }
 
@@ -115,6 +115,7 @@ class TagController extends Controller
             $this->dispatch(new SyncTagsWithTransactionsInDatabase($request->user()));
         }
     }
+
     public function deleteConditional(ConditionalUpdateRequest $request, Tag $tag, Condition $condition)
     {
         try {

@@ -62,11 +62,11 @@ class TransactionsConditionFilter
                 // Default behavior is to have all the conditions pass to do anything.
                 // Here we want the `must_all_conditions_pass` variable to be false and have the condition pass
                 // in order to get through this filter.
-                if ($passesCondition && !$conditionable->must_all_conditions_pass) {
+                if ($passesCondition && ! $conditionable->must_all_conditions_pass) {
                     return true;
                 }
 
-                if (!$passesCondition) {
+                if (! $passesCondition) {
                     $returnValue = false;
                 }
             }

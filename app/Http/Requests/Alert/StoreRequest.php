@@ -37,8 +37,8 @@ class StoreRequest extends FormRequest
                 new RequiredIf(
                     in_array(SlackMessage::class, request()->get('channels', null))
                     || in_array(DiscordMessage::class, request()->get('channels', null))
-                )
-            ]
+                ),
+            ],
         ];
     }
 }

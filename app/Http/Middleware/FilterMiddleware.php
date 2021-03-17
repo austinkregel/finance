@@ -34,8 +34,8 @@ class FilterMiddleware
             if (count($parts) !== 2) {
                 throw ValidationException::withMessages([
                     'filter' => [
-                        sprintf('In your query, you are missing the second part of your filter for %s.', $column)
-                    ]
+                        sprintf('In your query, you are missing the second part of your filter for %s.', $column),
+                    ],
                 ]);
             }
 

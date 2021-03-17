@@ -12,7 +12,6 @@ use Illuminate\Contracts\Mail\Mailer;
 
 /**
  * Class MailerService
- * @package App\Services\Utility
  */
 class MailerService
 {
@@ -59,7 +58,7 @@ class MailerService
      */
     public function to($users): self
     {
-        if (!is_array($users)) {
+        if (! is_array($users)) {
             $users = [$users];
         }
 

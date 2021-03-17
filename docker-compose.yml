@@ -1,61 +1,57 @@
-version: "3"
+# For more information: https://laravel.com/docs/sail
+version: '3'
 services:
-  mysql:
-    container_name: finance-mysql
-    image: mysql:8.0.21
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-    networks:
-      - code-network
-    volumes:
-      - mysql-data:/var/lib/mysql
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.0
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.0/app
+        ports:
+            - '${APP_PORT:-80}:80'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - redis
+            - mysql
 
-  redis:
-    container_name: finance-redis
-    image: redis:4.0-alpine
-    ports:
-      - 6379:6379
-    networks:
-      - code-network
-  web:
-    container_name: finance-web
-    image: nginx:latest
-    ports:
-      - 80:80
-    volumes:
-      - ./:/var/www/html
-      - ./docker/php/site.conf:/etc/nginx/conf.d/default.conf
-    links:
-      - php
-    networks:
-      - code-network
-  php:
-    container_name: finance-php
-    build: ./docker/php
-    user: "1000"
-    expose:
-      - 9000
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - code-network
-
-  node:
-    container_name: finance-node
-    image: node
-    user: "1000"
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - code-network
-
+    mysql:
+      image: 'mysql:8.0'
+      ports:
+        - '${FORWARD_DB_PORT:-3306}:3306'
+      environment:
+        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        MYSQL_DATABASE: '${DB_DATABASE}'
+        MYSQL_USER: '${DB_USERNAME}'
+        MYSQL_PASSWORD: '${DB_PASSWORD}'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      volumes:
+        - 'sailmysql:/var/lib/mysql'
+      networks:
+        - sail
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping"]
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'sailredis:/data'
+        networks:
+            - sail
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
 networks:
-  code-network:
-    driver: bridge
+    sail:
+        driver: bridge
 volumes:
-  mysql-data:
+  sailredis:
+    driver: local
+  sailmysql:
+    driver: local

@@ -8,7 +8,6 @@ namespace App\Services;
 
 /**
  * Class PlaidHttpService
- * @package App\Services
  */
 class PlaidHttpService extends HttpService
 {

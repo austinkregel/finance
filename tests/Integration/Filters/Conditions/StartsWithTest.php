@@ -19,7 +19,7 @@ class StartsWithTest extends TestCase
         $filter = new StartsWith();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

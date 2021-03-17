@@ -63,9 +63,9 @@ class SyncInstitutions extends Command
             }
 
             foreach ($categories->items() as $item) {
-                if (!Institution::where('institution_id', $item->institution_id)->exists()) {
+                if (! Institution::where('institution_id', $item->institution_id)->exists()) {
                     if ($item->logo) {
-                        $logo = 'institutions/' . $item->institution_id . '.png';
+                        $logo = 'institutions/'.$item->institution_id.'.png';
                         file_put_contents(public_path($logo), base64_decode($item->logo));
                     }
 

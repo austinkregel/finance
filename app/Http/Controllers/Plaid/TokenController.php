@@ -14,7 +14,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class TokenController
- * @package App\Http\Controllers\Plaid
  */
 class TokenController extends Controller
 {
@@ -29,7 +28,7 @@ class TokenController extends Controller
     {
         $this->validate($request, [
             'institution' => 'required',
-            'public_token' => 'required'
+            'public_token' => 'required',
         ]);
 
         /** @var PlaidService $service */

@@ -4,53 +4,28 @@ namespace App\Providers;
 
 use App\Models\Alert;
 use App\Services\ActionService;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
+    public const HOME = '/home';
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
     public function boot(): void
     {
         Route::bind('action', fn ($value) => app(ActionService::class)->build($value));
-
         Route::bind('alert', fn ($value) => Alert::findOrFail($value));
 
-        parent::boot();
+        $this->routes(function (): void {
+            Route::middleware('web')->group(base_path('routes/web.php'));
+        });
     }
 
-    /**
-     * Define the routes for the application.
-     *
-     * @return void
-     */
-    public function map(): void
+    protected function configureRateLimiting(): void
     {
-        $this->mapWebRoutes();
-    }
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes(): void
-    {
-        Route::middleware('web')->group(base_path('routes/web.php'));
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip()));
     }
 }

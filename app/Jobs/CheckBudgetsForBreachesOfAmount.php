@@ -27,7 +27,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
                 $startOfTheLastBudgetPeriod = $budget->getStartOfCurrentPeriod();
                 // 80 minutes should give the system time to catch in-consistent runs.
                 // The cron should run every hour, so things will only trigger once.
-                if (!empty($budget->breached_at) && $startOfTheLastBudgetPeriod->diffInMinutes($budget->breached_at) > 80) {
+                if (! empty($budget->breached_at) && $startOfTheLastBudgetPeriod->diffInMinutes($budget->breached_at) > 80) {
                     // If the budget has already breached, and it did so several hours ago we don't want to spam users...
                     return;
                 }
@@ -35,7 +35,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
                 if ($budget->amount < $budget->findTotalSpends($startOfTheLastBudgetPeriod) && empty($budget->breached_at)) {
                     event(new BudgetBreachedEstablishedAmount($budget));
                     $budget->update([
-                        'breached_at' => now()
+                        'breached_at' => now(),
                     ]);
                 }
             }

@@ -91,7 +91,7 @@ class Activity extends \Spatie\Activitylog\Models\Activity implements AbstractEl
     public function getAbstractAllowedSorts(): array
     {
         return [
-            'created_at'
+            'created_at',
         ];
     }
 

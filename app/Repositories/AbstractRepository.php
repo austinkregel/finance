@@ -8,16 +8,15 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\AbstractRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class AbstractRepository
- * @package App\Repositories
  */
 abstract class AbstractRepository implements AbstractRepositoryInterface
 {
@@ -102,7 +101,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
     /**
      * Checks to see if anything exists given some conditionals.
      * @param array $where
-     * @return boolean
+     * @return bool
      */
     public function existsBy(array $where = []): bool
     {
@@ -133,7 +132,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
         $relationships = [];
 
         foreach ((new \ReflectionClass($createdModel))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            if ($method->class != get_class($createdModel) || !empty($method->getParameters()) || $method->getName() == __FUNCTION__) {
+            if ($method->class != get_class($createdModel) || ! empty($method->getParameters()) || $method->getName() == __FUNCTION__) {
                 continue;
             }
             try {
@@ -155,7 +154,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
                     $relationIdKey = $relationship->getOwnerKey();
                     $createdModel->$relationKey = $relation->$relationIdKey;
                 } elseif ($relationship instanceof BelongsToMany) {
-                    if (!$createdModel->wasRecentlyCreated) {
+                    if (! $createdModel->wasRecentlyCreated) {
                         $createdModel = static::create($createdModel->toArray());
                     } else {
                         $createdModel->save();
@@ -168,7 +167,7 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
             }
         }
 
-        if (!$createdModel->wasRecentlyCreated) {
+        if (! $createdModel->wasRecentlyCreated) {
             return static::create($createdModel->toArray());
         }
 

@@ -63,7 +63,7 @@ class GenerateChannelsAndAlertsFile extends Command
         $this->writeToDisk('js/alert-events.js', [
             [
                 'type' => TransactionUpdated::class,
-                'name' => 'When a transaction is updated (moving from pending to not pending, updating amounts, etc...)'
+                'name' => 'When a transaction is updated (moving from pending to not pending, updating amounts, etc...)',
             ],
             [
                 'type' => TransactionCreated::class,
@@ -71,42 +71,42 @@ class GenerateChannelsAndAlertsFile extends Command
             ],
             [
                 'type' => TransactionGroupedEvent::class,
-                'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)'
+                'name' => 'When a transaction is added to a group (this gives you access to the `tag` variable in your title, body and payload.)',
             ],
             [
                 'type' => BudgetBreachedEstablishedAmount::class,
-                'name' => 'When a budget\'s total spend amount for a period exceeds the set amount.'
-            ]
+                'name' => 'When a budget\'s total spend amount for a period exceeds the set amount.',
+            ],
         ]);
 
         $this->writeToDisk('js/condition-parameters.js', [
             [
                 'value' => 'name',
-                'name' => 'transaction.name'
+                'name' => 'transaction.name',
             ],
             [
                 'value' => 'amount',
-                'name' => 'transaction.amount'
+                'name' => 'transaction.amount',
             ],
             [
                 'value' => 'account.name',
-                'name' => 'transaction.account.name'
+                'name' => 'transaction.account.name',
             ],
             [
                 'value' => 'date',
-                'name' => 'transaction.date'
+                'name' => 'transaction.date',
             ],
             [
                 'value' => 'pending',
-                'name' => 'transaction.pending'
+                'name' => 'transaction.pending',
             ],
             [
                 'value' => 'category.name',
-                'name' => 'transaction.category.name'
+                'name' => 'transaction.category.name',
             ],
             [
                 'value' => 'tag.name.en',
-                'name' => 'transaction.tag.name.en'
+                'name' => 'transaction.tag.name.en',
             ],
         ]);
 

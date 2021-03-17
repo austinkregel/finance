@@ -65,7 +65,7 @@ class CreateFreshApiToken
      */
     protected function requestShouldReceiveFreshToken($request)
     {
-        return $request->isMethod('GET') && $request->user() && !$request->ajax();
+        return $request->isMethod('GET') && $request->user() && ! $request->ajax();
     }
 
     /**
@@ -76,7 +76,7 @@ class CreateFreshApiToken
      */
     protected function responseShouldReceiveFreshToken($response)
     {
-        return $response instanceof Response && !$this->alreadyContainsToken($response);
+        return $response instanceof Response && ! $this->alreadyContainsToken($response);
     }
 
     /**

@@ -19,7 +19,7 @@ class EndsWithTest extends TestCase
         $filter = new EndsWith;
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 
@@ -29,7 +29,7 @@ class EndsWithTest extends TestCase
             [false, 'This', 'ThisIsAValue'],
             [false, 'Valu', 'ThisIsAValue'],
             [true, 'Value', 'ThisIsAValue'],
-            [false, 'value', 'ThisIsAValUE'],// Ensure this is case sensitive
+            [false, 'value', 'ThisIsAValUE'], // Ensure this is case sensitive
         ];
     }
 }

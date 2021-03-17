@@ -5,6 +5,7 @@ namespace App;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
 use App\Models\Transaction;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use Spatie\Tags\Tag as SpatieTag;
@@ -47,6 +48,7 @@ use Spatie\Tags\Tag as SpatieTag;
  */
 class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContract
 {
+    use HasFactory;
     use Conditionable, AbstractModelTrait;
     public $guarded = [];
 

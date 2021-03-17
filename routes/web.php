@@ -34,19 +34,19 @@ Route::group(['middleware' => 'auth'], static function (): void {
     Route::group(['prefix' => 'api', 'middleware' => ['auth']], function (): void {
         Route::get('user', function () {
             $user = auth()->user();
-            $user->load(['accessTokens', 'unreadNotifications' ]);
+            $user->load(['accessTokens', 'unreadNotifications']);
 
             return $user;
         });
         Route::put('user', function () {
             $user = auth()->user();
             $user->update([
-                'alert_channels' => request()->get('alert_channels', [])
+                'alert_channels' => request()->get('alert_channels', []),
             ]);
 
             return $user;
         });
-        Route::put('read-notification/{notification}', function (\Illuminate\Http\Request $request, \App\Models\DatabaseNotification $notification) {
+        Route::put('read-notification/{notification}', function (Illuminate\Http\Request $request, App\Models\DatabaseNotification $notification) {
             $notification->markAsRead();
 
             return response('', 204);

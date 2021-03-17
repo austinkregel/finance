@@ -19,7 +19,7 @@ class GreaterThanEqualTest extends TestCase
         $filter = new GreaterThanEqual();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

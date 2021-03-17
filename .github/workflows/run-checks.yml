@@ -15,7 +15,7 @@ jobs:
       - name: Setup PHP environment
         uses: nanasess/setup-php@v3.0.6
         with:
-          php-version: '7.4'
+          php-version: '8.0'
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - name: Run tests

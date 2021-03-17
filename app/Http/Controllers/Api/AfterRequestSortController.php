@@ -22,7 +22,7 @@ class AfterRequestSortController extends AbstractResourceController
         }
 
         if ($paginator instanceof LengthAwarePaginator) {
-            if (!$request->get('sortable')) {
+            if (! $request->get('sortable')) {
                 return $paginator->appends($request->query());
             }
 
@@ -35,7 +35,7 @@ class AfterRequestSortController extends AbstractResourceController
                 $paginator->currentPage()
             ))->appends($request->query());
         } elseif ($paginator instanceof Collection) {
-            if (!$request->get('sortable')) {
+            if (! $request->get('sortable')) {
                 return $paginator;
             }
 

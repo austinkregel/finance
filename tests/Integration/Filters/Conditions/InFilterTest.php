@@ -19,7 +19,7 @@ class InFilterTest extends TestCase
         $filter = new InFilter();
 
         $this->assertSame($expect, $filter(collect([
-            'name' => $actualValue
+            'name' => $actualValue,
         ]), $condition));
     }
 

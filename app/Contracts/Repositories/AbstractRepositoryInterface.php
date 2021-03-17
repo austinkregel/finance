@@ -59,7 +59,7 @@ interface AbstractRepositoryInterface
     /**
      * Checks to see if anything exists given some conditionals.
      * @param array $where
-     * @return boolean
+     * @return bool
      */
     public function existsBy(array $where = []): bool;
 }

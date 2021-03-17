@@ -17,7 +17,7 @@ class CreateDefaultBudgetsForUser
             'interval' => '1',
             'started_at' => '',
             'count' => null,
-            'tags' => ['bills']
+            'tags' => ['bills'],
         ],
         [
             'name' => 'Subscriptions',
@@ -26,7 +26,7 @@ class CreateDefaultBudgetsForUser
             'interval' => '1',
             'started_at' => '',
             'count' => null,
-            'tags' => ['subscriptions']
+            'tags' => ['subscriptions'],
         ],
     ];
 

@@ -26,7 +26,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         $job->handle();
 
         $this->doesntExpectEvents([
-            BudgetBreachedEstablishedAmount::class
+            BudgetBreachedEstablishedAmount::class,
         ]);
     }
 
@@ -34,8 +34,8 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
     {
         Carbon::setTestNow($now = Carbon::create(2020, 1, 1, 0, 0, 0));
 
-        $user = factory(User::class)->create([
-            'id' => 1
+        $user = User::factory()->create([
+            'id' => 1,
         ]);
 
         $token = $user->accessTokens()->create([
@@ -43,9 +43,9 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'should_sync' => true,
         ]);
 
-        $account = $token->accounts()->create(factory(Account::class)->make()->toArray());
+        $account = $token->accounts()->create(Account::factory()->make()->toArray());
 
-        factory(Budget::class)->create([
+        Budget::factory()->create([
             'name' => 'Fake budget',
             'amount' => 100,
             'frequency' => 'MONTHLY',
@@ -55,7 +55,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'user_id' => 1,
         ]);
 
-        $budget = factory(Budget::class)->create([
+        $budget = Budget::factory()->create([
             'name' => 'food',
             'amount' => 10,
             'frequency' => 'MONTHLY',
@@ -65,9 +65,9 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'user_id' => 1,
         ]);
 
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
-        factory(Budget::class)->create([
+        Budget::factory()->create([
             'name' => 'This other budget',
             'amount' => 100,
             'frequency' => 'MONTHLY',
@@ -77,7 +77,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
             'user_id' => 1,
         ]);
 
-        $tag = factory(Tag::class)->create();
+        $tag = Tag::factory()->create();
 
         $budget->tags()->sync([$tag->id]);
 
@@ -100,7 +100,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         $job->handle();
 
         $this->doesntExpectEvents([
-            BudgetBreachedEstablishedAmount::class
+            BudgetBreachedEstablishedAmount::class,
         ]);
     }
 }

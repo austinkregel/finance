@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
@@ -9,7 +10,6 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
 /**
  * Class Institution
  *
- * @package App\Models
  * @property int $id
  * @property string $name
  * @property string $institution_id
@@ -36,9 +36,11 @@ use Kregel\LaravelAbstract\AbstractModelTrait;
  */
 class Institution extends Model implements AbstractEloquentModel
 {
+    use HasFactory;
     use AbstractModelTrait;
 
     protected $primaryKey = 'institution_id';
+
     /**
      * @return bool
      */
@@ -59,7 +61,7 @@ class Institution extends Model implements AbstractEloquentModel
 
     protected $casts = [
         'products' => 'array',
-        'institution_id' => 'string'
+        'institution_id' => 'string',
     ];
 
     public function getAbstractAllowedFilters(): array

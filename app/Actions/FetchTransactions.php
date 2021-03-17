@@ -28,7 +28,7 @@ class FetchTransactions extends Action
     {
         return [
             'access_token_id' => 'required|exists:access_tokens,id',
-            'months' => 'integer|max:12|min:1'
+            'months' => 'integer|max:12|min:1',
         ];
     }
 }

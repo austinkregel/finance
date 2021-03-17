@@ -21,7 +21,7 @@ class SyncPlaidTokensJob implements ShouldQueue
         foreach (\App\Models\AccessToken::all() as $token) {
             $response = $this->tryCatch(fn () => $plaidService->getAccounts($token->token), $token);
 
-            if (!$response) {
+            if (! $response) {
                 return;
             }
 
@@ -39,7 +39,7 @@ class SyncPlaidTokensJob implements ShouldQueue
                     $account->balances->current ?? 0,
                     $account->balances->available ?? 0,
                     $account->subtype,
-                    $account->type
+                    $account->type,
                 ];
                 $account->access_token_id = $token->id;
                 event(new \App\Events\UpdateAccountEvent(new \App\Models\Domain\Account($account), $token->user));

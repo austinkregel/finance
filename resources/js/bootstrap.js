@@ -1,7 +1,7 @@
 window._ = require('lodash');
 window.moment = require('moment')
 
-window.Vue = require('vue');
+window.Vue = require('vue').default;
 window.Bus = new Vue;
 
 import VueToast from 'vue-toasted';
