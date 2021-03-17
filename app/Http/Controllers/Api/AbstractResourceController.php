@@ -49,6 +49,7 @@ class AbstractResourceController extends Controller
         $resource = $this->model->newInstance();
         $resource->fill($request->validated());
         $resource->save();
+
         return $this->json($resource->refresh());
     }
 
@@ -90,7 +91,8 @@ class AbstractResourceController extends Controller
         $abstract_model = $this->model::findOrFail($id);
 
         if (!$abstract_model->usesSoftdeletes()) {
-            abort(404, "You cannot force delete an item of this type.");
+            abort(404, 'You cannot force delete an item of this type.');
+
             return;
         }
 
@@ -104,7 +106,8 @@ class AbstractResourceController extends Controller
         $abstract_model = $this->model::findOrFail($id);
 
         if (!$abstract_model->usesSoftdeletes()) {
-            abort(404, "You cannot restore an item of this type.");
+            abort(404, 'You cannot restore an item of this type.');
+
             return;
         }
 
