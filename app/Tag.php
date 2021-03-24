@@ -59,6 +59,12 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
                 $tag->user_id = auth()->check() ? auth()->id() : 1;
             }
         });
+
+        static::addGlobalScope('user_filter', function ($query) {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
     }
 
     public function getValidationCreateRules(): array

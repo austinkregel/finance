@@ -70,6 +70,15 @@ class Account extends Model implements AbstractEloquentModel
         'access_token_id',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('user_filter', function (Builder $builder) {
+            if (auth()->check()) {
+                $builder->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
+            }
+        });
+    }
+
     public function scopeCurrentUser(Builder $query)
     {
         return $query->whereHas('user', function ($query): void {

@@ -74,6 +74,12 @@ class Budget extends Model implements AbstractEloquentModel
                 $budget->user_id = auth()->id();
             }
         });
+
+        static::addGlobalScope('user_filter', function ($query) {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
     }
 
     public static function getTagClassName(): string

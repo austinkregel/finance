@@ -6,6 +6,7 @@ use App\Activity;
 use App\Budget;
 use App\FailedJob;
 use App\Http\Controllers\Api\AbstractResourceController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Alert;
@@ -57,25 +58,5 @@ class AbstractRouteServiceProvider extends ServiceProvider
 
             return $model::find($value);
         });
-    }
-
-    public function map(): void
-    {
-        if (abstracted()->usingRoutes) {
-            $this->mapRoutes();
-        }
-    }
-
-    protected function mapRoutes(): void
-    {
-        Route::middleware(abstracted()->middlewareGroup)
-            ->group(function (): void {
-                Route::get('abstract-api/{abstract_model}', [AbstractResourceController::class, 'index']);
-                Route::post('abstract-api/{abstract_model}', [AbstractResourceController::class, 'store']);
-                Route::get('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'show']);
-                Route::put('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
-                Route::patch('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'update']);
-                Route::delete('abstract-api/{abstract_model}/{abstract_model_id}', [AbstractResourceController::class, 'destroy']);
-            });
     }
 }

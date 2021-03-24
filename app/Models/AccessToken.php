@@ -57,6 +57,15 @@ class AccessToken extends Model implements AbstractEloquentModel
         'should_sync' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('user_filter', function ($query) {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

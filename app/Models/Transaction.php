@@ -100,6 +100,15 @@ class Transaction extends Model implements AbstractEloquentModel
         'data' => 'json',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope('user_filter', fn($query) => $query->whereHas('account', function ($query): void {
+            if (auth()->check()) {
+                $query->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
+            }
+        }));
+    }
+
     public function getTagAttribute()
     {
         if (array_key_exists('tag', $this->attributes)) {

@@ -12,7 +12,7 @@
         </div>
 
         <div class="shadow p-4 rounded" :class="{'bg-gray-700': $store.getters.darkMode, 'bg-white': !$store.getters.darkMode}">
-            <div v-if="accessTokens && accessTokens.data && accessTokens.data.length > 0">
+            <div v-if="accessTokens && accessTokens.data && accessTokens.data.length > 0" class="-mt-4">
                 <account-row
                     :dark-mode="$store.getters.darkMode"
                     v-for="accessToken in accessTokens.data"
