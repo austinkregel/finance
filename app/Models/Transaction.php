@@ -100,9 +100,9 @@ class Transaction extends Model implements AbstractEloquentModel
         'data' => 'json',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::addGlobalScope('user_filter', fn($query) => $query->whereHas('account', function ($query): void {
+        static::addGlobalScope('user_filter', fn ($query) => $query->whereHas('account', function ($query): void {
             if (auth()->check()) {
                 $query->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
             }

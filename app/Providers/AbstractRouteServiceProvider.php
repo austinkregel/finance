@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Activity;
 use App\Budget;
 use App\FailedJob;
-use App\Http\Controllers\Api\AbstractResourceController;
-use App\Http\Controllers\Api\TransactionController;
 use App\Models\AccessToken;
 use App\Models\Account;
 use App\Models\Alert;

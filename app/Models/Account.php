@@ -70,9 +70,9 @@ class Account extends Model implements AbstractEloquentModel
         'access_token_id',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::addGlobalScope('user_filter', function (Builder $builder) {
+        static::addGlobalScope('user_filter', function (Builder $builder): void {
             if (auth()->check()) {
                 $builder->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
             }
