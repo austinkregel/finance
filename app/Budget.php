@@ -136,8 +136,8 @@ class Budget extends Model implements AbstractEloquentModel
     public function getAbstractAllowedFilters(): array
     {
         return [
-            AllowedFilter::scope('recent_transactions', function (Builder $query, $value) {
-                $query->with(['tags.transactions' => function ($builder) use ($value) {
+            AllowedFilter::scope('recent_transactions', function (Builder $query, $value): void {
+                $query->with(['tags.transactions' => function ($builder) use ($value): void {
                     $builder->where('date', '>=', $value);
                 }]);
             }),
