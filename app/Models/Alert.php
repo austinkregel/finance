@@ -71,9 +71,9 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         'is_templated' => 'boolean',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::addGlobalScope('user_filter', function($query) {
+        static::addGlobalScope('user_filter', function ($query): void {
             if (auth()->check()) {
                 $query->where('user_id', auth()->id());
             }

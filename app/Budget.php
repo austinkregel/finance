@@ -77,7 +77,7 @@ class Budget extends Model implements AbstractEloquentModel
             }
         });
 
-        static::addGlobalScope('user_filter', function ($query) {
+        static::addGlobalScope('user_filter', function ($query): void {
             if (auth()->check()) {
                 $query->where('user_id', auth()->id());
             }
