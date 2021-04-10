@@ -23,6 +23,9 @@ export default {
             };
             const { data: budgets } = await axios.get(buildUrl('/api/budgets', {
                 include: 'tags.transactions',
+                filters: {
+                    recent_transactions: dayjs().startOf('month')
+                }
             }));
 
             budgets.data = await Promise.all(budgets.data.map(async (budget) => {

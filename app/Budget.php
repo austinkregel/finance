@@ -8,10 +8,12 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -133,7 +135,13 @@ class Budget extends Model implements AbstractEloquentModel
 
     public function getAbstractAllowedFilters(): array
     {
-        return [];
+        return [
+            AllowedFilter::scope('recent_transactions', function (Builder $query, $value) {
+                $query->with(['tags.transactions' => function ($builder) use ($value) {
+                    $builder->where('date', '>=', $value);
+                }]);
+            }),
+        ];
     }
 
     public function getAbstractAllowedRelationships(): array
