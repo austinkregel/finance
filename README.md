@@ -21,9 +21,11 @@ A self hosted app to help you get a better understanding of your finances.
 # Cron Jobs
 If you can configure the Laravel task scheduler `php artisan schedule:run` then commands will be ran when they're suppose to.
 ```cron
-* * * * * "docker exec -it finance_php_1 php artisan queue:work"
+* * * * * "docker exec finance-php php artisan schedule:run"
 ```
-Or you can configure a manual cron job to run those commands.
+Or you can configure a manual cron job to run those commands. Please verify your system is able to run the cron job. You may need to research how to setup a cron job on your operating system as I will not provide support for this, there are too many possible ways to set up the cron job.
+
+LMGTFY: "How to set up a cron job for [operating system name + version number]"
 
 # Screenshots
 ![Transactions](transactions-page.PNG)  
