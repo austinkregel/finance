@@ -140,7 +140,7 @@ class Budget extends Model implements AbstractEloquentModel
             AllowedFilter::custom('recent_transactions', new class implements Filter {
                 public function __invoke (Builder $query, $value, string $property) {
                     $query->with(['tags.transactions' => function ($builder) use ($value) {
-                        $builder->where('date', '>=', $value);
+                            $builder->where('date', '>=', $value);
                     }]);
                 }
             }),
