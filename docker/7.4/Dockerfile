@@ -43,6 +43,12 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 
+RUN apt-get update && apt-get install -y cron
+COPY docker/crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab \
+    && crontab /etc/cron.d/crontab \
+    && touch /var/log/cron.log
+
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
