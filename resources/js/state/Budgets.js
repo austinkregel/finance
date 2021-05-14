@@ -22,9 +22,8 @@ export default {
                 loading: true,
             };
             const { data: budgets } = await axios.get(buildUrl('/api/budgets', {
-                include: 'tags.transactions',
-                filters: {
-                    recent_transactions: dayjs().startOf('month')
+                filter: {
+                    recent_transactions: dayjs().startOf('month').format('YYYY-MM-DD')
                 }
             }));
 

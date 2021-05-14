@@ -48,7 +48,7 @@ class AbstractResourceController extends Controller
     {
         /** @var AbstractEloquentModel $resource */
         $resource = $this->model->newInstance();
-        $resource->fill($request->validated());
+        $resource->fill($request->validate($this->model->getValidationCreateRules()));
         $resource->save();
 
         return $this->json($resource->refresh());
@@ -73,7 +73,7 @@ class AbstractResourceController extends Controller
     {
         $abstract_model = $this->model::findOrFail($id);
 
-        $abstract_model->update($request->all());
+        $abstract_model->update($request->validate($this->model->getValidationUpdateRules()));
 
         return $this->json($abstract_model->refresh());
     }

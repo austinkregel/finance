@@ -134,16 +134,16 @@ class Budget extends Model implements AbstractEloquentModel
         ];
     }
 
+    public function scopeRecentTransactions(Builder $query, $value) {
+        $query->with([
+            'tags.transactions' => fn ($builder) => $builder->where('date', '>=', Carbon::parse($value))
+        ]);
+    }
+
     public function getAbstractAllowedFilters(): array
     {
         return [
-            AllowedFilter::custom('recent_transactions', new class implements Filter {
-                public function __invoke (Builder $query, $value, string $property) {
-                    $query->with(['tags.transactions' => function ($builder) use ($value) {
-                            $builder->where('date', '>=', $value);
-                    }]);
-                }
-            }),
+            AllowedFilter::scope('recent_transactions'),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Budget;
+use Illuminate\Http\Request;
 
 class BudgetController extends AbstractResourceController
 {
@@ -14,5 +15,12 @@ class BudgetController extends AbstractResourceController
     public function totalSpends(Budget $budget)
     {
         return $budget->findTotalSpends($budget->getStartOfCurrentPeriod());
+    }
+
+    public function tags(Request $request, Budget $budget)
+    {
+        $budget->tags()->sync($request->all());
+
+        return $this->json($budget->refresh());
     }
 }

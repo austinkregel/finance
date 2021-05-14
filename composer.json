@@ -35,7 +35,8 @@
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-tags": "^3.0",
         "staudenmeir/belongs-to-through": "^2.10",
-        "staudenmeir/eloquent-has-many-deep": "^1.7"
+        "staudenmeir/eloquent-has-many-deep": "^1.7",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",

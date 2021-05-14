@@ -99,7 +99,7 @@ Route::group(['middleware' => 'auth'], static function (): void {
         Route::delete('tags/{tag}/conditionals/{condition}', [\App\Http\Controllers\Api\TagController::class, 'deleteConditional']);
 
         Route::abstractRoute('transaction', TransactionController::class, fn ($value) => Transaction::findOrFail($value));
-        Route::abstractRoute('budgets', App\Http\Controllers\Api\BudgetController::class, fn ($value) => App\Budget::findOrFail($value));
+        Route::abstractRoute('budget', App\Http\Controllers\Api\BudgetController::class, fn ($value) => App\Budget::findOrFail($value));
         Route::abstractRoute('budgets', App\Http\Controllers\Api\BudgetController::class, fn ($value) => App\Budget::findOrFail($value));
 
         Route::get('budgets/{budget}/total_spends', [App\Http\Controllers\Api\BudgetController::class, 'totalSpends']);
