@@ -1,0 +1,37 @@
+name: "CS Checks"
+
+on:
+  pull_request:
+    paths:
+      - "**.php"
+      - "phpcs.xml"
+      - ".github/workflows/phpcs.yml"
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # important!
+      - name: setup php
+        run: bash .github/scripts/install-php.sh
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: install check style
+        run: composer require staabm/annotate-pull-request-from-checkstyle
+      - name: Run CS Checks
+        env:
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          TARGET_BRANCH: ${{ github.base_ref }}
+        run: |
+          if [ "$TARGET_BRANCH" = "" ]; then
+              FILES="."
+          else
+              FILES=$(git diff --diff-filter=d --name-only origin/${TARGET_BRANCH} --);
+          fi
+          echo "Checking CS for: ${FILES}"
+          for FILE in $FILES
+          do
+              vendor/bin/phpcs "$FILE" --standard=phpcs.xml -q --report=checkstyle | vendor/bin/cs2pr
+          done

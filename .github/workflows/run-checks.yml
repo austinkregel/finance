@@ -5,25 +5,15 @@ jobs:
     name: PHPUnit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: start mysql
-        run: sudo systemctl start mysql.service
-      - name: create database
-        run: mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
-      - name: install mysql
-        run: sudo apt update && sudo apt install -y php-mysql
-      - name: Setup PHP environment
-        uses: nanasess/setup-php@v3.0.6
+      - uses: actions/checkout@v2
         with:
-          php-version: '8.0'
+          fetch-depth: 0 # important!
+      - name: setup php
+        run: bash .github/scripts/install-php.sh
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
       - name: Run tests
         run: |
-          cp .env.example .env
+          cp .env.pipelines .env
           php artisan key:generate
           php vendor/bin/phpunit
-      - name: delete database
-        run: mysql -uroot -h127.0.0.1 -proot -e "drop database testing;"
-      - name: stop mysql
-        run: sudo systemctl stop mysql.service
