@@ -14,7 +14,6 @@ use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\Filters\Filter;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -134,7 +133,8 @@ class Budget extends Model implements AbstractEloquentModel
         ];
     }
 
-    public function scopeRecentTransactions(Builder $query, $value) {
+    public function scopeRecentTransactions(Builder $query, $value): void
+    {
         $query->with([
             'tags.transactions' => fn ($builder) => $builder->where('date', '>=', Carbon::parse($value))
         ]);
