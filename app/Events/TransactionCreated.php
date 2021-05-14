@@ -22,9 +22,11 @@ class TransactionCreated implements TransactionEventContract
         $this->shouldSendAlerts = $shouldSendAlerts;
     }
 
-    public function getTransaction(): Transaction
+    public function getData(): array
     {
-        return $this->transaction;
+        return [
+            'transaction' => $this->transaction,
+        ];
     }
 
     public function getShouldSendAlerts(): bool

@@ -21,7 +21,7 @@ class TriggerAlertForBreachedBudget implements ShouldQueue
      */
     public function handle($event): void
     {
-        $budget = $event->getBudget();
+        $budget = $event->getData()['budget'];
         $user = $budget->user;
 
         /** @var Collection|Alert[] $alertsToTrigger */
@@ -29,14 +29,14 @@ class TriggerAlertForBreachedBudget implements ShouldQueue
             ->whereJsonContains('events', BudgetBreachedEstablishedAmount::class)
             ->get();
 
-        $transaction = $event->getTransaction();
+        $transaction = $event->getData()['transaction'];
 
         if ($transaction !== null) {
-            $alertsToTrigger->map->createBudgetBreachNotificationWithTransaction($transaction, $budget);
+            $alertsToTrigger->map->createBudgetBreachNotificationWithTransaction($event->getData());
 
             return;
         }
 
-        $alertsToTrigger->map->createBudgetBreachNotification($budget);
+        $alertsToTrigger->map->createBudgetBreachNotification($event->getData()['budget']);
     }
 }

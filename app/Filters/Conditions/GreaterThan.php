@@ -12,6 +12,6 @@ class GreaterThan implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return floatval(Arr::get($item->toArray(), $condition->getComparatorField())) > floatval($condition->getComparatorValue());
+        return ((float) Arr::get($item->toArray(), $condition->getComparatorField())) > ((float) $condition->getComparatorValue());
     }
 }

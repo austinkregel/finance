@@ -12,6 +12,9 @@ class LikeFilter implements ConditionContract
 {
     public function __invoke(Arrayable $item, ConditionalsContract $condition): bool
     {
-        return stripos(Arr::get($item->toArray(), $condition->getComparatorField()), $condition->getComparatorValue()) !== false;
+        $haystack = Arr::get($item->toArray(), $condition->getComparatorField()) ?? '';
+        $needle = is_null($condition->getComparatorValue()) ? '' : $condition->getComparatorValue();
+
+        return stripos($haystack, $needle) !== false;
     }
 }
