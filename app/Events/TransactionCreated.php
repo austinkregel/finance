@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Events;
 
@@ -21,7 +22,7 @@ class TransactionCreated implements TransactionEventContract
         $this->shouldSendAlerts = $shouldSendAlerts;
     }
 
-    public function getTransaction() :Transaction
+    public function getTransaction(): Transaction
     {
         return $this->transaction;
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repositories;
 
@@ -6,7 +7,6 @@ use App\Contracts\Repositories\TransactionRepositoryContract;
 use App\Models\Transaction;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 

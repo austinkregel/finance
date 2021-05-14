@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Integration\Filters\Conditions;
 
@@ -13,7 +14,7 @@ class NotInFilterTest extends TestCase
      */
     public function testInvoke($expect, $valuesWeWantOurTransactionToLookInto, $actualValue): void
     {
-        $condition = new Condition;
+        $condition = new Condition();
         $condition->parameter = 'name';
         $condition->value = $valuesWeWantOurTransactionToLookInto;
         $filter = new NotInFilter();

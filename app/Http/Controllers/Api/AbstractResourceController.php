@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -17,7 +18,7 @@ class AbstractResourceController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    const RESOURCE = AbstractResource::class;
+    public const RESOURCE = AbstractResource::class;
 
     public AbstractEloquentModel $model;
 
@@ -65,8 +66,8 @@ class AbstractResourceController extends Controller
             ->allowedSorts($abstract_model->getAbstractAllowedSorts());
 
         return $this->json($query->find($abstract_model->id)) ?? $this->json([
-                'message' => 'No resource found by that id.'
-            ], 404);
+            'message' => 'No resource found by that id.'
+        ], 404);
     }
 
     public function update(Request $request, $id)

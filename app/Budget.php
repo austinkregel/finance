@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -89,7 +90,7 @@ class Budget extends Model implements AbstractEloquentModel
         return Tag::class;
     }
 
-    public function findTotalSpends($startingPeriod):? int
+    public function findTotalSpends($startingPeriod): float
     {
         return Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
             ->whereIn('taggables.tag_id', $this->tags()->select('id'))

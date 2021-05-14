@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Listeners;
 
@@ -31,7 +32,11 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
         $user = $transaction->account->owner;
 
         /** @var Collection $groupsForUser */
-        $groupsForUser = cache()->remember('automatic-conditions.'.$user->id, now()->addMinute(), fn () => Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get());
+        $groupsForUser = cache()->remember(
+            'automatic-conditions.' . $user->id,
+            now()->addMinute(),
+            fn () => Tag::withType('automatic')->with('conditionals')->where('user_id', $user->id)->get()
+        );
 
         $groupsForUser->each(function (Tag $group) use ($transaction): void {
             if ($group->conditionals->count() === 0) {

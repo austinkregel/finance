@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if (is_null($this->query->columns)) {
-                $this->query->select([$this->query->from.'.*']);
+                $this->query->select([$this->query->from . '.*']);
             }
 
             $columns = is_array($columns) ? $columns : func_get_args();
@@ -84,7 +85,7 @@ class AppServiceProvider extends ServiceProvider
                 // Finally we will add the proper result column alias to the query and run the subselect
                 // statement against the query builder. Then we will return the builder instance back
                 // to the developer for further constraint chaining that needs to take place on it.
-                $column = $alias ?? Str::snake(Str::replaceFirst('.', ' ', $name.'_sum'));
+                $column = $alias ?? Str::snake(Str::replaceFirst('.', ' ', $name . '_sum'));
 
                 $this->selectSub($query, $column);
             }

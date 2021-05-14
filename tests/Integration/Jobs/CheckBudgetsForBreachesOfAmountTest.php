@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Integration\Jobs;
 
@@ -21,7 +22,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
 
     public function testHandleNoBudgets(): void
     {
-        $job = new CheckBudgetsForBreachesOfAmount;
+        $job = new CheckBudgetsForBreachesOfAmount();
 
         $job->handle();
 
@@ -95,7 +96,7 @@ class CheckBudgetsForBreachesOfAmountTest extends TestCase
         $transaction->tags()->sync([$tag->id]);
         Carbon::setTestNow($now = Carbon::create(2020, 1, 15, 0, 0, 0));
 
-        $job = new CheckBudgetsForBreachesOfAmount;
+        $job = new CheckBudgetsForBreachesOfAmount();
 
         $job->handle();
 

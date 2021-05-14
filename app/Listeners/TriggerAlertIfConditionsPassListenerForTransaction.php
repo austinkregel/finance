@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Listeners;
 
@@ -32,7 +33,7 @@ class TriggerAlertIfConditionsPassListenerForTransaction implements ShouldQueue
             return;
         }
 
-        $this->filter = new TransactionsConditionFilter;
+        $this->filter = new TransactionsConditionFilter();
         $user = $event->getTransaction()->account->owner;
         $user->load('alerts.conditionals');
 

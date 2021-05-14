@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Filters;
 
@@ -55,7 +56,7 @@ class TransactionsConditionFilter
             foreach ($conditions as $conditional) {
                 $condition = static::CONDITIONS[$conditional->getComparator()];
 
-                $condition = new $condition;
+                $condition = new $condition();
 
                 $passesCondition = $condition($transaction, $conditional);
 

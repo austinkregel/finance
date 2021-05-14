@@ -8,8 +8,10 @@
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/storage/*</exclude-pattern>
     <exclude-pattern>*/docker/*</exclude-pattern>
+    <exclude-pattern>*/resources/*</exclude-pattern>
     <exclude-pattern>*/bin/*</exclude-pattern>
     <exclude-pattern>*/bootstrap/cache/*</exclude-pattern>
+    <exclude-pattern>_ide_helper.php</exclude-pattern>
 
     <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
 

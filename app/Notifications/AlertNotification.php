@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Notifications;
 
@@ -50,14 +51,14 @@ class AlertNotification extends Notification
         if (Str::contains($field, ['{{', '}}'])) {
             return $this->render($field, array_merge(
                 $transaction ? [
-                'transaction' => $transaction->toArray(),
-            ] : [],
+                    'transaction' => $transaction->toArray(),
+                ] : [],
                 $tag ? [
-                'tag' => $tag->toArray(),
-            ] : [],
+                    'tag' => $tag->toArray(),
+                ] : [],
                 $budget ? [
-                'budget' => $budget->toArray() + ['total_spends' => $budget->findTotalSpends($budget->getStartOfCurrentPeriod())],
-            ] : []
+                    'budget' => $budget->toArray() + ['total_spends' => $budget->findTotalSpends($budget->getStartOfCurrentPeriod())],
+                ] : []
             ));
         }
 
@@ -86,16 +87,30 @@ class AlertNotification extends Notification
 
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)
-            ->content(sprintf('We saw you were charged $%s by %s to your account %s', $this->alertLog->transaction->amount, $this->alertLog->transaction->name, $this->alertLog->transaction->account->name))
+        return (new SlackMessage())
+            ->content(
+                sprintf(
+                    'We saw you were charged $%s by %s to your account %s',
+                    $this->alertLog->transaction->amount,
+                    $this->alertLog->transaction->name,
+                    $this->alertLog->transaction->account->name
+                )
+            )
             ->to($this->alertLog->alert->messaging_service_channel)
             ->warning();
     }
 
     public function toDiscord($notifiable)
     {
-        return (new DiscordMessage)
-            ->body(sprintf('We saw you were charged $%s by %s to your account %s', $this->alertLog->transaction->amount, $this->alertLog->transaction->name, $this->alertLog->transaction->account->name));
+        return (new DiscordMessage())
+            ->body(
+                sprintf(
+                    'We saw you were charged $%s by %s to your account %s',
+                    $this->alertLog->transaction->amount,
+                    $this->alertLog->transaction->name,
+                    $this->alertLog->transaction->account->name
+                )
+            );
     }
 
     public function toWebhook($notifiable)

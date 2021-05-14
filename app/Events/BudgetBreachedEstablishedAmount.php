@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Events;
 
@@ -27,7 +28,7 @@ class BudgetBreachedEstablishedAmount
         return $this->budget;
     }
 
-    public function getTransaction():? Transaction
+    public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }

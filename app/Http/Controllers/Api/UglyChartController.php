@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -17,10 +18,10 @@ class UglyChartController
 
     public function __invoke(Request $request, $type, $model)
     {
-        abort_unless($model === 'tag', 400, 'Unsupported model '.$model);
+        abort_unless($model === 'tag', 400, 'Unsupported model ' . $model);
 
-        $this->transactionRepository = new TransactionRepository;
-        $this->trendFilter = new TrendFilter;
+        $this->transactionRepository = new TransactionRepository();
+        $this->trendFilter = new TrendFilter();
 
         return cache()->tags([$request->user()->email])->remember(
             // This way we ensure each type/model/scope/duration combination can be cached on their own, and make it unique per user.

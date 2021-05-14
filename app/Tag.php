@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -50,6 +51,7 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
 {
     use HasFactory;
     use Conditionable, AbstractModelTrait;
+
     public $guarded = [];
 
     protected static function booted(): void

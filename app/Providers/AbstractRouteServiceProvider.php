@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -40,7 +41,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
         Route::bind('abstract_model', abstracted()->resolveModelsUsing ?? function ($value) {
             $class = abstracted()->route($value);
 
-            $model = new $class;
+            $model = new $class();
 
             throw_if(! $model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
 
@@ -50,7 +51,7 @@ class AbstractRouteServiceProvider extends ServiceProvider
         Route::bind('abstract_model_id', abstracted()->resolveModelsUsing ?? function ($value) {
             $class = request()->route('abstract_model');
 
-            $model = new $class;
+            $model = new $class();
 
             throw_if(! $model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Guards;
 
@@ -154,7 +155,7 @@ class AccessTokenGuard
      */
     protected function createTransientToken($userId, Carbon $expiration)
     {
-        return (new AccessToken)->forceFill([
+        return (new AccessToken())->forceFill([
             'user_id' => $userId,
             'transient' => true,
             'expires_at' => $expiration,

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Integration\Jobs;
 
@@ -44,7 +45,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 'accounts' => [],
             ]));
 
-        $job->handle($plaidService, new GenericRepository);
+        $job->handle($plaidService, new GenericRepository());
         $this->assertDatabaseCount('activity_log', 0);
     }
 
@@ -69,7 +70,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
             ->andThrow(new InvalidArgumentException('Exception Message'));
 
         try {
-            $job->handle($plaidService, new GenericRepository);
+            $job->handle($plaidService, new GenericRepository());
         } finally {
             $accessToken = AccessToken::find($token->id);
             $this->assertSame(false, $accessToken->should_sync, 'Account syncing should be disabled when a failure occurs.');
@@ -118,7 +119,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 ],
             ]));
 
-        $job->handle($plaidService, new GenericRepository);
+        $job->handle($plaidService, new GenericRepository());
 
         $this->assertDatabaseCount('transactions', 9);
     }
@@ -207,7 +208,7 @@ class SyncPlaidTransactionsJobTest extends TestCase
                 ],
             ]));
 
-        $job->handle($plaidService, new GenericRepository);
+        $job->handle($plaidService, new GenericRepository());
 
         $storedTransaction1->refresh();
         $storedTransaction2->refresh();

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use App\Http\Controllers\Api\ActionController;
 use App\Http\Controllers\Api\TransactionController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::macro('abstractRoute', function ($variableName, $controller, $resolveBinding): void {
-    Route::bind($variableName.'_id', $resolveBinding);
+    Route::bind($variableName . '_id', $resolveBinding);
 
     Route::get(sprintf('abstract-api/%ss', $variableName), [$controller, 'index']);
     Route::post(sprintf('abstract-api/%ss', $variableName), [$controller, 'store']);
@@ -42,8 +43,8 @@ Route::group(['namespace' => 'App\\Http\\Controllers'], static function (): void
 Route::post('webhook/plaid', WebhookController::class)->name('webhook');
 
 Route::group(['middleware' => 'auth'], static function (): void {
-    Route::get('/home', HomeController::class.'@index')->name('home');
-    Route::get('/{view}', DynamicViewController::class.'@index')->middleware('auth');
+    Route::get('/home', HomeController::class . '@index')->name('home');
+    Route::get('/{view}', DynamicViewController::class . '@index')->middleware('auth');
 
     Route::group(['prefix' => 'abstract-api'], function (): void {
         Route::apiResource('categories', App\Http\Controllers\Api\CategoryController::class);
