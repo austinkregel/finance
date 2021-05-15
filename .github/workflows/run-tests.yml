@@ -12,7 +12,9 @@ jobs:
         run: bash .github/scripts/install-php.sh
       - name: Install dependencies
         run: |
-          sudo apt update && sudo apt install sqlite3 -y
+          sudo systemctl start mysql.service
+          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
+          sudo apt update && sudo apt install -y php-mysql
           composer install --prefer-dist --no-progress --no-suggest
       - name: Run tests
         run: |
