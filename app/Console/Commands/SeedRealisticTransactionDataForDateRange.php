@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Console\Commands;
@@ -17,37 +18,37 @@ class SeedRealisticTransactionDataForDateRange extends Command
     protected $description = 'Seeds realistic-ish data.';
 
     public const TRANSACTION_NAME = [
-        "Uber 072515 SF**POOL**",
-        "Tectra Inc",
-        "AUTOMATIC PAYMENT - THANK",
-        "KFC",
-        "Madison Bicycle Shop",
-        "CREDIT CARD 3333 PAYMENT *//",
-        "Uber 063015 SF**POOL**",
-        "ACH Electronic CreditGUSTO PAY 123456",
-        "CD DEPOSIT .INITIAL.",
-        "Touchstone Climbing",
-        "United Airlines",
+        'Uber 072515 SF**POOL**',
+        'Tectra Inc',
+        'AUTOMATIC PAYMENT - THANK',
+        'KFC',
+        'Madison Bicycle Shop',
+        'CREDIT CARD 3333 PAYMENT *//',
+        'Uber 063015 SF**POOL**',
+        'ACH Electronic CreditGUSTO PAY 123456',
+        'CD DEPOSIT .INITIAL.',
+        'Touchstone Climbing',
+        'United Airlines',
         "McDonald's",
-        "Starbucks",
-        "SparkFun",
-        "INTRST PYMNT",
-        "United Airlines",
-        "Uber 072515 SF**POOL**",
-        "Tectra Inc",
-        "AUTOMATIC PAYMENT - THANK",
-        "KFC",
-        "Madison Bicycle Shop",
-        "CREDIT CARD 3333 PAYMENT *//",
-        "Uber 063015 SF**POOL**",
-        "ACH Electronic CreditGUSTO PAY 123456",
-        "CD DEPOSIT .INITIAL.",
-        "Touchstone Climbing",
-        "United Airlines",
+        'Starbucks',
+        'SparkFun',
+        'INTRST PYMNT',
+        'United Airlines',
+        'Uber 072515 SF**POOL**',
+        'Tectra Inc',
+        'AUTOMATIC PAYMENT - THANK',
+        'KFC',
+        'Madison Bicycle Shop',
+        'CREDIT CARD 3333 PAYMENT *//',
+        'Uber 063015 SF**POOL**',
+        'ACH Electronic CreditGUSTO PAY 123456',
+        'CD DEPOSIT .INITIAL.',
+        'Touchstone Climbing',
+        'United Airlines',
         "McDonald's",
-        "Starbucks",
-        "SparkFun",
-        "INTRST PYMNT",
+        'Starbucks',
+        'SparkFun',
+        'INTRST PYMNT',
     ];
 
     /**
@@ -93,39 +94,39 @@ class SeedRealisticTransactionDataForDateRange extends Command
                     'transaction_type' => 'place',
                     'pending_transaction_id' => $pending ? $transactionId : null,
                     'data' => [
-                        "date" => $currentDate->format('Y-m-d'),
-                        "name" => $name,
-                        "amount" => $amount,
-                        "pending" => $pending,
-                        "category" => $categoryNames,
-                        "location" => [
-                            "lat" => null,
-                            "lon" => null,
-                            "zip" => null,
-                            "city" => null,
-                            "state" => null,
-                            "address" => null,
-                            "store_number" => null
+                        'date' => $currentDate->format('Y-m-d'),
+                        'name' => $name,
+                        'amount' => $amount,
+                        'pending' => $pending,
+                        'category' => $categoryNames,
+                        'location' => [
+                            'lat' => null,
+                            'lon' => null,
+                            'zip' => null,
+                            'city' => null,
+                            'state' => null,
+                            'address' => null,
+                            'store_number' => null
                         ],
-                        "account_id" => $accountId,
-                        "category_id" => $categories->first()->category_id,
-                        "payment_meta" => [
-                            "payee" => null,
-                            "payer" => null,
-                            "ppd_id" => null,
-                            "reason" => null,
-                            "by_order_of" => null,
-                            "payment_method" => null,
-                            "reference_number" => null,
-                            "payment_processor" => null
+                        'account_id' => $accountId,
+                        'category_id' => $categories->first()->category_id,
+                        'payment_meta' => [
+                            'payee' => null,
+                            'payer' => null,
+                            'ppd_id' => null,
+                            'reason' => null,
+                            'by_order_of' => null,
+                            'payment_method' => null,
+                            'reference_number' => null,
+                            'payment_processor' => null
                         ],
-                        "account_owner" => null,
-                        "merchant_name" => $faker->company,
-                        "transaction_id" => $pending ? null : $transactionId,
-                        "authorized_date" => null,
-                        "payment_channel" => "in store",
-                        "transaction_type" => "place",
-                        "pending_transaction_id" => $pending ? $transactionId : null
+                        'account_owner' => null,
+                        'merchant_name' => $faker->company,
+                        'transaction_id' => $pending ? null : $transactionId,
+                        'authorized_date' => null,
+                        'payment_channel' => 'in store',
+                        'transaction_type' => 'place',
+                        'pending_transaction_id' => $pending ? $transactionId : null
                     ]
                 ]);
             }
