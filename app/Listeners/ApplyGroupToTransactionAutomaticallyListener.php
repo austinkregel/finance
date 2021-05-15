@@ -26,7 +26,7 @@ class ApplyGroupToTransactionAutomaticallyListener implements ShouldQueue
     public function handle(TransactionEventContract $event): void
     {
         /** @var Transaction $transaction */
-        $transaction = $event->getTransaction();
+        $transaction = $event->getData()['transaction'];
         $transaction->load(['account.owner', 'category']);
 
         /** @var User $user */
