@@ -30,8 +30,8 @@ jobs:
           else
               FILES=$(git diff --diff-filter=d --name-only origin/${TARGET_BRANCH} --);
           fi
-          echo "Checking CS for: ${FILES}"
           for FILE in $FILES
           do
-              vendor/bin/phpcs "$FILE" --standard=phpcs.xml -q --report=checkstyle | vendor/bin/cs2pr
+               echo "Checking CS for: ${FILE}"
+               vendor/bin/phpcs "$FILE" --standard=phpcs.xml -q --report=checkstyle | vendor/bin/cs2pr
           done
