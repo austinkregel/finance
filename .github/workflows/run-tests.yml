@@ -11,9 +11,13 @@ jobs:
       - name: setup php
         run: bash .github/scripts/install-php.sh
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: |
+          sudo apt update && sudo apt install sqlite3 -y
+          composer install --prefer-dist --no-progress --no-suggest
       - name: Run tests
         run: |
           cp .env.pipelines .env
+          touch database/database.sqlite
           php artisan key:generate
+
           php vendor/bin/phpunit
