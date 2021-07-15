@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\AbstractResource;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ class AbstractResourceController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    const RESOURCE = AbstractResource::class;
+    public const RESOURCE = AbstractResource::class;
 
     public AbstractEloquentModel $model;
 
@@ -47,7 +49,7 @@ class AbstractResourceController extends Controller
     {
         /** @var AbstractEloquentModel $resource */
         $resource = $this->model->newInstance();
-        $resource->fill($request->validated());
+        $resource->fill($request->validate($this->model->getValidationCreateRules()));
         $resource->save();
 
         return $this->json($resource->refresh());
@@ -64,15 +66,15 @@ class AbstractResourceController extends Controller
             ->allowedSorts($abstract_model->getAbstractAllowedSorts());
 
         return $this->json($query->find($abstract_model->id)) ?? $this->json([
-                'message' => 'No resource found by that id.'
-            ], 404);
+            'message' => 'No resource found by that id.'
+        ], 404);
     }
 
     public function update(Request $request, $id)
     {
         $abstract_model = $this->model::findOrFail($id);
 
-        $abstract_model->update($request->all());
+        $abstract_model->update($request->validate($this->model->getValidationUpdateRules()));
 
         return $this->json($abstract_model->refresh());
     }

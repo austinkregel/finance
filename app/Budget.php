@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -8,10 +9,12 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\AbstractModelTrait;
 use RRule\RRule;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\Tags\HasTags;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -74,6 +77,12 @@ class Budget extends Model implements AbstractEloquentModel
                 $budget->user_id = auth()->id();
             }
         });
+
+        static::addGlobalScope('user_filter', function ($query): void {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
     }
 
     public static function getTagClassName(): string
@@ -81,7 +90,7 @@ class Budget extends Model implements AbstractEloquentModel
         return Tag::class;
     }
 
-    public function findTotalSpends($startingPeriod):? int
+    public function findTotalSpends($startingPeriod): float
     {
         return Transaction::crossJoin('taggables', 'taggables.taggable_id', '=', 'transactions.id')
             ->whereIn('taggables.tag_id', $this->tags()->select('id'))
@@ -125,9 +134,18 @@ class Budget extends Model implements AbstractEloquentModel
         ];
     }
 
+    public function scopeRecentTransactions(Builder $query, $value): void
+    {
+        $query->with([
+            'tags.transactions' => fn ($builder) => $builder->where('date', '>=', Carbon::parse($value))
+        ]);
+    }
+
     public function getAbstractAllowedFilters(): array
     {
-        return [];
+        return [
+            AllowedFilter::scope('recent_transactions'),
+        ];
     }
 
     public function getAbstractAllowedRelationships(): array

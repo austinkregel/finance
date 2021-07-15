@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Jobs;
 
@@ -115,7 +116,7 @@ class SyncPlaidTransactionsJob implements ShouldQueue
         $categoriesToSync = [];
         $categories = $transaction->category ?? [];
         foreach ($categories as $category) {
-            $categoriesToSync[] = cache()->remember('category.'.$category, now()->addHour(), fn () => Category::where('name', $category)->first())->id;
+            $categoriesToSync[] = cache()->remember('category.' . $category, now()->addHour(), fn () => Category::where('name', $category)->first())->id;
         }
 
         $localTransaction->categories()->sync($categoriesToSync);

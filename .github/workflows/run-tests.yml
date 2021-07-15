@@ -1,0 +1,25 @@
+name: Checks
+on: [ pull_request ]
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # important!
+      - name: setup php
+        run: bash .github/scripts/install-php.sh
+      - name: Install dependencies
+        run: |
+          sudo systemctl start mysql.service
+          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS testing;'
+          sudo apt update && sudo apt install -y php-mysql
+          composer install --prefer-dist --no-progress --no-suggest
+      - name: Run tests
+        run: |
+          cp .env.pipelines .env
+          touch database/database.sqlite
+          php artisan key:generate
+
+          php vendor/bin/phpunit

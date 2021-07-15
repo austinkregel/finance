@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Integration\Filters;
 
@@ -14,8 +15,8 @@ class TransactionsConditionFilterTest extends TestCase
 {
     use RefreshDatabase;
 
-    const SHOULD_BE_EMPTY = true;
-    const SHOULD_NOT_BE_EMPTY = false;
+    public const SHOULD_BE_EMPTY = true;
+    public const SHOULD_NOT_BE_EMPTY = false;
 
     public function testHandle(): void
     {
@@ -69,7 +70,8 @@ class TransactionsConditionFilterTest extends TestCase
                 $tag,
                 [Transaction::factory()->create([
                     'name' => 'EPC* GAMES STORE',
-                ])],
+                ])
+                ],
             ],
             [
                 self::SHOULD_NOT_BE_EMPTY,

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Integration\Listeners;
 
@@ -202,7 +203,14 @@ class TriggerAlertIfConditionsPassListenerTest extends TestCase
         $listener->handle($event);
         $this->assertNotEmpty($notifications = \DB::table('notifications')->get()->all());
         // Ensure that our mustache service will format a templated title and body
-        $this->assertSame(sprintf('Hey! It looks like your tag %s just had a $%s charge!', $tag->name, $transaction->amount), json_decode(collect($notifications)->first()->data)->title);
+        $this->assertSame(
+            sprintf(
+                'Hey! It looks like your tag %s just had a $%s charge!',
+                $tag->name,
+                $transaction->amount
+            ),
+            json_decode(collect($notifications)->first()->data)->title
+        );
         $this->assertSame(sprintf('You paid your %s %s', $transaction->name, $tag->name), json_decode(collect($notifications)->first()->data)->body);
     }
 

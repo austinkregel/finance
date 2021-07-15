@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div v-if="!$store.getters.groupLoading">
         <div class="flex flex-wrap justify-end mx-2">
-            <graph-modal :types="types" :add-item="addItem" />
+            <graph-modal :add-item="addItem" />
         </div>
         <dashboard id="dashboard">
-            <dash-layout v-for="layout in layouts" v-bind="layout" :key="layout.breakpoint">
-                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="item.id" @resizeEnd="(data) => resizeItem(item, data)" @moveEnd="(data) => resizeItem(item, data)">
+            <dash-layout v-for="layout in layouts" v-bind="layout" :key="'layout-breakpoint-' + layout.breakpoint">
+                <dash-item v-for="item in layout.items" v-bind.sync="item" :key="'dash-item-' + item.id" @resizeEnd="(data) => resizeItem(item, data)" @moveEnd="(data) => resizeItem(item, data)">
                     <div class="h-full w-full rounded shadow" v-dark-mode-white-background>
                         <metric
                             :item="item"
@@ -15,6 +15,9 @@
             </dash-layout>
         </dashboard>
     </div>
+    <div v-else>
+        Loading
+    </div>
 </template>
 
 <script>
@@ -22,6 +25,7 @@
     import {findLocalStorage, initLocalStorage, setLocalStorage} from "../LocalStorage";
     import GraphModal from "../components/GraphModal";
     initLocalStorage('cool-graphs', []);
+
     export default {
         components: {
             GraphModal,
@@ -31,37 +35,13 @@
         },
         data() {
             return {
-                items: findLocalStorage('cool-graphs', []),
-                types: [
-                    {
-                        name: "Graph a trend (line graph)",
-                        type: "trend:tag",
-                        fields: [
-                            {
-                                name: "Group",
-                                type: 'tag',
-                            },
-                            {
-                                name: "Over the past...",
-                                type: 'duration',
-                            },
-                        ]
-                    },
-                    {
-                        name: "Display a metric (summed number)",
-                        type: "value:tag",
-                        fields: [
-                            {
-                                name: "Group",
-                                type: 'tag',
-                            },
-                            {
-                                name: "Over the past...",
-                                type: 'duration',
-                            },
-                        ]
-                    }
-                ]
+                // Value in this would be the ID of the given tags.
+                items: [
+                    ...this.standardRoute('subscriptions', 0, 1),
+                    ...this.standardRoute('debit/expense', 1, 3),
+                    ...this.standardRoute('bills', 2, 5),
+                    ...this.standardRoute('utilities', 3, 7),
+                ],
             };
         },
         computed: {
@@ -77,6 +57,51 @@
             }
         },
         methods: {
+            standardRoute(tagName, y, id) {
+                return [
+                    this.value(tagName, {
+                        x: 0,
+                        y,
+                        id: id + 1,
+                        width: 1
+                    }),
+
+                    this.trend(tagName, {
+                        x: 1,
+                        y,
+                        id,
+                        width: 2,
+                    }),
+                ];
+            },
+            findTagByName(name, lang = 'en') {
+                return this.$store.getters.groups.data.filter(group => group.name[lang] === name)[0];
+            },
+            value(tagName, {x, y, id, width}) {
+                return {
+                    type: 'value:tag',
+                    duration: 'mtd',
+                    value: this.findTagByName(tagName)?.id,
+                    width,
+                    height: 1,
+                    id,
+                    x,
+                    y
+                }
+            },
+            trend(tagName, {x, y, id, width}) {
+                return {
+                    type: 'trend:tag',
+                    duration: 'mtd',
+                    value: this.findTagByName(tagName)?.id,
+                    width,
+                    height: 1,
+                    id,
+                    x,
+                    y
+                }
+            },
+
             addItem(itemData) {
                 this.items.push(Object.assign({
                     ...itemData,
@@ -120,7 +145,8 @@
                 setLocalStorage('cool-graphs', items);
             }
         },
-        mounted() {
+        async mounted() {
+            await this.$store.dispatch('fetchGroups');
             Bus.$off('addItem');
             Bus.$on('addItem', (item) => {
                 this.addItem(item);

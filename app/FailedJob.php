@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -72,12 +73,12 @@ class FailedJob extends Model implements AbstractEloquentModel
             $codestack->file = str_replace(base_path(), '.', $codestack->file);
 
             return $codestack;
-        }, (new Stacktrace)->parse($this->exception));
+        }, (new Stacktrace())->parse($this->exception));
     }
 
     public function getMessageAttribute()
     {
-        $stack = (new Stacktrace);
+        $stack = (new Stacktrace());
 
         $stack->parse($this->exception);
 

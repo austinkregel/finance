@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -69,6 +70,15 @@ class Account extends Model implements AbstractEloquentModel
         'type',
         'access_token_id',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('user_filter', function (Builder $builder): void {
+            if (auth()->check()) {
+                $builder->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
+            }
+        });
+    }
 
     public function scopeCurrentUser(Builder $query)
     {

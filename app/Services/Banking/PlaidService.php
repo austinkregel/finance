@@ -97,7 +97,7 @@ class PlaidService implements PlaidServiceContract
         );
 
         /// We should account for rate limiting here to make sure we don't make too many requests per second.
-        $items = new Collection;
+        $items = new Collection();
         $page = 1;
         do {
             $paginator = $this->getPaginator($accessToken, $startDate, $endDate, $page);

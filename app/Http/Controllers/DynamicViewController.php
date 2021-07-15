@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -17,10 +18,10 @@ class DynamicViewController
 
     public function index($view)
     {
-        $files = array_filter(glob(resource_path().'/**/*.blade.php'), fn ($path) => Str::contains($path, [$view.'.blade.php']));
+        $files = array_filter(glob(resource_path() . '/**/*.blade.php'), fn ($path) => Str::contains($path, [$view . '.blade.php']));
 
         if (! Arr::first($files)) {
-            abort(404, 'Blade '.$view.'.blade.php not found');
+            abort(404, 'Blade ' . $view . '.blade.php not found');
         }
 
         $path = str_replace('/', '.', str_replace('.blade.php', '', trim(str_replace(resource_path('views'), '', Arr::first($files)), '/')));

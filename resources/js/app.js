@@ -112,7 +112,7 @@ const start = async () => {
             try {
                 await store.dispatch('fetchUser');
                 await store.dispatch('fetchAccounts');
-                store.dispatch('fetchGroups');
+                await store.dispatch('fetchGroups');
                 store.dispatch('fetchAlerts');
                 store.dispatch('fetchBudgets');
             } catch (e) {

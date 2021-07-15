@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Events;
 
@@ -27,14 +28,12 @@ class TransactionGroupedEvent implements TransactionEventContract
         $this->transaction = $transaction;
     }
 
-    public function getTransaction(): Transaction
+    public function getData(): array
     {
-        return $this->transaction;
-    }
-
-    public function getTag(): Tag
-    {
-        return $this->tag;
+        return [
+            'tag' => $this->tag,
+            'transaction' => $this->transaction,
+        ];
     }
 
     public function getShouldSendAlerts(): bool

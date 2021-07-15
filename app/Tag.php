@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -50,6 +51,7 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
 {
     use HasFactory;
     use Conditionable, AbstractModelTrait;
+
     public $guarded = [];
 
     protected static function booted(): void
@@ -59,16 +61,22 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
                 $tag->user_id = auth()->check() ? auth()->id() : 1;
             }
         });
+
+        static::addGlobalScope('user_filter', function ($query): void {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
     }
 
     public function getValidationCreateRules(): array
     {
-        // TODO: Implement getValidationCreateRules() method.
+        return [];
     }
 
     public function getValidationUpdateRules(): array
     {
-        // TODO: Implement getValidationUpdateRules() method.
+        return [];
     }
 
     public function getAbstractAllowedFilters(): array

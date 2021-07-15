@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -99,6 +100,15 @@ class Transaction extends Model implements AbstractEloquentModel
         'is_possible_subscription' => 'bool',
         'data' => 'json',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('user_filter', fn ($query) => $query->whereHas('account', function ($query): void {
+            if (auth()->check()) {
+                $query->whereIn('access_token_id', auth()->user()->accessTokens->map->id);
+            }
+        }));
+    }
 
     public function getTagAttribute()
     {

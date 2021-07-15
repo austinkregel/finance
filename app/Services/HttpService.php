@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 class HttpService
 {
     /**
-     * @var
+     * @var self
      */
     protected static $instance;
 
@@ -61,7 +61,7 @@ class HttpService
     public static function __callStatic($method, $arguments)
     {
         if (empty(self::$instance)) {
-            self::$instance = new static;
+            self::$instance = new static();
         }
 
         return call_user_func_array([self::$instance, $method], $arguments);

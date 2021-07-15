@@ -24,6 +24,8 @@
             display: none;
         }
     </style>
+
+    @yield('scripts', '')
 </head>
 <body>
     <div v-cloak id="app" :class="{ 'bg-gray-800 text-white': $store.getters.darkMode, 'bg-gray-200 text-gray-800': !$store.getters.darkMode }">

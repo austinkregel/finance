@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Notifications;
 
@@ -15,7 +16,7 @@ class BudgetBreachedEstablishedAmountNotification extends AlertNotification
 
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->content($this->toArray($notifiable)['title'])
             ->to($this->alertLog->alert->messaging_service_channel)
             ->warning();
@@ -23,7 +24,7 @@ class BudgetBreachedEstablishedAmountNotification extends AlertNotification
 
     public function toDiscord($notifiable)
     {
-        return (new DiscordMessage)
+        return (new DiscordMessage())
             ->body($this->toArray($notifiable)['title']);
     }
 }

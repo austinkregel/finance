@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -56,6 +57,15 @@ class AccessToken extends Model implements AbstractEloquentModel
     public $casts = [
         'should_sync' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('user_filter', function ($query): void {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
+    }
 
     public function user()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Jobs;
 
@@ -17,6 +18,7 @@ class CheckBudgetsForBreachesOfAmount implements ShouldQueue
 
     public function handle($page = 1): void
     {
+        $events = [];
         do {
             /** @var Paginator $budgets */
             $budgets = Budget::query()->paginate(50, ['*'], '', $page++);

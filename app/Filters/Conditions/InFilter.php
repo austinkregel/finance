@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Filters\Conditions;
 
@@ -13,6 +14,8 @@ class InFilter implements ConditionContract
     {
         $arrayOfData = explode(',', $condition->getComparatorValue());
 
-        return in_array(Arr::get($item->toArray(), $condition->getComparatorField()), array_map('trim', $arrayOfData));
+        $needle = Arr::get($item->toArray(), $condition->getComparatorField());
+
+        return in_array($needle, array_map('trim', $arrayOfData));
     }
 }

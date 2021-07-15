@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -6,9 +7,9 @@ use App\Budget;
 use App\Contracts\ConditionableContract;
 use App\Models\Traits\Conditionable;
 use App\Notifications\BudgetBreachedEstablishedAmountNotification;
+use App\Notifications\TransactionAlertNotification;
 use App\Notifications\TransactionBudgetAlertNotification;
 use App\Notifications\TransactionTagAlertNotification;
-use App\Tag;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -71,6 +72,15 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         'is_templated' => 'boolean',
     ];
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('user_filter', function ($query): void {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -122,40 +132,25 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
         $this->user->notify($notification);
     }
 
-    public function createNotification(Transaction $transaction): void
+    public function triggerAlert(array $data): void
     {
-        /** @var AlertLog $log */
+        $transactionId = $data['transaction']->id ?? null;
+        $tagId = $data['tag']->id ?? null;
+        $budgetId = $data['budget']->id ?? null;
+
         $log = $this->logs()->create([
-            'triggered_by_transaction_id' => $transaction->id,
+            'triggered_by_transaction_id' => $transactionId,
+            'triggered_by_tag_id' => $tagId,
+            'triggered_by_budget_id' => $budgetId,
         ]);
         // do the same thing as create notification, but give access to the tag variab
-        $notification = new TransactionTagAlertNotification($log);
-
-        $this->notifyAbout($notification);
-    }
-
-    public function createNotificationWithTag(Transaction $transaction, Tag $tag): void
-    {
-        /** @var AlertLog $log */
-        $log = $this->logs()->create([
-            'triggered_by_transaction_id' => $transaction->id,
-            'triggered_by_tag_id' => $tag->id,
-        ]);
-        // do the same thing as create notification, but give access to the tag variab
-        $notification = new TransactionTagAlertNotification($log);
-
-        $this->notifyAbout($notification);
-    }
-
-    public function createNotificationWithBudget(Transaction $transaction, Budget $budget): void
-    {
-        /** @var AlertLog $log */
-        $log = $this->logs()->create([
-            'triggered_by_transaction_id' => $transaction->id,
-            'triggered_by_budget_id' => $budget->id,
-        ]);
-        // do the same thing as create notification, but give access to the budget variable
-        $notification = new TransactionBudgetAlertNotification($log);
+        if (!is_null($tagId)) {
+            $notification = new TransactionTagAlertNotification($log);
+        } elseif (!is_null($budgetId)) {
+            $notification = new TransactionBudgetAlertNotification($log);
+        } else {
+            $notification = new TransactionAlertNotification($log);
+        }
 
         $this->notifyAbout($notification);
     }
@@ -172,7 +167,6 @@ class Alert extends Model implements AbstractEloquentModel, ConditionableContrac
     public function createBudgetBreachNotificationWithTransaction(Transaction $transaction, Budget $budget): void
     {
         $notification = new BudgetBreachedEstablishedAmountNotification($this->logs()->create([
-            'triggered_by_budget_id' => $budget->id,
             'triggered_by_transaction_id' => $transaction->id,
         ]));
 

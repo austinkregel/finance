@@ -1,14 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Events;
 
 use App\Budget;
+use App\Contracts\Events\TransactionEventContract;
 use App\Models\Transaction;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BudgetBreachedEstablishedAmount
+class BudgetBreachedEstablishedAmount implements TransactionEventContract
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,13 +24,16 @@ class BudgetBreachedEstablishedAmount
         $this->transaction = $transaction;
     }
 
-    public function getBudget(): Budget
+    public function getData(): array
     {
-        return $this->budget;
+        return [
+            'transaction' => $this->transaction,
+            'budget' => $this->budget,
+        ];
     }
 
-    public function getTransaction():? Transaction
+    public function getShouldSendAlerts(): bool
     {
-        return $this->transaction;
+        return true;
     }
 }

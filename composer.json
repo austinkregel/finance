@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-json": "*",
         "barryvdh/laravel-debugbar": "^3.5",
         "bugsnag/bugsnag-laravel": "^2.22",
         "doctrine/dbal": "^3.0",
@@ -32,6 +33,7 @@
         "mustache/mustache": "^2.13",
         "predis/predis": "^1.1",
         "rlanvin/php-rrule": "^2.2",
+        "slevomat/coding-standard": "^7.0",
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-tags": "^3.0",
         "staudenmeir/belongs-to-through": "^2.10",
