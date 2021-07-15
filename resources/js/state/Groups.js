@@ -15,6 +15,7 @@ export default {
             ...groups,
             [group.id]: group,
         }), {}),
+        groupLoading: (state) => state.groups.loading,
     },
     actions: {
         async fetchGroups({ dispatch, state, commit }) {

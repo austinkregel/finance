@@ -57,6 +57,8 @@
                             return;
                         }
 
+                        console.log({ public_token })
+
                         const { data: token } = await axios.post('/api/plaid/exchange-token', {
                             public_token: public_token,
                             institution: institution_id

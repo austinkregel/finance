@@ -24,7 +24,7 @@ module.exports = [
         "name": "transaction.category.name"
     },
     {
-        "value": "tag.name.en",
+        "value": "tag.name",
         "name": "transaction.tag.name.en"
     }
 ]

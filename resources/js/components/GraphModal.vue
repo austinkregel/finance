@@ -59,7 +59,7 @@
 
 <script>
     export default {
-        props: ['types', 'addItem'],
+        props: ['addItem'],
         data() {
             return {
                 form: {
@@ -68,7 +68,37 @@
                     value: '',
                 },
                 saving: false,
-                stateTest: [{"id":1,"type":"trend:tag","duration":"1m","value":"1","x":2,"y":1,"width":2,"height":1},{"id":2,"type":"trend:tag","duration":"1m","value":"2","x":3,"y":0,"width":1,"height":1},{"id":3,"type":"trend:tag","duration":"1m","value":"3","x":2,"y":0,"width":1,"height":1},{"id":4,"type":"trend:tag","duration":"1m","value":"4","x":1,"y":0,"width":1,"height":1},{"id":5,"type":"trend:tag","duration":"1m","value":"5","x":0,"y":1,"width":2,"height":1},{"id":6,"type":"trend:tag","duration":"1m","value":"6","x":0,"y":0,"width":1,"height":1}]
+                stateTest: [{"id":1,"type":"trend:tag","duration":"1m","value":"1","x":2,"y":1,"width":2,"height":1},{"id":2,"type":"trend:tag","duration":"1m","value":"2","x":3,"y":0,"width":1,"height":1},{"id":3,"type":"trend:tag","duration":"1m","value":"3","x":2,"y":0,"width":1,"height":1},{"id":4,"type":"trend:tag","duration":"1m","value":"4","x":1,"y":0,"width":1,"height":1},{"id":5,"type":"trend:tag","duration":"1m","value":"5","x":0,"y":1,"width":2,"height":1},{"id":6,"type":"trend:tag","duration":"1m","value":"6","x":0,"y":0,"width":1,"height":1}],
+                types: [
+                    {
+                        name: "Graph a trend (line graph)",
+                        type: "trend:tag",
+                        fields: [
+                            {
+                                name: "Group",
+                                type: 'tag',
+                            },
+                            {
+                                name: "Over the past...",
+                                type: 'duration',
+                            },
+                        ]
+                    },
+                    {
+                        name: "Display a metric (summed number)",
+                        type: "value:tag",
+                        fields: [
+                            {
+                                name: "Group",
+                                type: 'tag',
+                            },
+                            {
+                                name: "Over the past...",
+                                type: 'duration',
+                            },
+                        ]
+                    }
+                ]
             }
         },
         computed: {

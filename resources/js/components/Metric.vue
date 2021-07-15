@@ -25,9 +25,6 @@
     import { findLocalStorage, setLocalStorage } from "../LocalStorage";
 
     export default {
-        // type => trend
-        // duration => 1m
-        // value => bills
         props: ['item'],
         data() {
             return {
@@ -65,8 +62,8 @@
                         },
                         {
                             label: this.$store.getters.groupsById[this.item.value].name.en + ' last ' + this.item.duration,
-                            backgroundColor: 'rgba(255,99,132,0.69)',
-                            borderColor: 'rgba(255,99,132,0.69)',
+                            backgroundColor: 'rgba(180,212,207,0.69)',
+                            borderColor: 'rgba(154,170,171,0.69)',
                             data: Object.values(this.data['previous'] || []).splice(0, currentSize).map(Math.abs),
                             fill: false,
                         }
