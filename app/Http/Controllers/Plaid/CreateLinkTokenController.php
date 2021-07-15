@@ -11,6 +11,6 @@ class CreateLinkTokenController extends Controller
 {
     public function __invoke(Request $request, PlaidServiceContract $plaid)
     {
-        return $plaid->createLinkToken($request->user()->id);
+        return $plaid->createLinkToken((string) $request->user()->id);
     }
 }

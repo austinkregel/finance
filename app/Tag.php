@@ -71,12 +71,12 @@ class Tag extends SpatieTag implements AbstractEloquentModel, ConditionableContr
 
     public function getValidationCreateRules(): array
     {
-        // TODO: Implement getValidationCreateRules() method.
+        return [];
     }
 
     public function getValidationUpdateRules(): array
     {
-        // TODO: Implement getValidationUpdateRules() method.
+        return [];
     }
 
     public function getAbstractAllowedFilters(): array
