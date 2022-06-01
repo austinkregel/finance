@@ -39,7 +39,7 @@
         "chart.js": "^2.9.3",
         "compromise": "^13.7.0",
         "dayjs": "^1.8.28",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "rrule": "^2.6.2",
         "tailwindcss": "^1.4.6",
         "vue-chartjs": "^3.5.0",
