@@ -40,7 +40,7 @@
         "compromise": "^13.7.0",
         "dayjs": "^1.8.28",
         "moment": "^2.24.0",
-        "rrule": "^2.6.2",
+        "rrule": "^2.7.1",
         "tailwindcss": "^1.4.6",
         "vue-chartjs": "^3.5.0",
         "vue-heroicons": "^0.9.4",
